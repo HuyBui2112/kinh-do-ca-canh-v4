@@ -3,8 +3,11 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import { errorHandler, notFoundHandler } from './middlewares/error.middleware';
+import { errorHandler, notFoundHandler } from './middlewares';
 import connectDB from './configs/database';
+
+// Import routes
+import apiRoutes from './routes';
 
 // Load environment variables
 dotenv.config();
@@ -29,6 +32,9 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to Kinh Do Ca Canh API' });
 });
+
+// API Routes
+app.use('/api', apiRoutes);
 
 // Handle 404 errors
 app.use(notFoundHandler);
