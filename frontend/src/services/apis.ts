@@ -1,18 +1,18 @@
 import axios, { AxiosResponse } from "axios";
 import {
     RegisterRequest,
-    LoginRequest,
+    AuthInfo,
     UpdateProfileRequest,
     ChangePasswordRequest,
     UserResponse,
     AuthResponse,
+    ApiResponse,
 } from "../utils/types";
 
-// BASE URL for link apis
-const BASE_URL = `http://localhost:5000/api/`;
+// BASE URL cho API
+const BASE_URL = `http://localhost:5000/api`;
 
-
-// Create instance for APIs APIs do not require authentication
+// Tạo instance cho các API không yêu cầu xác thực
 export const publicAxios = axios.create({
     baseURL: BASE_URL,
     headers: {
@@ -20,7 +20,7 @@ export const publicAxios = axios.create({
     },
 });
 
-// Create instance for APIs require authentication
+// Tạo instance cho các API yêu cầu xác thực
 export const privateAxios = axios.create({
     baseURL: BASE_URL,
     headers: {
@@ -28,7 +28,7 @@ export const privateAxios = axios.create({
     },
 });
 
-// Add interceptor to private instance
+// Thêm interceptor cho instance yêu cầu xác thực
 privateAxios.interceptors.request.use(
     (config) => {
       const token = localStorage.getItem('token');
@@ -40,48 +40,52 @@ privateAxios.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-// API Functions
+// Hàm API
 export const apis = {
 
-    // ==========||   Authentication APIs   ||========== //
+    // ==========||   Xác thực API   ||========== //
 
-    // Register new account
+    // Đăng ký tài khoản mới
     register: async (data: RegisterRequest): Promise<AuthResponse> => {
-        const response: AxiosResponse<AuthResponse> = await publicAxios.post('auth/register', data);
-        console.log(response.data);
+        const response: AxiosResponse<AuthResponse> = await publicAxios.post('/auth/register', data);
+        if (response.data.status === 'success' && response.data.data?.token) {
+            localStorage.setItem('token', response.data.data.token);
+        }
         return response.data;
     },
 
-    // Login an account
-    login: async (data: LoginRequest): Promise<AuthResponse> => {
-        const response: AxiosResponse<AuthResponse> = await publicAxios.post('auth/login', data);
-        console.log(response.data);
+    // Đăng nhập tài khoản
+    login: async (data: AuthInfo | { info_auth: AuthInfo }): Promise<AuthResponse> => {
+        // Hỗ trợ cả hai định dạng được mô tả trong tài liệu API
+        const loginData = 'info_auth' in data ? data : { info_auth: data };
+        const response: AxiosResponse<AuthResponse> = await publicAxios.post('/auth/login', loginData);
+        if (response.data.status === 'success' && response.data.data?.token) {
+            localStorage.setItem('token', response.data.data.token);
+        }
         return response.data;
     },
 
-    // Get user profile
+    // Lấy thông tin người dùng
     getUserProfile: async (): Promise<UserResponse> => {
-        const response: AxiosResponse<UserResponse> = await privateAxios.get('users/profile');
-        console.log(response.data);
+        const response: AxiosResponse<UserResponse> = await privateAxios.get('/users/profile');
         return response.data;
     },
     
-    // Update user profile
+    // Cập nhật thông tin người dùng
     updateUserProfile: async (data: UpdateProfileRequest): Promise<UserResponse> => {
-        const response: AxiosResponse<UserResponse> = await privateAxios.put('users/profile', data);
-        console.log(response.data);
+        const response: AxiosResponse<UserResponse> = await privateAxios.patch('/users/profile', data);
         return response.data;
     },
 
-    // Change password
-    changePassword: async (data: ChangePasswordRequest): Promise<{ success: boolean; message: string }> => {
-        const response: AxiosResponse<{ success: boolean; message: string }> = await privateAxios.put(
-            'users/change-password', data
+    // Đổi mật khẩu
+    changePassword: async (data: ChangePasswordRequest): Promise<ApiResponse<null>> => {
+        const response: AxiosResponse<ApiResponse<null>> = await privateAxios.patch(
+            '/users/change-password', data
         );
-        console.log(response.data);
         return response.data;
     },
 
-    // ==========||   Production APIs   ||========== //
+    // ==========||   API Sản phẩm   ||========== //
 
+    // Các API sản phẩm sẽ được thêm sau
 }

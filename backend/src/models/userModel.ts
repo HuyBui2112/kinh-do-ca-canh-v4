@@ -70,12 +70,11 @@ const UserSchema: Schema = new Schema({
         email: { 
             type: String, 
             required: [true, 'Email không được để trống'],
-            unique: true,
             validate: {
                 validator: function(v: string) {
-                    return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(v);
+                    return v != null && /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(v);
                 },
-                message: 'Email không hợp lệ'
+                message: 'Email không hợp lệ hoặc để trống'
             }
         },
         password: { 
@@ -114,6 +113,12 @@ UserSchema.methods.generateToken = function(): string {
     );
 };
 
+// Thêm đoạn này sau định nghĩa schema
+UserSchema.index({ 'info_auth.email': 1 }, { 
+    unique: true,
+    sparse: true // Bỏ qua các giá trị null
+});
+
 // Tạo model từ schema
 const UserModel = mongoose.model<IUser>('User', UserSchema);
 
@@ -131,6 +136,8 @@ class User {
      */
     static async register(userInfo: UserInfo, authInfo: AuthInfo): Promise<IUser> {
         try {
+            console.log('Model nhận email:', authInfo?.email);
+            
             const existingUser = await UserModel.findOne({ 'info_auth.email': authInfo.email });
             
             if (existingUser) {
@@ -155,8 +162,10 @@ class User {
                 }
             });
             
+            console.log('Trước khi lưu, email là:', newUser.info_auth?.email);
             return await newUser.save();
         } catch (error) {
+            console.error('Lỗi trong quá trình register:', error);
             throw error;
         }
     }

@@ -1,58 +1,64 @@
-// Types for requests of Authentication APIs
+// Tên người dùng
 export interface UserName {
-  lastname: string;
-  firstname: string;
+    lastname: string;
+    firstname: string;
 }
 
-export interface RegisterRequest {
-    email: string;
-    fullname?: UserName;
-    password: string;
-    phonenumber: string;
+// Thông tin người dùng
+export interface UserInfo {
+    username: UserName;
+    phone: string;
     address: string;
 }
-  
-export interface LoginRequest {
+
+// Thông tin xác thực người dùng
+export interface AuthInfo {
     email: string;
     password: string;
 }
-  
-export interface UpdateProfileRequest {
-    fullname?: UserName;
-    phonenumber?: string;
-    address?: string;
+
+// Request Body cho "Đăng ký"
+export interface RegisterRequest {
+    info_user: UserInfo,
+    info_auth: AuthInfo
 }
 
+// Request Body cho "Cập nhật thông tin cá nhân"
+export interface UpdateProfileRequest {
+    info_user: Partial<UserInfo>;
+}
+
+// Request Body cho "Đổi mật khẩu"
 export interface ChangePasswordRequest {
     currentPassword: string;
     newPassword: string;
 }
 
-// Types for responses of Authentication APIs
-export interface UserInfoResponse {
-    _id: string,
-    email: string,
-    fullname: UserName,
-    phonenumber: string,
-    address: string,
+// Cấu trúc phản hồi API chung
+export interface ApiResponse<T> {
+    status: "success" | "fail";
+    message?: string;
+    data?: T;
+    error?: {
+        statusCode: number;
+        status: string;
+        isOperational: boolean;
+    };
 }
 
-export interface AuthInfoResponse {
-    _id: string,
-    email: string,
-    fullname: UserName,
-    phonenumber: string,
-    address: string,
-    token: string
+// Phản hồi API xác thực (đăng ký/đăng nhập)
+export interface AuthResponseData {
+    email: string;
+    info_user: UserInfo;
+    token: string;
 }
 
-export interface UserResponse {
-    success: boolean,
-    data: UserInfoResponse
+export type AuthResponse = ApiResponse<AuthResponseData>;
+
+// Phản hồi API thông tin người dùng
+export interface UserResponseData {
+    email: string;
+    info_user: UserInfo;
 }
 
-export interface AuthResponse {
-    success: boolean,
-    data: AuthInfoResponse
-}
-
+export type UserResponse = ApiResponse<UserResponseData>;
