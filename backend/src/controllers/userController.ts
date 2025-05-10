@@ -7,7 +7,7 @@ import { AuthResponse, UpdateInfoUserResponse } from '@/utils/types';
  * @controller UserController
  * @description Các controller xử lý request liên quan đến người dùng
  */
-export class UserController {
+class UserController {
   /**
    * @method register
    * @description Đăng ký tài khoản mới
@@ -232,5 +232,5 @@ export class UserController {
   });
 }
 
-// Export singleton instance
-export const userController = new UserController(); 
+// Export default class thay vì export instance
+export default UserController; 

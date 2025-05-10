@@ -1,11 +1,14 @@
-
-import express from 'express';
+import { Router } from 'express';
 import userRoutes from './userRoutes';
+import productRoutes from './productRoutes';
+import reviewRoutes from './reviewRoutes';
 
-const router = express.Router();
+const router = Router();
 
-// Đưa tất cả routes vào một router chung
-router.use(userRoutes);
+// Routes
+router.use('/users', userRoutes);
+router.use('/products', productRoutes);
+router.use('/reviews', reviewRoutes);
 
 export default router;
 
