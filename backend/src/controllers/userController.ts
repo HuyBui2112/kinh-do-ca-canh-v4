@@ -20,6 +20,8 @@ export class UserController {
    */
   register = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const { info_user, info_auth } = req.body;
+    
+    console.log('Controller nhận email:', info_auth?.email);
 
     // Kiểm tra dữ liệu đầu vào
     if (!info_user || !info_auth) {
@@ -36,6 +38,7 @@ export class UserController {
     }
 
     try {
+      console.log('Trước khi gọi User.register, email là:', info_auth?.email);
       // Đăng ký người dùng mới
       const user = await User.register(info_user, info_auth);
       
