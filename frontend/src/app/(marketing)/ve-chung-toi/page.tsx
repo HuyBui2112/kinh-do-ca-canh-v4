@@ -1,5 +1,5 @@
-import React from "react";
+import AboutClient from './about-client';
 
-export default function About() {
-  return <div>page</div>;
-}
+export default function AboutPage() {
+  return <AboutClient />;
+} 

@@ -1,5 +1,5 @@
-import React from "react";
+import ProductsClient from './products-client';
 
-export default function ProductList() {
-  return <div>page</div>;
+export default function ProductsPage() {
+  return <ProductsClient />;
 }

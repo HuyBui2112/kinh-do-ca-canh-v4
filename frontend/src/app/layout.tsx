@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat, Be_Vietnam_Pro } from "next/font/google";
 import "./globals.css";
 import LayoutRoot from "@/components/layout/RootLayout";
+import { MetadataProvider } from "@/contexts/MetadataContext";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -16,6 +17,7 @@ const beVietnamPro = Be_Vietnam_Pro({
   weight: ["300", "400", "500", "600", "700"],
 });
 
+// Metadata mặc định cho toàn bộ website
 export const metadata: Metadata = {
   title: "Kinh Đô Cá Cảnh | Cửa hàng cá cảnh uy tín hàng đầu",
   description:
@@ -35,9 +37,11 @@ export default function RootLayout({
       className={`${montserrat.variable} ${beVietnamPro.variable}`}
     >
       <body>
-        <LayoutRoot>
-          {children}
-        </LayoutRoot>
+        <MetadataProvider>
+          <LayoutRoot>
+            {children}
+          </LayoutRoot>
+        </MetadataProvider>
       </body>
     </html>
   );

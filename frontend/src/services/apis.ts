@@ -7,7 +7,17 @@ import {
     UserResponse,
     AuthResponse,
     ApiResponse,
-} from "../utils/types";
+    ProductQueryParams,
+    ProductListResponse,
+    ProductDetailResponse,
+    ProductSearchResponse,
+    CreateReviewRequest,
+    UpdateReviewRequest,
+    ReviewResponse,
+    ReviewListResponse,
+    DeleteReviewResponse,
+    ReviewQueryParams
+} from "@/utils/types";
 
 // BASE URL cho API
 const BASE_URL = `http://localhost:5000/api`;
@@ -47,7 +57,7 @@ export const apis = {
 
     // Đăng ký tài khoản mới
     register: async (data: RegisterRequest): Promise<AuthResponse> => {
-        const response: AxiosResponse<AuthResponse> = await publicAxios.post('/auth/register', data);
+        const response: AxiosResponse<AuthResponse> = await publicAxios.post('/users/register', data);
         if (response.data.status === 'success' && response.data.data?.token) {
             localStorage.setItem('token', response.data.data.token);
         }
@@ -58,7 +68,7 @@ export const apis = {
     login: async (data: AuthInfo | { info_auth: AuthInfo }): Promise<AuthResponse> => {
         // Hỗ trợ cả hai định dạng được mô tả trong tài liệu API
         const loginData = 'info_auth' in data ? data : { info_auth: data };
-        const response: AxiosResponse<AuthResponse> = await publicAxios.post('/auth/login', loginData);
+        const response: AxiosResponse<AuthResponse> = await publicAxios.post('/users/login', loginData);
         if (response.data.status === 'success' && response.data.data?.token) {
             localStorage.setItem('token', response.data.data.token);
         }
@@ -87,5 +97,55 @@ export const apis = {
 
     // ==========||   API Sản phẩm   ||========== //
 
-    // Các API sản phẩm sẽ được thêm sau
+    // Lấy danh sách sản phẩm với các tùy chọn lọc và phân trang
+    getProducts: async (params?: ProductQueryParams): Promise<ProductListResponse> => {
+        const response: AxiosResponse<ProductListResponse> = await publicAxios.get('/products', {
+            params
+        });
+        return response.data;
+    },
+
+    // Tìm kiếm sản phẩm theo từ khóa
+    searchProducts: async (keyword: string): Promise<ProductSearchResponse> => {
+        const response: AxiosResponse<ProductSearchResponse> = await publicAxios.get('/products/search', {
+            params: { keyword }
+        });
+        return response.data;
+    },
+    
+    // Lấy chi tiết một sản phẩm theo ID
+    getProductDetail: async (productId: string): Promise<ProductDetailResponse> => {
+        const response: AxiosResponse<ProductDetailResponse> = await publicAxios.get(`/products/${productId}`);
+        return response.data;
+    },
+
+    // ==========||   API Đánh giá   ||========== //
+
+    // Tạo đánh giá mới cho sản phẩm
+    createReview: async (data: CreateReviewRequest): Promise<ReviewResponse> => {
+        const response: AxiosResponse<ReviewResponse> = await privateAxios.post('/reviews', data);
+        return response.data;
+    },
+
+    // Cập nhật đánh giá
+    updateReview: async (reviewId: string, data: UpdateReviewRequest): Promise<ReviewResponse> => {
+        const response: AxiosResponse<ReviewResponse> = await privateAxios.put(`/reviews/${reviewId}`, data);
+        return response.data;
+    },
+
+    // Xóa đánh giá
+    deleteReview: async (reviewId: string): Promise<DeleteReviewResponse> => {
+        const response: AxiosResponse<DeleteReviewResponse> = await privateAxios.delete(`/reviews/${reviewId}`);
+        return response.data;
+    },
+
+    // Lấy danh sách đánh giá của sản phẩm
+    getProductReviews: async (productId: string, params?: ReviewQueryParams): Promise<ReviewListResponse> => {
+        // Theo tài liệu API, endpoint đúng là: /reviews/products/:productId/reviews
+        const response: AxiosResponse<ReviewListResponse> = await publicAxios.get(
+            `/reviews/products/${productId}/reviews`,
+            { params }
+        );
+        return response.data;
+    }
 }
