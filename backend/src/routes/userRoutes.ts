@@ -1,44 +1,43 @@
-import express from 'express';
-import { userController } from '@/controllers';
-import { authenticate, hashPassword, validatePasswordStrength } from '@/middlewares';
+import { Router } from 'express';
+import { UserController } from '@/controllers';
+import { authenticate } from '@/middlewares/auth.middleware';
 
-const router = express.Router();
-
-/**
- * @routes Auth
- * @description Routes xử lý xác thực người dùng
- */
-// Đăng ký tài khoản mới
-router.post(
-  '/auth/register',
-  validatePasswordStrength('info_auth.password'),
-  hashPassword('info_auth.password'),
-  userController.register
-);
-
-// Đăng nhập tài khoản
-router.post(
-  '/auth/login',
-  userController.login
-);
+const router = Router();
+const userController = new UserController();
 
 /**
- * @routes User
- * @description Routes xử lý thông tin người dùng
- * @middleware authenticate - Bảo vệ các routes yêu cầu đăng nhập
+ * @route POST /api/auth/register
+ * @description Đăng ký tài khoản mới
+ * @access Public
  */
-// Lấy thông tin cá nhân
-router.get('/users/profile', authenticate, userController.getProfile);
+router.post('/register', userController.register);
 
-// Cập nhật thông tin cá nhân
-router.patch('/users/profile', authenticate, userController.updateProfile);
+/**
+ * @route POST /api/auth/login
+ * @description Đăng nhập tài khoản
+ * @access Public
+ */
+router.post('/login', userController.login);
 
-// Đổi mật khẩu
-router.patch(
-  '/users/change-password',
-  authenticate,
-  validatePasswordStrength('newPassword'),
-  userController.changePassword
-);
+/**
+ * @route GET /api/users/profile
+ * @description Lấy thông tin cá nhân
+ * @access Private
+ */
+router.get('/profile', authenticate, userController.getProfile);
+
+/**
+ * @route PATCH /api/users/profile
+ * @description Cập nhật thông tin cá nhân
+ * @access Private
+ */
+router.patch('/profile', authenticate, userController.updateProfile);
+
+/**
+ * @route PATCH /api/users/change-password
+ * @description Đổi mật khẩu
+ * @access Private
+ */
+router.patch('/change-password', authenticate, userController.changePassword);
 
 export default router; 

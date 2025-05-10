@@ -276,6 +276,298 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
 ---
 
+### 6. Quản lý sản phẩm
+
+#### 6.1. Lấy danh sách sản phẩm
+
+**Endpoint:** `GET /products`
+
+**Query Parameters:**
+- `page` (optional): Số trang (mặc định: 1)
+- `limit` (optional): Số sản phẩm mỗi trang (mặc định: 10)
+- `category` (optional): Lọc theo loại sản phẩm
+- `minPrice` (optional): Giá tối thiểu
+- `maxPrice` (optional): Giá tối đa
+- `inStock` (optional): Lọc theo còn hàng/hết hàng (true/false)
+- `sortBy` (optional): Sắp xếp theo (name/price/rating)
+- `sortOrder` (optional): Thứ tự sắp xếp (asc/desc)
+
+**Response thành công (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "products": [
+      {
+        "_id": "product_id",
+        "name": "Tên sản phẩm",
+        "slug": "ten-san-pham",
+        "category": "Loại sản phẩm",
+        "imageFirst": "url_ảnh_đầu_tiên",
+        "price": {
+          "origin_price": 1000000,
+          "discount": 10,
+          "sell_price": 900000
+        },
+        "avgRating": 4.5,
+        "numReviews": 10,
+        "updatedAt": "2024-03-20T10:00:00.000Z"
+      }
+    ],
+    "pagination": {
+      "total": 100,
+      "page": 1,
+      "limit": 10,
+      "totalPages": 10
+    }
+  }
+}
+```
+
+#### 6.2. Tìm kiếm sản phẩm
+
+**Endpoint:** `GET /products/search`
+
+**Query Parameters:**
+- `keyword`: Từ khóa tìm kiếm
+
+**Response thành công (200):**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "_id": "product_id",
+      "name": "Tên sản phẩm",
+      "slug": "ten-san-pham",
+      "category": "Loại sản phẩm",
+      "imageFirst": "url_ảnh_đầu_tiên",
+      "price": {
+        "origin_price": 1000000,
+        "discount": 10,
+        "sell_price": 900000
+      },
+      "avgRating": 4.5,
+      "numReviews": 10,
+      "updatedAt": "2024-03-20T10:00:00.000Z"
+    }
+  ]
+}
+```
+
+#### 6.3. Lấy chi tiết sản phẩm
+
+**Endpoint:** `GET /products/:id`
+
+**Response thành công (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "_id": "product_id",
+    "pd_name": "Tên sản phẩm",
+    "pd_slug": "ten-san-pham",
+    "pd_category": "Loại sản phẩm",
+    "pd_image": [
+      {
+        "url": "url_ảnh",
+        "alt": "mô_tả_ảnh"
+      }
+    ],
+    "pd_description": "Mô tả sản phẩm",
+    "pd_price": {
+      "origin_price": 1000000,
+      "discount": 10,
+      "sell_price": 900000
+    },
+    "pd_stock": 100,
+    "pd_avgRating": 4.5,
+    "pd_numReviews": 10,
+    "pd_meta": {
+      "title": "Meta title",
+      "metaDescription": "Meta description",
+      "keywords": ["keyword1", "keyword2"],
+      "canonical": "/products/ten-san-pham",
+      "image": "meta_image_url",
+      "ogTitle": "OG title",
+      "ogDescription": "OG description",
+      "ogImage": "og_image_url",
+      "ogType": "product",
+      "twitterTitle": "Twitter title",
+      "twitterDescription": "Twitter description",
+      "twitterImage": "twitter_image_url"
+    },
+    "createdAt": "2024-03-20T10:00:00.000Z",
+    "updatedAt": "2024-03-20T10:00:00.000Z"
+  }
+}
+```
+
+#### 6.4. Tạo sản phẩm mới
+
+**Endpoint:** `POST /products`
+
+**Headers:**
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+**Request Body:**
+```json
+{
+  "pd_name": "Tên sản phẩm",
+  "pd_slug": "ten-san-pham",
+  "pd_category": "Loại sản phẩm",
+  "pd_price": 1000000,
+  "pd_image": [
+    {
+      "url": "url_ảnh",
+      "alt": "mô_tả_ảnh"
+    }
+  ],
+  "pd_description": "Mô tả sản phẩm",
+  "pd_stock": 100,
+  "pd_specifications": "Thông số kỹ thuật"
+}
+```
+
+**Response thành công (201):**
+```json
+{
+  "success": true,
+  "message": "Tạo sản phẩm thành công",
+  "data": {
+    // Thông tin sản phẩm đã tạo
+  }
+}
+```
+
+### 7. Quản lý đánh giá
+
+#### 7.1. Tạo đánh giá mới
+
+**Endpoint:** `POST /reviews`
+
+**Headers:**
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+**Request Body:**
+```json
+{
+  "productId": "product_id",
+  "rating": 5,
+  "comment": "Đánh giá sản phẩm"
+}
+```
+
+**Response thành công (201):**
+```json
+{
+  "success": true,
+  "data": {
+    "_id": "review_id",
+    "user_id": "user_id",
+    "product_id": "product_id",
+    "raing": 5,
+    "comment": "Đánh giá sản phẩm",
+    "createdAt": "2024-03-20T10:00:00.000Z",
+    "updatedAt": "2024-03-20T10:00:00.000Z"
+  }
+}
+```
+
+#### 7.2. Cập nhật đánh giá
+
+**Endpoint:** `PUT /reviews/:id`
+
+**Headers:**
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+**Request Body:**
+```json
+{
+  "rating": 4,
+  "comment": "Cập nhật đánh giá"
+}
+```
+
+**Response thành công (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "_id": "review_id",
+    "user_id": "user_id",
+    "product_id": "product_id",
+    "raing": 4,
+    "comment": "Cập nhật đánh giá",
+    "createdAt": "2024-03-20T10:00:00.000Z",
+    "updatedAt": "2024-03-20T10:00:00.000Z"
+  }
+}
+```
+
+#### 7.3. Xóa đánh giá
+
+**Endpoint:** `DELETE /reviews/:id`
+
+**Headers:**
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+**Response thành công (200):**
+```json
+{
+  "success": true,
+  "message": "Xóa đánh giá thành công"
+}
+```
+
+#### 7.4. Lấy danh sách đánh giá của sản phẩm
+
+**Endpoint:** `GET /products/:productId/reviews`
+
+**Query Parameters:**
+- `page` (optional): Số trang (mặc định: 1)
+- `limit` (optional): Số đánh giá mỗi trang (mặc định: 10)
+
+**Response thành công (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "reviews": [
+      {
+        "_id": "review_id",
+        "user_id": {
+          "info_user": {
+            "username": {
+              "lastname": "Nguyễn",
+              "firstname": "Văn A"
+            }
+          }
+        },
+        "raing": 5,
+        "comment": "Đánh giá sản phẩm",
+        "createdAt": "2024-03-20T10:00:00.000Z",
+        "updatedAt": "2024-03-20T10:00:00.000Z"
+      }
+    ],
+    "pagination": {
+      "total": 100,
+      "page": 1,
+      "limit": 10,
+      "totalPages": 10
+    }
+  }
+}
+```
+
 ## Các mã lỗi
 
 | Mã lỗi | Mô tả |
