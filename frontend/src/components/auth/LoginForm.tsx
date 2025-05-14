@@ -3,11 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/contexts/ToastContext";
 import { AuthInfo } from "@/utils/types";
 import Link from "next/link";
 
 const LoginForm = () => {
   const { login, error, isLoading, clearError } = useAuth();
+  const { showToast } = useToast();
   const [formData, setFormData] = useState<AuthInfo>({
     email: "",
     password: "",
@@ -27,8 +29,14 @@ const LoginForm = () => {
     const success = await login(formData);
 
     if (success) {
+      // Hiển thị toast thành công
+      showToast("success", "Đăng nhập thành công! Chào mừng bạn trở lại.");
+      
       // Đăng nhập thành công, chuyển hướng hoặc thực hiện hành động tiếp theo
       router.push("/");
+    } else if (error) {
+      // Hiển thị toast lỗi 
+      showToast("error", error || "Đăng nhập thất bại. Vui lòng kiểm tra thông tin đăng nhập.");
     }
   };
 

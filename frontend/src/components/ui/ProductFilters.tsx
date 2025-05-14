@@ -4,8 +4,14 @@ import { FC, useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ProductQueryParams } from '../../utils/types';
 
+// Định nghĩa kiểu dữ liệu cho danh mục
+interface CategoryItem {
+  slug: string;
+  title: string;
+}
+
 interface ProductFiltersProps {
-  categories: string[];
+  categories: CategoryItem[];
   onFilterChange: (filters: ProductQueryParams) => void;
   initialFilters?: ProductQueryParams;
 }
@@ -116,19 +122,19 @@ const ProductFilters: FC<ProductFiltersProps> = ({
         <h3 className="text-lg font-semibold text-gray-800 mb-3">Loại sản phẩm</h3>
         <div className="space-y-2">
           {categories.map((category) => (
-            <div key={category} className="flex items-center">
+            <div key={category.slug} className="flex items-center">
               <input
                 type="checkbox"
-                id={`category-${category}`}
-                checked={filters.category === category}
-                onChange={() => handleCategoryChange(category)}
+                id={`category-${category.slug}`}
+                checked={filters.category === category.slug}
+                onChange={() => handleCategoryChange(category.slug)}
                 className="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
               />
               <label
-                htmlFor={`category-${category}`}
+                htmlFor={`category-${category.slug}`}
                 className="ml-2 text-sm text-gray-700"
               >
-                {category}
+                {category.title}
               </label>
             </div>
           ))}

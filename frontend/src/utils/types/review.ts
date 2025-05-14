@@ -1,5 +1,6 @@
 // Cấu trúc người dùng rút gọn cho reviews
 export interface ReviewUser {
+  _id: string;
   info_user: {
     username: {
       lastname: string;

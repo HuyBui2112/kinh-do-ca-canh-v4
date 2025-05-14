@@ -16,6 +16,7 @@ import {
 export const useProducts = () => {
   const [products, setProducts] = useState<ProductListItem[]>([]);
   const [productDetail, setProductDetail] = useState<ProductDetail | null>(null);
+  const [relatedProducts, setRelatedProducts] = useState<ProductListItem[]>([]);
   const [pagination, setPagination] = useState<PaginationInfo>({
     total: 0,
     page: 1,
@@ -139,6 +140,38 @@ export const useProducts = () => {
   }, [getProductDetail]);
 
   /**
+   * Lấy các sản phẩm liên quan (cùng danh mục) với sản phẩm hiện tại
+   * @param category Danh mục của sản phẩm
+   * @param currentProductId ID của sản phẩm hiện tại (để loại trừ khỏi kết quả)
+   * @param limit Số lượng sản phẩm trả về, mặc định là 3
+   */
+  const getRelatedProducts = useCallback(async (category: string, currentProductId: string, limit: number = 3) => {
+    try {
+      // Lấy sản phẩm cùng danh mục
+      const response = await apis.getProducts({ 
+        category, 
+        limit,
+        sortBy: 'rating',
+        sortOrder: 'desc'
+      });
+      
+      if (response.success) {
+        // Lọc bỏ sản phẩm hiện tại và giới hạn số lượng
+        const filtered = response.data.products
+          .filter(product => product._id !== currentProductId)
+          .slice(0, limit);
+          
+        setRelatedProducts(filtered);
+        return filtered;
+      }
+      return [];
+    } catch (err) {
+      console.error('Lỗi khi lấy sản phẩm liên quan:', err);
+      return [];
+    }
+  }, []);
+
+  /**
    * Xóa lỗi hiện tại
    */
   const clearError = useCallback(() => {
@@ -149,6 +182,7 @@ export const useProducts = () => {
     // Trạng thái
     products,
     productDetail,
+    relatedProducts,
     pagination,
     loading,
     error,
@@ -156,9 +190,10 @@ export const useProducts = () => {
     
     // Phương thức
     getProducts,
-    searchProducts,
     getProductDetail,
     getProductBySlug,
+    getRelatedProducts,
+    searchProducts,
     clearError
   };
 }; 

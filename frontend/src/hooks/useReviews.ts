@@ -72,13 +72,28 @@ export const useReviews = () => {
       }
       return false;
     } catch (err: any) {
-      setError(err?.message || 'Có lỗi xảy ra khi gửi đánh giá');
-      console.error(err);
+      // Xử lý lỗi từ API
+      if (err.response && err.response.data) {
+        // Nếu server trả về lỗi đã đánh giá
+        if (err.response.data.message && err.response.data.message.includes("đã đánh giá")) {
+          setError('Bạn đã đánh giá sản phẩm này rồi');
+          
+          // Tải lại danh sách đánh giá để cập nhật giao diện
+          if (data.productId) {
+            getProductReviews(data.productId);
+          }
+        } else {
+          setError(err.response.data.message || 'Có lỗi xảy ra khi gửi đánh giá');
+        }
+      } else {
+        setError(err?.message || 'Có lỗi xảy ra khi gửi đánh giá');
+      }
+      console.error('Lỗi khi tạo đánh giá:', err);
       return false;
     } finally {
       setLoading(false);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, getProductReviews]);
 
   /**
    * Cập nhật đánh giá
@@ -108,8 +123,13 @@ export const useReviews = () => {
       }
       return false;
     } catch (err: any) {
-      setError(err?.message || 'Có lỗi xảy ra khi cập nhật đánh giá');
-      console.error(err);
+      // Xử lý lỗi từ API
+      if (err.response && err.response.data) {
+        setError(err.response.data.message || 'Có lỗi xảy ra khi cập nhật đánh giá');
+      } else {
+        setError(err?.message || 'Có lỗi xảy ra khi cập nhật đánh giá');
+      }
+      console.error('Lỗi khi cập nhật đánh giá:', err);
       return false;
     } finally {
       setLoading(false);
@@ -139,8 +159,13 @@ export const useReviews = () => {
       }
       return false;
     } catch (err: any) {
-      setError(err?.message || 'Có lỗi xảy ra khi xóa đánh giá');
-      console.error(err);
+      // Xử lý lỗi từ API
+      if (err.response && err.response.data) {
+        setError(err.response.data.message || 'Có lỗi xảy ra khi xóa đánh giá');
+      } else {
+        setError(err?.message || 'Có lỗi xảy ra khi xóa đánh giá');
+      }
+      console.error('Lỗi khi xóa đánh giá:', err);
       return false;
     } finally {
       setLoading(false);

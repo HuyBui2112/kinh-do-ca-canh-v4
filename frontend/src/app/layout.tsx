@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Montserrat, Be_Vietnam_Pro } from "next/font/google";
 import "./globals.css";
 import LayoutRoot from "@/components/layout/RootLayout";
-import { MetadataProvider } from "@/contexts/MetadataContext";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -19,11 +18,34 @@ const beVietnamPro = Be_Vietnam_Pro({
 
 // Metadata mặc định cho toàn bộ website
 export const metadata: Metadata = {
-  title: "Kinh Đô Cá Cảnh | Cửa hàng cá cảnh uy tín hàng đầu",
+  title: {
+    default: "Kinh Đô Cá Cảnh | Nơi đam mê hóa thành đại dương",
+    template: "%s | Kinh Đô Cá Cảnh",
+  },
   description:
     "Kinh Đô Cá Cảnh - Chuyên cung cấp các loại cá cảnh, thủy sinh, phụ kiện và thức ăn cho cá với chất lượng cao và giá cả hợp lý. Giao hàng toàn quốc.",
-  keywords:
-    "cá cảnh, thủy sinh, bể cá, phụ kiện cá cảnh, thức ăn cá cảnh, cá đẹp, cá ngoại nhập",
+  keywords: [
+    "mua cá cảnh",
+    "mua cá betta",
+    "cá cảnh",
+    "blog cá cảnh",
+    "kinh đô cá cảnh",
+  ],
+  openGraph: {
+    title: "Kinh Đô Cá Cảnh | Nơi đam mê hóa thành đại dương",
+    description:
+      "Chuyên cung cấp các loại cá cảnh, thủy sinh, phụ kiện và thức ăn cho cá với chất lượng cao và giá cả hợp lý. Giao hàng toàn quốc.",
+    url: "https://kinhdocacanh.com",
+    siteName: "Kinh Đô Cá Cảnh",
+    locale: "vi_VN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kinh Đô Cá Cảnh | Nơi đam mê hóa thành đại dương",
+    description:
+      "Chuyên cung cấp các loại cá cảnh, thủy sinh, phụ kiện và thức ăn cho cá với chất lượng cao và giá cả hợp lý. Giao hàng toàn quốc.",
+  },
 };
 
 export default function RootLayout({
@@ -37,11 +59,7 @@ export default function RootLayout({
       className={`${montserrat.variable} ${beVietnamPro.variable}`}
     >
       <body>
-        <MetadataProvider>
-          <LayoutRoot>
-            {children}
-          </LayoutRoot>
-        </MetadataProvider>
+        <LayoutRoot>{children}</LayoutRoot>
       </body>
     </html>
   );

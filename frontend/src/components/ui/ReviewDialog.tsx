@@ -78,7 +78,7 @@ const ReviewDialog: FC<ReviewDialogProps> = ({
     if (success) {
       setTimeout(() => {
         handleClose();
-      }, 1500);
+      }, 600);
     }
     
     return success;

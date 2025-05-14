@@ -68,6 +68,15 @@ export const authenticate = asyncHandler(
 
       // 4) Thêm thông tin người dùng vào request
       req.user = currentUser;
+      
+      // Log để debug
+      console.log('User from token:', {
+        _id: req.user._id,
+        _idString: req.user._id.toString(),
+        decodedId: decoded.id,
+        idMatch: req.user._id.toString() === decoded.id
+      });
+      
       next();
     } catch (error) {
       return next(new AppError('Token không hợp lệ hoặc đã hết hạn! Vui lòng đăng nhập lại.', 401));

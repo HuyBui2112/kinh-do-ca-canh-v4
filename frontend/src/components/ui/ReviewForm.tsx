@@ -133,7 +133,7 @@ const ReviewForm: FC<ReviewFormProps> = ({
         )}
         <button
           type="submit"
-          className="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 disabled:opacity-70"
+          className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 disabled:opacity-70"
           disabled={isSubmitting}
         >
           {isSubmitting ? 'Đang gửi...' : 'Gửi đánh giá'}

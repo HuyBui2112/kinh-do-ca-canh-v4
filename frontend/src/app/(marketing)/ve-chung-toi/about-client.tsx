@@ -1,22 +1,5 @@
-"use client";
-
-import { useEffect, useMemo } from 'react';
-import { useMetadata } from "@/contexts/MetadataContext";
 
 export default function AboutClient() {
-  const { updateMetadata } = useMetadata();
-  
-  // Tạo metadata cho trang giới thiệu
-  const metadata = useMemo(() => ({
-    title: "Giới thiệu | Kinh Đô Cá Cảnh",
-    description: "Kinh Đô Cá Cảnh - Cửa hàng cá cảnh uy tín hàng đầu Việt Nam với hơn 10 năm kinh nghiệm. Tìm hiểu về câu chuyện, sứ mệnh và tầm nhìn của chúng tôi.",
-    keywords: "giới thiệu kinh đô cá cảnh, lịch sử kinh đô cá cảnh, cửa hàng cá cảnh uy tín"
-  }), []);
-
-  // Cập nhật metadata
-  useEffect(() => {
-    updateMetadata(metadata);
-  }, [metadata, updateMetadata]);
 
   return (
     <div className="container mx-auto px-4 py-12">
