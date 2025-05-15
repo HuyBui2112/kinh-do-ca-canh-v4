@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { Review } from '@/models';
 import { authenticate } from '@/middlewares/auth.middleware';
+import mongoose from 'mongoose';
 
 /**
  * @class ReviewController
@@ -99,6 +100,11 @@ class ReviewController {
         try {
             const { id } = req.params;
             const userId = (req as any).user._id;
+            
+            // Thêm log để debug
+            console.log('Review ID:', id);
+            console.log('User ID from token:', userId);
+            console.log('User ID type:', typeof userId, userId instanceof mongoose.Types.ObjectId);
 
             await Review.deleteReview(id, userId);
 
@@ -107,6 +113,7 @@ class ReviewController {
                 message: 'Xóa đánh giá thành công'
             });
         } catch (error: any) {
+            console.error('Error deleting review:', error.message);
             res.status(500).json({
                 success: false,
                 message: error.message || 'Lỗi server'

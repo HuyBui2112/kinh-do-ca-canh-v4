@@ -2,11 +2,13 @@
 
 import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/contexts/ToastContext';
 import { UpdateProfileRequest } from '@/utils/types';
 import { UserCircle } from 'lucide-react';
 
 const UserProfile = () => {
   const { user, isLoading, error, updateProfile, logout } = useAuth();
+  const { showToast, confirmAction } = useToast();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<UpdateProfileRequest>({
     info_user: {
@@ -89,21 +91,36 @@ const UserProfile = () => {
         setUpdateStatus({ loading: false, success: true, error: '' });
         setIsEditing(false);
         
-        // Hiển thị thông báo thành công trong 3 giây
-        setTimeout(() => {
-          setUpdateStatus(prev => ({ ...prev, success: false }));
-        }, 3000);
+        // Hiển thị thông báo thành công bằng toast
+        showToast("success", "Thông tin của bạn đã được cập nhật thành công!");
       } else {
         setUpdateStatus({ loading: false, success: false, error: 'Cập nhật thất bại' });
+        showToast("error", "Cập nhật thông tin thất bại. Vui lòng thử lại.");
       }
     } catch (error: any) {
-      setUpdateStatus({ loading: false, success: false, error: error.message || 'Đã xảy ra lỗi' });
+      const errorMessage = error.message || 'Đã xảy ra lỗi';
+      setUpdateStatus({ loading: false, success: false, error: errorMessage });
+      showToast("error", errorMessage);
     }
   };
 
   const handleLogout = () => {
-    logout();
-    // Chuyển hướng về trang chủ hoặc trang đăng nhập
+    // Xác nhận đăng xuất bằng toast
+    confirmAction(
+      "Bạn có chắc chắn muốn đăng xuất?",
+      () => {
+        logout();
+        showToast("info", "Đã đăng xuất khỏi hệ thống");
+        // Chuyển hướng về trang chủ
+        window.location.href = "/";
+      },
+      {
+        type: "warning",
+        confirmLabel: "Đăng xuất",
+        cancelLabel: "Hủy",
+        duration: 5000  // Tự động đóng sau 5 giây
+      }
+    );
   };
 
   return (

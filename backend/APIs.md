@@ -530,7 +530,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
 #### 7.4. Lấy danh sách đánh giá của sản phẩm
 
-**Endpoint:** `GET /products/:productId/reviews`
+**Endpoint:** `GET /reviews/products/:productId/reviews`
 
 **Query Parameters:**
 - `page` (optional): Số trang (mặc định: 1)

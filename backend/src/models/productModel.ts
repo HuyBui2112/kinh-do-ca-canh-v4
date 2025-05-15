@@ -313,7 +313,7 @@ class Product {
             // Tính toán số lượng đánh giá và điểm trung bình
             const numReviews = reviews.length;
             const avgRating = numReviews > 0
-                ? Number((reviews.reduce((sum, review) => sum + review.raing, 0) / numReviews).toFixed(1))
+                ? Number((reviews.reduce((sum, review) => sum + review.rating, 0) / numReviews).toFixed(1))
                 : 0;
 
             // Cập nhật sản phẩm
