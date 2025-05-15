@@ -1,5 +1,5 @@
 import ProductDetailClient from "./product-detail-client";
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 import { apis } from "@/services/apis";
 import { ProductDetail } from "@/utils/types/product";
 
@@ -11,10 +11,10 @@ type Props = {
 };
 
 // Tạo metadata động dựa trên thông tin sản phẩm
-export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: Props): // parent: ResolvingMetadata
+Promise<Metadata> {
   // Lấy slug từ params
   const { slug } = params;
 
@@ -40,8 +40,8 @@ export async function generateMetadata(
     const productDetailResponse = await apis.getProductDetail(exactProduct._id);
     const productDetail: ProductDetail = productDetailResponse.data;
 
-    // Lấy metadata từ parent (metadata mặc định)
-    const previousImages = (await parent).openGraph?.images || [];
+    // // Lấy metadata từ parent (metadata mặc định)
+    // const previousImages = (await parent).openGraph?.images || [];
 
     // Nếu sản phẩm có metadata tùy chỉnh, sử dụng nó
     if (productDetail.pd_meta) {
