@@ -11,6 +11,7 @@ import {
   LogOut,
 } from "lucide-react";
 import { IUser } from "@/contexts/UserContext";
+import { useToast } from "@/contexts/ToastContext";
 
 interface PropType {
   user: IUser | null;
@@ -25,6 +26,8 @@ interface PropType {
 }
 
 export default function TopBar(prop: PropType) {
+  const { showToast } = useToast();
+
   // Render user dropdown menu
   const _renderUserDropdown = () => {
     return (
@@ -68,7 +71,10 @@ export default function TopBar(prop: PropType) {
 
             {/* Đăng xuất */}
             <button
-              onClick={prop.handleLogout}
+              onClick={() => {
+                prop.handleLogout();
+                showToast("success", "Bạn đã đăng xuất thành công!");
+              }}
               className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 w-full text-left"
             >
               <LogOut size={16} />

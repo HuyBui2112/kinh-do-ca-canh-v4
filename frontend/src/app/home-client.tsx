@@ -13,10 +13,10 @@ export default function HomeClient() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
         <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center">
-          <div className="bg-primary-100 p-4 rounded-full mb-4">
+          <div className="bg-sky-100 p-4 rounded-full mb-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-10 w-10 text-primary-600"
+              className="h-10 w-10 text-sky-600"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -45,10 +45,10 @@ export default function HomeClient() {
         </div>
 
         <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center">
-          <div className="bg-primary-100 p-4 rounded-full mb-4">
+          <div className="bg-sky-100 p-4 rounded-full mb-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-10 w-10 text-primary-600"
+              className="h-10 w-10 text-sky-600"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -71,10 +71,10 @@ export default function HomeClient() {
         </div>
 
         <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center">
-          <div className="bg-primary-100 p-4 rounded-full mb-4">
+          <div className="bg-sky-100 p-4 rounded-full mb-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-10 w-10 text-primary-600"
+              className="h-10 w-10 text-sky-600"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"

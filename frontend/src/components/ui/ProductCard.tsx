@@ -37,11 +37,11 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
         </div>
       </Link>
 
-      <div className="p-4">
+      <div className="p-4 flex flex-col flex-grow">
         <Link href={`/san-pham/${slug}`} className="no-underline">
-          <p className="text-lg font-semibold text-gray-800 mb-2 hover:text-primary-600 transition-colors line-clamp-2">
+          <h3 className="text-lg font-semibold text-gray-800 mb-2 hover:text-sky-600 transition-colors line-clamp-2">
             {name}
-          </p>
+          </h3>
         </Link>
 
         <div className="flex items-center mb-2">
@@ -64,25 +64,35 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
           <span className="text-xs text-gray-500 ml-1">({numReviews})</span>
         </div>
 
-        <div className="mt-3 flex items-center justify-between">
-          <div className="flex flex-col">
-            {price.discount > 0 ? (
-              <span className="text-sm text-gray-500 line-through">
-                {formatCurrency(price.origin_price)}
+        <div className="mt-auto">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex flex-col">
+              {price.discount > 0 ? (
+                <span className="text-sm text-gray-500 line-through">
+                  {formatCurrency(price.origin_price)}
+                </span>
+              ) : (
+                <span className="text-sm text-transparent">.</span>
+              )}
+              <span className="text-lg font-bold text-sky-600">
+                {formatCurrency(price.sell_price)}
               </span>
-            ) : (
-              <span className="text-sm text-white line-through">.</span>
-            )}
-            <span className="text-lg font-bold text-primary-600">
-              {formatCurrency(price.sell_price)}
-            </span>
+            </div>
           </div>
-          <Link
-            href={`/san-pham/${slug}`}
-            className="bg-sky-600 hover:bg-primary-700 text-white py-1 px-3 rounded-md text-sm transition-colors"
-          >
-            Chi tiết
-          </Link>
+          <div className="flex space-x-2 mt-2">
+            <button
+              onClick={() => console.log('Thêm vào giỏ:', product.name)}
+              className="flex-1 bg-white hover:bg-amber-50 text-amber-600 border border-amber-600 py-2 px-3 rounded-md text-sm font-medium transition-colors"
+            >
+              Thêm vào giỏ
+            </button>
+            <button
+              onClick={() => console.log('Mua ngay:', product.name)}
+              className="flex-1 bg-amber-600 hover:bg-amber-700 text-white py-2 px-3 rounded-md text-sm font-medium transition-colors"
+            >
+              Mua ngay
+            </button>
+          </div>
         </div>
       </div>
     </div>

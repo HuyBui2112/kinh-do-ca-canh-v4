@@ -100,7 +100,7 @@ const BreadcrumbsAuto: FC<BreadcrumbsAutoProps> = ({
           <li className="flex items-center">
             <Link
               href="/"
-              className="text-gray-500 hover:text-primary-600 flex items-center"
+              className="text-gray-500 hover:text-sky-600 flex items-center"
             >
               {showHomeIcon && (
                 <Home className="h-4 w-4 mr-1" aria-hidden="true" />
@@ -123,7 +123,7 @@ const BreadcrumbsAuto: FC<BreadcrumbsAutoProps> = ({
               ) : (
                 <Link
                   href={item.slug}
-                  className="text-gray-500 hover:text-primary-600"
+                  className="text-gray-500 hover:text-sky-600"
                 >
                   {item.label}
                 </Link>

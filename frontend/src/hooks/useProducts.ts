@@ -20,7 +20,7 @@ export const useProducts = () => {
   const [pagination, setPagination] = useState<PaginationInfo>({
     total: 0,
     page: 1,
-    limit: 10,
+    limit: 9,
     totalPages: 0
   });
   const [loading, setLoading] = useState<boolean>(false);

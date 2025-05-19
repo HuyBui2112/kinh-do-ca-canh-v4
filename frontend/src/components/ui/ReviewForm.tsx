@@ -57,7 +57,7 @@ const ReviewForm: FC<ReviewFormProps> = ({
       <div className="bg-gray-50 p-4 rounded-md text-center">
         <p className="text-gray-700 mb-3">Bạn cần đăng nhập để đánh giá sản phẩm</p>
         <button 
-          className="bg-primary-600 text-white px-4 py-2 rounded-md text-sm hover:bg-primary-700"
+          className="bg-sky-600 text-white px-4 py-2 rounded-md text-sm hover:bg-sky-700"
           onClick={onClose}
         >
           Đóng
@@ -125,7 +125,7 @@ const ReviewForm: FC<ReviewFormProps> = ({
           id="comment"
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          className="w-full p-3 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
+          className="w-full p-3 border border-gray-300 rounded-md focus:ring-sky-500 focus:border-sky-500"
           rows={4}
           placeholder="Chia sẻ trải nghiệm của bạn về sản phẩm này..."
           required
