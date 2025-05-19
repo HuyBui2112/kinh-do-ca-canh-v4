@@ -18,6 +18,7 @@ import {
 
 // Định nghĩa cấu trúc dữ liệu của người dùng
 export interface IUser {
+  _id: string;
   email: string;
   info_user: UserInfo;
 }
@@ -82,6 +83,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           setAuthState({
             isAuthenticated: true,
             user: {
+              _id: response.data._id,
               email: response.data.email,
               info_user: response.data.info_user,
             },
@@ -127,6 +129,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         setAuthState({
           isAuthenticated: true,
           user: {
+            _id: response.data._id,
             email: response.data.email,
             info_user: response.data.info_user,
           },
@@ -163,6 +166,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         setAuthState({
           isAuthenticated: true,
           user: {
+            _id: response.data._id,
             email: response.data.email,
             info_user: response.data.info_user,
           },
@@ -213,6 +217,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           ...prev,
           user: response.data
             ? {
+                _id: response.data._id,
                 email: response.data.email,
                 info_user: response.data.info_user,
               }

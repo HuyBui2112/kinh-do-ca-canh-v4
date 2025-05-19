@@ -568,6 +568,474 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 }
 ```
 
+### 8. Quản lý Giỏ hàng
+
+#### 8.1. Lấy thông tin giỏ hàng
+
+**Endpoint:** `GET /api/v1/cart`
+
+**Headers:**
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+**Response thành công (200):**
+```json
+{
+  "success": true,
+  "message": "Lấy thông tin giỏ hàng thành công.",
+  "data": {
+    "_id": "cart_id",
+    "userId": "user_id",
+    "items": [
+      {
+        "productId": "product_id",
+        "name": "Tên sản phẩm",
+        "image": "url_ảnh",
+        "price": 150000,
+        "quantity": 2
+      }
+    ],
+    "totalPrice": 300000,
+    "createdAt": "2024-03-20T10:00:00.000Z",
+    "updatedAt": "2024-03-20T10:00:00.000Z"
+  }
+}
+```
+
+#### 8.2. Thêm sản phẩm vào giỏ hàng
+
+**Endpoint:** `POST /api/v1/cart/items`
+
+**Headers:**
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+**Request Body:**
+```json
+{
+  "productId": "product_id",
+  "quantity": 2
+}
+```
+
+**Response thành công (200):**
+```json
+{
+  "success": true,
+  "message": "Thêm sản phẩm vào giỏ hàng thành công.",
+  "data": {
+    "_id": "cart_id",
+    "userId": "user_id",
+    "items": [
+      {
+        "productId": "product_id",
+        "name": "Tên sản phẩm",
+        "image": "url_ảnh",
+        "price": 150000,
+        "quantity": 2
+      }
+    ],
+    "totalPrice": 300000,
+    "createdAt": "2024-03-20T10:00:00.000Z",
+    "updatedAt": "2024-03-20T10:00:00.000Z"
+  }
+}
+```
+
+#### 8.3. Cập nhật toàn bộ giỏ hàng
+
+**Endpoint:** `PUT /api/v1/cart`
+
+**Headers:**
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+**Request Body:**
+```json
+{
+  "items": [
+    {
+      "productId": "product_id1",
+      "quantity": 2
+    },
+    {
+      "productId": "product_id2",
+      "quantity": 1
+    }
+  ]
+}
+```
+
+**Response thành công (200):**
+```json
+{
+  "success": true,
+  "message": "Cập nhật giỏ hàng thành công.",
+  "data": {
+    "_id": "cart_id",
+    "userId": "user_id",
+    "items": [
+      {
+        "productId": "product_id1",
+        "name": "Tên sản phẩm 1",
+        "image": "url_ảnh_1",
+        "price": 150000,
+        "quantity": 2
+      },
+      {
+        "productId": "product_id2",
+        "name": "Tên sản phẩm 2",
+        "image": "url_ảnh_2",
+        "price": 200000,
+        "quantity": 1
+      }
+    ],
+    "totalPrice": 500000,
+    "createdAt": "2024-03-20T10:00:00.000Z",
+    "updatedAt": "2024-03-20T10:00:00.000Z"
+  }
+}
+```
+
+#### 8.4. Cập nhật số lượng một sản phẩm trong giỏ
+
+**Endpoint:** `PUT /api/v1/cart/items/:productId`
+
+**Headers:**
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+**Request Body:**
+```json
+{
+  "quantity": 3
+}
+```
+
+**Response thành công (200):**
+```json
+{
+  "success": true,
+  "message": "Cập nhật sản phẩm trong giỏ hàng thành công.",
+  "data": {
+    "_id": "cart_id",
+    "userId": "user_id",
+    "items": [
+      {
+        "productId": "product_id",
+        "name": "Tên sản phẩm",
+        "image": "url_ảnh",
+        "price": 150000,
+        "quantity": 3
+      }
+    ],
+    "totalPrice": 450000,
+    "createdAt": "2024-03-20T10:00:00.000Z",
+    "updatedAt": "2024-03-20T10:00:00.000Z"
+  }
+}
+```
+
+#### 8.5. Xóa một sản phẩm khỏi giỏ hàng
+
+**Endpoint:** `DELETE /api/v1/cart/items/:productId`
+
+**Headers:**
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+**Response thành công (200):**
+```json
+{
+  "success": true,
+  "message": "Xóa sản phẩm khỏi giỏ hàng thành công.",
+  "data": {
+    "_id": "cart_id",
+    "userId": "user_id",
+    "items": [],
+    "totalPrice": 0,
+    "createdAt": "2024-03-20T10:00:00.000Z",
+    "updatedAt": "2024-03-20T10:00:00.000Z"
+  }
+}
+```
+
+#### 8.6. Xóa toàn bộ giỏ hàng
+
+**Endpoint:** `DELETE /api/v1/cart`
+
+**Headers:**
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+**Response thành công (200):**
+```json
+{
+  "success": true,
+  "message": "Xóa toàn bộ giỏ hàng thành công.",
+  "data": {
+    "_id": "cart_id",
+    "userId": "user_id",
+    "items": [],
+    "totalPrice": 0,
+    "createdAt": "2024-03-20T10:00:00.000Z",
+    "updatedAt": "2024-03-20T10:00:00.000Z"
+  }
+}
+```
+
+### 9. Quản lý Đơn hàng
+
+#### 9.1. Tạo đơn hàng mới
+
+**Endpoint:** `POST /api/v1/orders`
+
+**Headers:**
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+**Request Body:**
+```json
+{
+  "shippingAddress": {
+    "fullname": "Nguyễn Văn A",
+    "address": "123 Đường ABC, Quận XYZ, TP.HCM",
+    "phone": "0123456789",
+    "city": "TP.HCM",
+    "postalCode": "70000"
+  },
+  "paymentMethod": "COD"
+}
+```
+
+**Response thành công (201):**
+```json
+{
+  "success": true,
+  "message": "Đặt hàng thành công.",
+  "data": {
+    "_id": "order_id",
+    "userId": "user_id",
+    "items": [
+      {
+        "productId": "product_id",
+        "name": "Tên sản phẩm",
+        "image": "url_ảnh",
+        "price": 150000,
+        "quantity": 2
+      }
+    ],
+    "shippingAddress": {
+      "fullname": "Nguyễn Văn A",
+      "address": "123 Đường ABC, Quận XYZ, TP.HCM",
+      "phone": "0123456789",
+      "city": "TP.HCM",
+      "postalCode": "70000"
+    },
+    "paymentMethod": "COD",
+    "totalPrice": 300000,
+    "status": "pending",
+    "orderDate": "2024-03-20T10:00:00.000Z",
+    "createdAt": "2024-03-20T10:00:00.000Z",
+    "updatedAt": "2024-03-20T10:00:00.000Z"
+  }
+}
+```
+
+#### 9.2. Lấy danh sách đơn hàng của người dùng
+
+**Endpoint:** `GET /api/v1/orders/my-orders`
+
+**Headers:**
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+**Response thành công (200):**
+```json
+{
+  "success": true,
+  "message": "Lấy danh sách đơn hàng thành công.",
+  "data": [
+    {
+      "_id": "order_id1",
+      "userId": "user_id",
+      "items": [
+        {
+          "productId": "product_id",
+          "name": "Tên sản phẩm",
+          "image": "url_ảnh",
+          "price": 150000,
+          "quantity": 2
+        }
+      ],
+      "shippingAddress": {
+        "fullname": "Nguyễn Văn A",
+        "address": "123 Đường ABC, Quận XYZ, TP.HCM",
+        "phone": "0123456789"
+      },
+      "paymentMethod": "COD",
+      "totalPrice": 300000,
+      "status": "pending",
+      "orderDate": "2024-03-20T10:00:00.000Z"
+    }
+  ],
+  "count": 1
+}
+```
+
+#### 9.3. Lấy chi tiết đơn hàng
+
+**Endpoint:** `GET /api/v1/orders/:id`
+
+**Headers:**
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+**Response thành công (200):**
+```json
+{
+  "success": true,
+  "message": "Lấy thông tin đơn hàng thành công.",
+  "data": {
+    "_id": "order_id",
+    "userId": "user_id",
+    "items": [
+      {
+        "productId": "product_id",
+        "name": "Tên sản phẩm",
+        "image": "url_ảnh",
+        "price": 150000,
+        "quantity": 2
+      }
+    ],
+    "shippingAddress": {
+      "fullname": "Nguyễn Văn A",
+      "address": "123 Đường ABC, Quận XYZ, TP.HCM",
+      "phone": "0123456789",
+      "city": "TP.HCM",
+      "postalCode": "70000"
+    },
+    "paymentMethod": "COD",
+    "totalPrice": 300000,
+    "status": "pending",
+    "orderDate": "2024-03-20T10:00:00.000Z",
+    "createdAt": "2024-03-20T10:00:00.000Z",
+    "updatedAt": "2024-03-20T10:00:00.000Z"
+  }
+}
+```
+
+#### 9.4. Hủy đơn hàng
+
+**Endpoint:** `PUT /api/v1/orders/:id/cancel`
+
+**Headers:**
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+**Response thành công (200):**
+```json
+{
+  "success": true,
+  "message": "Hủy đơn hàng thành công.",
+  "data": {
+    "_id": "order_id",
+    "userId": "user_id",
+    "items": [
+      {
+        "productId": "product_id",
+        "name": "Tên sản phẩm",
+        "image": "url_ảnh",
+        "price": 150000,
+        "quantity": 2
+      }
+    ],
+    "shippingAddress": {
+      "fullname": "Nguyễn Văn A",
+      "address": "123 Đường ABC, Quận XYZ, TP.HCM",
+      "phone": "0123456789"
+    },
+    "paymentMethod": "COD",
+    "totalPrice": 300000,
+    "status": "cancelled",
+    "orderDate": "2024-03-20T10:00:00.000Z",
+    "updatedAt": "2024-03-20T10:00:00.000Z"
+  }
+}
+```
+
+#### 9.5. Cập nhật trạng thái đơn hàng
+
+**Endpoint:** `PUT /api/v1/orders/:id/status`
+
+**Headers:**
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+**Request Body:**
+```json
+{
+  "status": "shipping"
+}
+```
+
+**Response thành công (200):**
+```json
+{
+  "success": true,
+  "message": "Cập nhật trạng thái đơn hàng thành 'shipping' thành công.",
+  "data": {
+    "_id": "order_id",
+    "userId": "user_id",
+    "items": [
+      {
+        "productId": "product_id",
+        "name": "Tên sản phẩm",
+        "image": "url_ảnh",
+        "price": 150000,
+        "quantity": 2
+      }
+    ],
+    "shippingAddress": {
+      "fullname": "Nguyễn Văn A",
+      "address": "123 Đường ABC, Quận XYZ, TP.HCM",
+      "phone": "0123456789"
+    },
+    "paymentMethod": "COD",
+    "totalPrice": 300000,
+    "status": "shipping",
+    "orderDate": "2024-03-20T10:00:00.000Z",
+    "updatedAt": "2024-03-20T10:00:00.000Z"
+  }
+}
+```
+
+### Trạng thái đơn hàng
+
+| Trạng thái | Mô tả |
+|------------|-------|
+| pending | Đơn hàng đang chờ xử lý, đang chuẩn bị |
+| shipping | Đơn hàng đang được giao |
+| delivered | Đơn hàng đã giao thành công |
+| paid | Đơn hàng đã thanh toán |
+| cancelled | Đơn hàng đã bị hủy |
+
+**Lưu ý:**
+- Chỉ có thể hủy đơn hàng khi đơn hàng đang ở trạng thái `pending`
+- Người dùng chỉ có thể cập nhật hoặc hủy đơn hàng của chính họ
+- API cập nhật trạng thái đơn hàng yêu cầu xác thực và người dùng phải là chủ đơn hàng
+
 ## Các mã lỗi
 
 | Mã lỗi | Mô tả |

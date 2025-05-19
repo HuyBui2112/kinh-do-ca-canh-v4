@@ -47,6 +47,7 @@ class UserController {
 
       // Tạo response
       const response: AuthResponse = {
+        _id: user._id.toString(),
         email: user.info_auth.email,
         info_user: user.info_user,
         token
@@ -96,17 +97,20 @@ class UserController {
 
     try {
       // Tìm user trực tiếp từ Model
-      const user = await User.login(email, password);
+      const loginResult = await User.login(email, password);
       
-      if (!user || !user.user) {
+      if (!loginResult || !loginResult.user) {
         return next(new AppError('Email hoặc mật khẩu không chính xác', 401));
       }
 
+      const { user, token } = loginResult;
+
       // Tạo response
       const response: AuthResponse = {
-        email: user.user.info_auth.email,
-        info_user: user.user.info_user,
-        token: user.token
+        _id: user._id.toString(),
+        email: user.info_auth.email,
+        info_user: user.info_user,
+        token: token
       };
 
       res.status(200).json({
@@ -134,6 +138,7 @@ class UserController {
 
     // Tạo response
     const response: UpdateInfoUserResponse = {
+      _id: user._id.toString(),
       email: user.info_auth.email,
       info_user: user.info_user
     };
@@ -173,6 +178,7 @@ class UserController {
 
       // Tạo response
       const response: UpdateInfoUserResponse = {
+        _id: updatedUser._id.toString(),
         email: updatedUser.info_auth.email,
         info_user: updatedUser.info_user
       };

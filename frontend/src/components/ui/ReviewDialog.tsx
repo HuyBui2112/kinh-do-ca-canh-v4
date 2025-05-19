@@ -1,21 +1,25 @@
 "use client";
 
-import { FC, useState, Fragment } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
-import { X } from 'lucide-react';
-import ReviewForm from './ReviewForm';
-import { 
-  Review, 
-  CreateReviewRequest, 
-  UpdateReviewRequest 
-} from '@/utils/types/review';
+import { FC, useState, Fragment } from "react";
+import { Dialog } from "@headlessui/react";
+import { X } from "lucide-react";
+import ReviewForm from "./ReviewForm";
+import {
+  Review,
+  CreateReviewRequest,
+  UpdateReviewRequest,
+} from "@/utils/types/review";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface ReviewDialogProps {
   isOpen: boolean;
   productId: string;
   onClose: () => void;
   onCreateReview: (data: CreateReviewRequest) => Promise<boolean>;
-  onUpdateReview?: (reviewId: string, data: UpdateReviewRequest) => Promise<boolean>;
+  onUpdateReview?: (
+    reviewId: string,
+    data: UpdateReviewRequest
+  ) => Promise<boolean>;
   isSubmitting: boolean;
   error: string | null;
   success: string | null;
@@ -25,20 +29,19 @@ interface ReviewDialogProps {
 /**
  * Component popup đánh giá sản phẩm
  */
-const ReviewDialog: FC<ReviewDialogProps> = ({ 
-  isOpen, 
+const ReviewDialog: FC<ReviewDialogProps> = ({
+  isOpen,
   productId,
-  onClose, 
+  onClose,
   onCreateReview,
   onUpdateReview,
   isSubmitting,
   error,
   success,
-  reviewToEdit
+  reviewToEdit,
 }) => {
-  const [comment, setComment] = useState<string>(reviewToEdit?.comment || '');
+  const [comment, setComment] = useState<string>(reviewToEdit?.comment || "");
   const [rating, setRating] = useState<number>(reviewToEdit?.rating || 5);
-  const [hoverRating, setHoverRating] = useState<number>(0);
 
   // Reset form khi đóng dialog hoặc khi reviewToEdit thay đổi
   const resetForm = () => {
@@ -46,10 +49,9 @@ const ReviewDialog: FC<ReviewDialogProps> = ({
       setComment(reviewToEdit.comment);
       setRating(reviewToEdit.rating);
     } else {
-      setComment('');
+      setComment("");
       setRating(5);
     }
-    setHoverRating(0);
   };
 
   // Xử lý đóng dialog
@@ -63,82 +65,91 @@ const ReviewDialog: FC<ReviewDialogProps> = ({
   // Xử lý gửi đánh giá
   const handleSubmit = async (data: CreateReviewRequest) => {
     let success;
-    
+
     if (reviewToEdit && onUpdateReview) {
       // Cập nhật đánh giá
       success = await onUpdateReview(reviewToEdit._id, {
         rating: data.rating,
-        comment: data.comment
+        comment: data.comment,
       });
     } else {
       // Tạo đánh giá mới
       success = await onCreateReview(data);
     }
-    
+
     if (success) {
       setTimeout(() => {
         handleClose();
       }, 600);
     }
-    
+
     return success;
   };
 
   return (
-    <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={handleClose}>
-        <Transition.Child
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
+    <AnimatePresence>
+      {isOpen && (
+        <Dialog 
+          as="div" 
+          className="relative z-50" 
+          onClose={handleClose} 
+          open={isOpen}
         >
-          <div className="fixed inset-0 bg-black bg-opacity-25" />
-        </Transition.Child>
+          <motion.div 
+            className="fixed inset-0 bg-black bg-opacity-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          />
 
-        <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-lg bg-white p-6 shadow-xl transition-all">
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4">
+              <motion.div
+                className="w-full max-w-md transform overflow-hidden rounded-lg bg-white p-6 shadow-xl"
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                transition={{ type: "spring", damping: 25 }}
+              >
                 <div className="flex items-center justify-between mb-4">
-                  <Dialog.Title className="text-lg font-semibold text-gray-900">
-                    {reviewToEdit ? 'Chỉnh sửa đánh giá' : 'Đánh giá sản phẩm'}
-                  </Dialog.Title>
-                  <button
+                  <h2 className="text-lg font-semibold text-gray-900">
+                    {reviewToEdit ? "Chỉnh sửa đánh giá" : "Đánh giá sản phẩm"}
+                  </h2>
+                  <motion.button
                     type="button"
                     onClick={handleClose}
                     className="text-gray-400 hover:text-gray-500"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                   >
                     <X size={20} />
-                  </button>
+                  </motion.button>
                 </div>
 
-                <ReviewForm
-                  productId={productId}
-                  onSubmit={handleSubmit}
-                  isSubmitting={isSubmitting}
-                  error={error}
-                  success={success}
-                  onClose={handleClose}
-                />
-              </Dialog.Panel>
-            </Transition.Child>
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  <ReviewForm
+                    productId={productId}
+                    onSubmit={handleSubmit}
+                    isSubmitting={isSubmitting}
+                    error={error}
+                    success={success}
+                    onClose={handleClose}
+                    initialComment={comment}
+                    initialRating={rating}
+                  />
+                </motion.div>
+              </motion.div>
+            </div>
           </div>
-        </div>
-      </Dialog>
-    </Transition>
+        </Dialog>
+      )}
+    </AnimatePresence>
   );
 };
 
-export default ReviewDialog; 
+export default ReviewDialog;

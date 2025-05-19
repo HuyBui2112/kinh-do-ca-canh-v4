@@ -16,11 +16,21 @@ import {
     ReviewResponse,
     ReviewListResponse,
     DeleteReviewResponse,
-    ReviewQueryParams
+    ReviewQueryParams,
+    CartApiResponse,
+    AddToCartRequest,
+    UpdateCartItemRequest,
+    UpdateCartRequest,
+    ClearCartApiResponse,
+    CreateOrderRequest,
+    OrderApiResponse,
+    OrderListApiResponse,
+    CancelOrderApiResponse,
+    BuyNowOrderRequest
 } from "@/utils/types";
 
 // BASE URL cho API
-const BASE_URL = `http://localhost:5000/api`;
+const BASE_URL = `http://localhost:5000/api/v1/`;
 
 // Tạo instance cho các API không yêu cầu xác thực
 export const publicAxios = axios.create({
@@ -141,11 +151,122 @@ export const apis = {
 
     // Lấy danh sách đánh giá của sản phẩm
     getProductReviews: async (productId: string, params?: ReviewQueryParams): Promise<ReviewListResponse> => {
-        // Theo tài liệu API, endpoint đúng là: /reviews/products/:productId/reviews
         const response: AxiosResponse<ReviewListResponse> = await publicAxios.get(
             `/reviews/products/${productId}/reviews`,
             { params }
         );
         return response.data;
-    }
+    },
+
+    // ==========||   API Giỏ hàng (Cart)   ||========== //
+
+    /**
+     * Lấy thông tin giỏ hàng của người dùng hiện tại.
+     * @returns {Promise<CartApiResponse>} Thông tin giỏ hàng.
+     */
+    getCart: async (): Promise<CartApiResponse> => {
+        const response: AxiosResponse<CartApiResponse> = await privateAxios.get('/cart');
+        return response.data;
+    },
+
+    /**
+     * Thêm sản phẩm vào giỏ hàng.
+     * @param {AddToCartRequest} data - Dữ liệu sản phẩm và số lượng.
+     * @returns {Promise<CartApiResponse>} Giỏ hàng sau khi thêm.
+     */
+    addItemToCart: async (data: AddToCartRequest): Promise<CartApiResponse> => {
+        const response: AxiosResponse<CartApiResponse> = await privateAxios.post('/cart/items', data);
+        return response.data;
+    },
+
+    /**
+     * Cập nhật toàn bộ giỏ hàng với danh sách sản phẩm mới.
+     * @param {UpdateCartRequest} data - Danh sách sản phẩm mới cho giỏ hàng.
+     * @returns {Promise<CartApiResponse>} Giỏ hàng sau khi cập nhật.
+     */
+    updateCart: async (data: UpdateCartRequest): Promise<CartApiResponse> => {
+        const response: AxiosResponse<CartApiResponse> = await privateAxios.put('/cart', data);
+        return response.data;
+    },
+
+    /**
+     * Cập nhật số lượng sản phẩm trong giỏ hàng.
+     * @param {string} productId - ID của sản phẩm cần cập nhật.
+     * @param {UpdateCartItemRequest} data - Số lượng mới.
+     * @returns {Promise<CartApiResponse>} Giỏ hàng sau khi cập nhật.
+     */
+    updateCartItem: async (productId: string, data: UpdateCartItemRequest): Promise<CartApiResponse> => {
+        const response: AxiosResponse<CartApiResponse> = await privateAxios.put(`/cart/items/${productId}`, data);
+        return response.data;
+    },
+
+    /**
+     * Xóa một sản phẩm khỏi giỏ hàng.
+     * @param {string} productId - ID của sản phẩm cần xóa.
+     * @returns {Promise<CartApiResponse>} Giỏ hàng sau khi xóa.
+     */
+    removeCartItem: async (productId: string): Promise<CartApiResponse> => {
+        const response: AxiosResponse<CartApiResponse> = await privateAxios.delete(`/cart/items/${productId}`);
+        return response.data;
+    },
+
+    /**
+     * Xóa toàn bộ sản phẩm trong giỏ hàng.
+     * @returns {Promise<ClearCartApiResponse>} Thông báo và có thể là giỏ hàng rỗng.
+     */
+    clearCart: async (): Promise<ClearCartApiResponse> => {
+        const response: AxiosResponse<ClearCartApiResponse> = await privateAxios.delete('/cart');
+        return response.data;
+    },
+
+    // ==========||   API Đơn hàng (Order)   ||========== //
+
+    /**
+     * Tạo một đơn hàng mới.
+     * @param {CreateOrderRequest} data - Thông tin giao hàng và phương thức thanh toán.
+     * @returns {Promise<OrderApiResponse>} Đơn hàng đã tạo.
+     */
+    createOrder: async (data: CreateOrderRequest): Promise<OrderApiResponse> => {
+        const response: AxiosResponse<OrderApiResponse> = await privateAxios.post('/orders', data);
+        return response.data;
+    },
+
+    /**
+     * Tạo đơn hàng mua ngay từ một sản phẩm cụ thể.
+     * @param {BuyNowOrderRequest} data - Thông tin giao hàng, phương thức thanh toán, ID sản phẩm và số lượng.
+     * @returns {Promise<OrderApiResponse>} Đơn hàng đã tạo.
+     */
+    createBuyNowOrder: async (data: BuyNowOrderRequest): Promise<OrderApiResponse> => {
+        const response: AxiosResponse<OrderApiResponse> = await privateAxios.post('/orders/buy-now', data);
+        return response.data;
+    },
+
+    /**
+     * Lấy danh sách đơn hàng của người dùng hiện tại.
+     * @returns {Promise<OrderListApiResponse>} Danh sách đơn hàng.
+     */
+    getMyOrders: async (): Promise<OrderListApiResponse> => {
+        const response: AxiosResponse<OrderListApiResponse> = await privateAxios.get('/orders/my-orders');
+        return response.data;
+    },
+
+    /**
+     * Lấy chi tiết một đơn hàng theo ID.
+     * @param {string} orderId - ID của đơn hàng.
+     * @returns {Promise<OrderApiResponse>} Chi tiết đơn hàng.
+     */
+    getOrderDetails: async (orderId: string): Promise<OrderApiResponse> => {
+        const response: AxiosResponse<OrderApiResponse> = await privateAxios.get(`/orders/${orderId}`);
+        return response.data;
+    },
+
+    /**
+     * Hủy một đơn hàng.
+     * @param {string} orderId - ID của đơn hàng cần hủy.
+     * @returns {Promise<CancelOrderApiResponse>} Đơn hàng sau khi hủy (đã cập nhật trạng thái).
+     */
+    cancelOrder: async (orderId: string): Promise<CancelOrderApiResponse> => {
+        const response: AxiosResponse<CancelOrderApiResponse> = await privateAxios.put(`/orders/${orderId}/cancel`);
+        return response.data;
+    },
 }

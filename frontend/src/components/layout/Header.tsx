@@ -5,6 +5,8 @@ import TopBar from "../ui/TopBar";
 import MainHead from "../ui/MainHead";
 import MobileNavigation from "../ui/MobileNavigation";
 import { useAuth } from "@/hooks/useAuth";
+import { useCart } from "@/contexts/CartContext";
+import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -41,6 +43,7 @@ export default function Header() {
 
   // Context user
   const { user, isLoading, error, isAuthenticated, logout } = useAuth();
+  const { itemCount } = useCart();
 
   // Hooks
   const [searchKeyword, setSearchKeyword] = useState<string>("");
@@ -82,15 +85,20 @@ export default function Header() {
     return false;
   };
 
-  // Function to handle search form submission
+  // Xử lý tìm kiếm sản phẩm
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchKeyword.trim()) {
-      // Encode the search keyword for URL
-      const encodedKeyword = encodeURIComponent(searchKeyword.trim());
-      // Navigate to search results page
-      router.push(`/ket-qua-tim-kiem?q=${encodedKeyword}`);
-      // Close mobile menu after search
+    
+    // Kiểm tra từ khóa tìm kiếm có hợp lệ không
+    if (!searchKeyword || searchKeyword.trim() === "") {
+      return;
+    }
+    
+    // Chuyển hướng đến trang tìm kiếm với từ khóa
+    router.push(`/tim-kiem?q=${encodeURIComponent(searchKeyword.trim())}`);
+    
+    // Đóng menu mobile nếu đang mở
+    if (mobileMenuOpen) {
       setMobileMenuOpen(false);
     }
   };
@@ -139,6 +147,7 @@ export default function Header() {
         isNavActive={isNavActive}
         mobileMenuOpen={mobileMenuOpen}
         toggleMobileMenu={toggleMobileMenu}
+        itemCount={itemCount}
       />
 
       {/* Mobile Navigation Menu */}
@@ -153,6 +162,7 @@ export default function Header() {
         searchKeyword={searchKeyword}
         setSearchKeyword={setSearchKeyword}
         handleSearch={handleSearch}
+        itemCount={itemCount}
       />
     </header>
   );

@@ -2,34 +2,35 @@
 
 import { useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
-import Link from "next/link";
+import { ChevronLeft, ChevronRight, Trash2 } from "lucide-react";
 import ProductCard from "@/components/ui/ProductCard";
 import ProductFilters from "@/components/ui/ProductFilters";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import { useProducts } from "@/hooks/useProducts";
 import { ProductQueryParams } from "@/utils/types";
 
 // Các danh mục sản phẩm
-const PRODUCT_CATEGORIES = [
+export const PRODUCT_CATEGORIES = [
   {
     slug: "ca-canh",
-    title: "Cá cảnh"
+    title: "Cá cảnh",
   },
   {
     slug: "thuc-an",
-    title: "Thức ăn"
+    title: "Thức ăn",
   },
   {
     slug: "phu-kien",
-    title: "Phụ kiện"
+    title: "Phụ kiện",
   },
   {
     slug: "thuoc",
-    title: "Thuốc"
+    title: "Thuốc",
   },
   {
     slug: "be-ca",
-    title: "Bể cá"
-  }
+    title: "Bể cá",
+  },
 ];
 
 export default function ProductsClient() {
@@ -58,8 +59,8 @@ export default function ProductsClient() {
       if (minPrice) params.minPrice = parseInt(minPrice);
       if (maxPrice) params.maxPrice = parseInt(maxPrice);
       if (inStock) params.inStock = inStock === "true";
-      if (sortBy) params.sortBy = sortBy as 'name' | 'price' | 'rating';
-      if (sortOrder) params.sortOrder = sortOrder as 'asc' | 'desc';
+      if (sortBy) params.sortBy = sortBy as "name" | "price" | "rating";
+      if (sortOrder) params.sortOrder = sortOrder as "asc" | "desc";
 
       getProducts(params);
     };
@@ -105,27 +106,12 @@ export default function ProductsClient() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex flex-col mb-6">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Sản phẩm</h1>
-        <nav className="flex" aria-label="Breadcrumb">
-          <ol className="inline-flex items-center space-x-1 md:space-x-3">
-            <li className="inline-flex items-center">
-              <Link
-                href="/"
-                className="text-gray-500 hover:text-gray-900 text-sm"
-              >
-                Trang chủ
-              </Link>
-            </li>
-            <li>
-              <div className="flex items-center">
-                <span className="text-gray-400 mx-2">/</span>
-                <span className="text-primary-600 text-sm">Sản phẩm</span>
-              </div>
-            </li>
-          </ol>
-        </nav>
+    <div className="container mx-auto px-4">
+      <div className="flex flex-col">
+        <Breadcrumbs items={[{ slug: "/san-pham", label: "Sản phẩm" }]} />
+        <h1 className="text-2xl md:text-3xl font-bold text-sky-600 mt-4 mb-2 lg:mb-4">
+          Sản phẩm
+        </h1>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-8">
@@ -140,28 +126,29 @@ export default function ProductsClient() {
         {/* Danh sách sản phẩm */}
         <div className="lg:w-3/4">
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-600 p-4 rounded-md mb-6">
+            <div className="bg-red-50 border border-red-200 text-rose-600 p-4 rounded-md mb-6">
               {error}
             </div>
           )}
 
           {loading ? (
             <div className="flex justify-center items-center h-96">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-sky-600"></div>
             </div>
           ) : products.length === 0 ? (
             <div className="bg-gray-50 p-8 rounded-lg text-center">
               <h3 className="text-xl font-semibold text-gray-700 mb-2">
                 Không tìm thấy sản phẩm
               </h3>
-              <p className="text-gray-500 mb-4">
+              <p className="text-gray-500 mb-6">
                 Không có sản phẩm nào phù hợp với bộ lọc bạn đã chọn.
               </p>
               <button
-                onClick={() => handleFilterChange({})}
-                className="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700"
+                onClick={() => handleFilterChange({ page: 1 })}
+                className="inline-flex items-center justify-center px-4 py-2 border border-rose-500 text-sm font-medium rounded-md text-rose-600 hover:bg-rose-50 hover:text-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500 transition-colors"
               >
-                Xóa bộ lọc
+                <Trash2 size={16} className="mr-2" />
+                Xóa tất cả bộ lọc
               </button>
             </div>
           ) : (
@@ -187,24 +174,25 @@ export default function ProductsClient() {
               </div>
 
               {/* Phân trang */}
-              {pagination.totalPages > 1 && (
+              {pagination.totalPages >= 1 && products.length > 0 && (
                 <div className="flex justify-center mt-10">
                   <nav className="flex items-center">
                     <button
                       onClick={() => handlePageChange(pagination.page - 1)}
                       disabled={pagination.page === 1}
-                      className="px-3 py-2 rounded-md mr-2 border text-gray-600 disabled:opacity-50"
+                      className="w-9 h-9 flex items-center justify-center text-sm rounded-md mr-2 border text-gray-600 disabled:opacity-50 hover:enabled:bg-gray-50 transition-colors duration-200 ease-in-out"
+                      aria-label="Trang trước"
                     >
-                      &lt; Trước
+                      <ChevronLeft className="w-5 h-5" />
                     </button>
 
                     {[...Array(pagination.totalPages)].map((_, i) => (
                       <button
                         key={i}
                         onClick={() => handlePageChange(i + 1)}
-                        className={`w-10 h-10 mx-1 rounded-md ${
+                        className={`w-9 h-9 text-sm mx-1 rounded-md transition-colors duration-200 ease-in-out ${
                           pagination.page === i + 1
-                            ? "bg-primary-600 text-white"
+                            ? "bg-sky-600 text-white"
                             : "border text-gray-600 hover:bg-gray-50"
                         }`}
                       >
@@ -215,9 +203,10 @@ export default function ProductsClient() {
                     <button
                       onClick={() => handlePageChange(pagination.page + 1)}
                       disabled={pagination.page === pagination.totalPages}
-                      className="px-3 py-2 rounded-md ml-2 border text-gray-600 disabled:opacity-50"
+                      className="w-9 h-9 flex items-center justify-center text-sm rounded-md ml-2 border text-gray-600 disabled:opacity-50 hover:enabled:bg-gray-50 transition-colors duration-200 ease-in-out"
+                      aria-label="Trang sau"
                     >
-                      Sau &gt;
+                      <ChevronRight className="w-5 h-5" />
                     </button>
                   </nav>
                 </div>

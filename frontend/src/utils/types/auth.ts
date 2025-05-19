@@ -48,6 +48,7 @@ export interface ApiResponse<T> {
 
 // Phản hồi API xác thực (đăng ký/đăng nhập)
 export interface AuthResponseData {
+    _id: string;
     email: string;
     info_user: UserInfo;
     token: string;
@@ -57,6 +58,7 @@ export type AuthResponse = ApiResponse<AuthResponseData>;
 
 // Phản hồi API thông tin người dùng
 export interface UserResponseData {
+    _id: string;
     email: string;
     info_user: UserInfo;
 }
