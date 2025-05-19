@@ -1,10 +1,10 @@
 "use client";
 
-import { FC } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { ProductListItem } from '../../utils/types';
-import { formatCurrency } from '../../utils/helpers';
+import { FC } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { ProductListItem } from "../../utils/types";
+import { formatCurrency } from "../../utils/helpers";
 
 interface ProductCardProps {
   product: ProductListItem;
@@ -14,25 +14,16 @@ interface ProductCardProps {
  * Component hiển thị thông tin sản phẩm trong danh sách
  */
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
-  const {
-    name,
-    slug,
-    imageFirst,
-    price,
-    avgRating,
-    numReviews
-  } = product;
+  const { name, slug, imageFirst, price, avgRating, numReviews } = product;
 
-  const discountPercent = price.discount > 0 
-    ? Math.round(price.discount) 
-    : 0;
+  const discountPercent = price.discount > 0 ? Math.round(price.discount) : 0;
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300">
       <Link href={`/san-pham/${slug}`}>
         <div className="relative h-48 w-full">
           <Image
-            src={imageFirst || '/images/product-placeholder.jpg'}
+            src={imageFirst || "/images/product-placeholder.jpg"}
             alt={name}
             fill
             className="object-cover"
@@ -48,9 +39,9 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
 
       <div className="p-4">
         <Link href={`/san-pham/${slug}`} className="no-underline">
-          <h3 className="text-lg font-semibold text-gray-800 mb-2 hover:text-primary-600 transition-colors line-clamp-2">
+          <p className="text-lg font-semibold text-gray-800 mb-2 hover:text-primary-600 transition-colors line-clamp-2">
             {name}
-          </h3>
+          </p>
         </Link>
 
         <div className="flex items-center mb-2">
@@ -59,7 +50,9 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
               <svg
                 key={i}
                 className={`w-4 h-4 ${
-                  i < Math.round(avgRating) ? 'text-yellow-400' : 'text-gray-300'
+                  i < Math.round(avgRating)
+                    ? "text-yellow-400"
+                    : "text-gray-300"
                 }`}
                 fill="currentColor"
                 viewBox="0 0 20 20"
@@ -73,18 +66,20 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
 
         <div className="mt-3 flex items-center justify-between">
           <div className="flex flex-col">
-            {price.discount > 0 && (
+            {price.discount > 0 ? (
               <span className="text-sm text-gray-500 line-through">
                 {formatCurrency(price.origin_price)}
               </span>
+            ) : (
+              <span className="text-sm text-white line-through">.</span>
             )}
             <span className="text-lg font-bold text-primary-600">
               {formatCurrency(price.sell_price)}
             </span>
           </div>
-          <Link 
+          <Link
             href={`/san-pham/${slug}`}
-            className="bg-primary-600 hover:bg-primary-700 text-white py-1 px-3 rounded-md text-sm transition-colors"
+            className="bg-sky-600 hover:bg-primary-700 text-white py-1 px-3 rounded-md text-sm transition-colors"
           >
             Chi tiết
           </Link>
@@ -94,4 +89,4 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
   );
 };
 
-export default ProductCard; 
+export default ProductCard;

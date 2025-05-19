@@ -2,9 +2,9 @@
 
 import { useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
-import Link from "next/link";
 import ProductCard from "@/components/ui/ProductCard";
 import ProductFilters from "@/components/ui/ProductFilters";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import { useProducts } from "@/hooks/useProducts";
 import { ProductQueryParams } from "@/utils/types";
 
@@ -12,24 +12,24 @@ import { ProductQueryParams } from "@/utils/types";
 const PRODUCT_CATEGORIES = [
   {
     slug: "ca-canh",
-    title: "Cá cảnh"
+    title: "Cá cảnh",
   },
   {
     slug: "thuc-an",
-    title: "Thức ăn"
+    title: "Thức ăn",
   },
   {
     slug: "phu-kien",
-    title: "Phụ kiện"
+    title: "Phụ kiện",
   },
   {
     slug: "thuoc",
-    title: "Thuốc"
+    title: "Thuốc",
   },
   {
     slug: "be-ca",
-    title: "Bể cá"
-  }
+    title: "Bể cá",
+  },
 ];
 
 export default function ProductsClient() {
@@ -58,8 +58,8 @@ export default function ProductsClient() {
       if (minPrice) params.minPrice = parseInt(minPrice);
       if (maxPrice) params.maxPrice = parseInt(maxPrice);
       if (inStock) params.inStock = inStock === "true";
-      if (sortBy) params.sortBy = sortBy as 'name' | 'price' | 'rating';
-      if (sortOrder) params.sortOrder = sortOrder as 'asc' | 'desc';
+      if (sortBy) params.sortBy = sortBy as "name" | "price" | "rating";
+      if (sortOrder) params.sortOrder = sortOrder as "asc" | "desc";
 
       getProducts(params);
     };
@@ -105,27 +105,9 @@ export default function ProductsClient() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4">
       <div className="flex flex-col mb-6">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Sản phẩm</h1>
-        <nav className="flex" aria-label="Breadcrumb">
-          <ol className="inline-flex items-center space-x-1 md:space-x-3">
-            <li className="inline-flex items-center">
-              <Link
-                href="/"
-                className="text-gray-500 hover:text-gray-900 text-sm"
-              >
-                Trang chủ
-              </Link>
-            </li>
-            <li>
-              <div className="flex items-center">
-                <span className="text-gray-400 mx-2">/</span>
-                <span className="text-primary-600 text-sm">Sản phẩm</span>
-              </div>
-            </li>
-          </ol>
-        </nav>
+        <Breadcrumbs items={[{ slug: "/san-pham", label: "Sản phẩm" }]} />
       </div>
 
       <div className="flex flex-col lg:flex-row gap-8">
@@ -159,7 +141,7 @@ export default function ProductsClient() {
               </p>
               <button
                 onClick={() => handleFilterChange({})}
-                className="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700"
+                className="bg-rose-500 text-white px-4 py-2 rounded-md hover:bg-primary-700"
               >
                 Xóa bộ lọc
               </button>

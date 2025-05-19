@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { useProducts } from "@/hooks/useProducts";
@@ -10,13 +10,12 @@ import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/contexts/ToastContext";
 import ReviewItem from "@/components/ui/ReviewItem";
 import ReviewDialog from "@/components/ui/ReviewDialog";
-import ProductCard from "@/components/ui/ProductCard";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import { formatCurrency } from "@/utils/helpers";
 import { Review } from "@/utils/types/review";
 
 export default function ProductDetailClient() {
   const params = useParams();
-  const router = useRouter();
   
   const { 
     productDetail, 
@@ -220,37 +219,16 @@ export default function ProductDetailClient() {
 
   return (
     <>
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4">
         {/* Breadcrumb */}
-        <nav className="flex mb-6" aria-label="Breadcrumb">
-          <ol className="inline-flex items-center space-x-1 md:space-x-3">
-            <li className="inline-flex items-center">
-              <Link
-                href="/"
-                className="text-gray-500 hover:text-gray-900 text-sm"
-              >
-                Trang chủ
-              </Link>
-            </li>
-            <li>
-              <div className="flex items-center">
-                <span className="text-gray-400 mx-2">/</span>
-                <Link
-                  href="/san-pham"
-                  className="text-gray-500 hover:text-gray-900 text-sm"
-                >
-                  Sản phẩm
-                </Link>
-              </div>
-            </li>
-            <li>
-              <div className="flex items-center">
-                <span className="text-gray-400 mx-2">/</span>
-                <span className="text-gray-600 text-sm">{pd_name}</span>
-              </div>
-            </li>
-          </ol>
-        </nav>
+        <div className="mb-6">
+          <Breadcrumbs 
+            items={[
+              { slug: '/san-pham', label: 'Sản phẩm' },
+              { slug: `/san-pham/${params.slug}`, label: pd_name }
+            ]} 
+          />
+        </div>
 
         {/* Layout chính - chia thành 2 cột */}
         <div className="flex flex-col lg:flex-row gap-8">
