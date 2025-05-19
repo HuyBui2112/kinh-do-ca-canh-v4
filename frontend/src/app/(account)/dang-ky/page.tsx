@@ -2,10 +2,15 @@
 
 import React from "react";
 import RegisterForm from "@/components/auth/RegisterForm";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 
-export default function DangKyPage() {
+export default function RegisterPage() {
   return (
-    <div className="container mx-auto py-12">
+    <div className="container mx-auto">
+      {/* Breadcrumb */}
+      <div className="mb-6">
+        <Breadcrumbs items={[{ slug: "/dang-ky", label: "Đăng ký" }]} />
+      </div>
       <div className="max-w-md mx-auto">
         <RegisterForm />
       </div>

@@ -4,6 +4,7 @@ import { FC, useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 // Định nghĩa kiểu mapping giữa slug và tên hiển thị
 interface SlugLabelMapping {
@@ -93,46 +94,98 @@ const BreadcrumbsAuto: FC<BreadcrumbsAutoProps> = ({
     return null;
   }
 
+  // Animation variants
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariant = {
+    hidden: { opacity: 0, x: -10 },
+    show: { opacity: 1, x: 0 }
+  };
+
   return (
-    <nav aria-label="Breadcrumbs" className={`py-3 ${className}`}>
-      <ol className="flex items-center flex-wrap">
+    <motion.nav 
+      aria-label="Breadcrumbs" 
+      className={`py-3 ${className}`}
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <motion.ol 
+        className="flex items-center flex-wrap"
+        variants={container}
+        initial="hidden"
+        animate="show"
+      >
         {showHome && (
-          <li className="flex items-center">
-            <Link
-              href="/"
-              className="text-gray-500 hover:text-sky-600 flex items-center"
-            >
-              {showHomeIcon && (
-                <Home className="h-4 w-4 mr-1" aria-hidden="true" />
-              )}
-              Trang chủ
-            </Link>
-          </li>
+          <motion.li 
+            className="flex items-center"
+            variants={itemVariant}
+          >
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link
+                href="/"
+                className="text-gray-500 hover:text-sky-600 flex items-center"
+              >
+                {showHomeIcon && (
+                  <Home className="h-4 w-4 mr-1" aria-hidden="true" />
+                )}
+                Trang chủ
+              </Link>
+            </motion.div>
+          </motion.li>
         )}
 
         {breadcrumbs.map((item, index) => {
           const isLast = index === breadcrumbs.length - 1;
           
           return (
-            <li key={item.slug} className="flex items-center">
-              <ChevronRight className="h-4 w-4 mx-2 text-gray-400" aria-hidden="true" />
+            <motion.li 
+              key={item.slug} 
+              className="flex items-center"
+              variants={itemVariant}
+            >
+              <motion.span
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.2 }}
+              >
+                <ChevronRight className="h-4 w-4 mx-2 text-gray-400" aria-hidden="true" />
+              </motion.span>
+              
               {isLast ? (
-                <span className="font-medium text-sky-600" aria-current="page">
-                  {item.label}
-                </span>
-              ) : (
-                <Link
-                  href={item.slug}
-                  className="text-gray-500 hover:text-sky-600"
+                <motion.span 
+                  className="font-medium text-sky-600" 
+                  aria-current="page"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2 }}
                 >
                   {item.label}
-                </Link>
+                </motion.span>
+              ) : (
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Link
+                    href={item.slug}
+                    className="text-gray-500 hover:text-sky-600"
+                  >
+                    {item.label}
+                  </Link>
+                </motion.div>
               )}
-            </li>
+            </motion.li>
           );
         })}
-      </ol>
-    </nav>
+      </motion.ol>
+    </motion.nav>
   );
 };
 

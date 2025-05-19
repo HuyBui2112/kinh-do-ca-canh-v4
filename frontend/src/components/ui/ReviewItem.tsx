@@ -4,6 +4,7 @@ import { FC } from "react";
 import { Review } from "@/utils/types/review";
 import { formatDate } from "@/utils/helpers";
 import { useToast } from "@/contexts/ToastContext";
+import { motion } from "framer-motion";
 
 interface ReviewItemProps {
   review: Review;
@@ -55,7 +56,13 @@ const ReviewItem: FC<ReviewItemProps> = ({
   };
 
   return (
-    <div className="border border-gray-200 rounded-md p-4 hover:bg-gray-50">
+    <motion.div 
+      className="border border-gray-200 rounded-md p-4 hover:bg-gray-50"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ type: "spring", damping: 25 }}
+      whileHover={{ boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)" }}
+    >
       <div className="flex items-start justify-between mb-3">
         <div>
           <div className="font-medium text-gray-800">{getUserName()}</div>
@@ -67,9 +74,11 @@ const ReviewItem: FC<ReviewItemProps> = ({
         {canModify && (
           <div className="flex space-x-3">
             {onEdit && (
-              <button
+              <motion.button
                 onClick={() => onEdit(review)}
                 className="flex items-center text-yellow-600 hover:text-yellow-800 text-sm bg-yellow-50 px-3 py-1 rounded-md"
+                whileHover={{ scale: 1.05, backgroundColor: "rgb(254, 249, 195)" }}
+                whileTap={{ scale: 0.95 }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -80,12 +89,14 @@ const ReviewItem: FC<ReviewItemProps> = ({
                   <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                 </svg>
                 Sửa
-              </button>
+              </motion.button>
             )}
             {onDelete && (
-              <button
+              <motion.button
                 onClick={handleDelete}
                 className="flex items-center text-red-600 hover:text-red-800 text-sm bg-red-50 px-3 py-1 rounded-md"
+                whileHover={{ scale: 1.05, backgroundColor: "rgb(254, 226, 226)" }}
+                whileTap={{ scale: 0.95 }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -100,7 +111,7 @@ const ReviewItem: FC<ReviewItemProps> = ({
                   />
                 </svg>
                 Xóa
-              </button>
+              </motion.button>
             )}
           </div>
         )}
@@ -109,18 +120,28 @@ const ReviewItem: FC<ReviewItemProps> = ({
       {/* Hiển thị sao đánh giá */}
       <div className="flex items-center mb-3">
         {Array.from({ length: 5 }).map((_, i) => (
-          <span
+          <motion.span
             key={i}
             className="text-lg mr-1"
             style={{ color: i < getRating() ? "#FBBF24" : "#D1D5DB" }}
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: i * 0.1, type: "spring", stiffness: 200 }}
           >
             ★
-          </span>
+          </motion.span>
         ))}
       </div>
 
-      <div className="text-gray-700">{review.comment}</div>
-    </div>
+      <motion.div 
+        className="text-gray-700"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+      >
+        {review.comment}
+      </motion.div>
+    </motion.div>
   );
 };
 

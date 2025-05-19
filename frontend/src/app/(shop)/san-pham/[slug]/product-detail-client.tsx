@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { useProducts } from "@/hooks/useProducts";
@@ -14,9 +14,12 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import { formatCurrency } from "@/utils/helpers";
 import { Review } from "@/utils/types/review";
 import { PRODUCT_CATEGORIES } from "@/app/(shop)/san-pham/products-client";
+import { useCart } from "@/contexts/CartContext";
+import { Loader2, AlertCircle, CheckCircle, Minus, Plus } from "lucide-react";
 
 export default function ProductDetailClient() {
   const params = useParams();
+  const router = useRouter();
 
   const {
     productDetail,
@@ -42,6 +45,12 @@ export default function ProductDetailClient() {
 
   const { user, isAuthenticated } = useAuth();
   const { showToast } = useToast();
+
+  const { addToCart, isProductInCart } = useCart();
+  const [quantity, setQuantity] = useState(1);
+  const [isAdding, setIsAdding] = useState(false);
+  const [addError, setAddError] = useState<string | null>(null);
+  const [addSuccess, setAddSuccess] = useState(false);
 
   const [activeImage, setActiveImage] = useState<string>("");
   const [isReviewDialogOpen, setIsReviewDialogOpen] = useState<boolean>(false);
@@ -220,6 +229,61 @@ export default function ProductDetailClient() {
     pd_numReviews,
   } = productDetail;
 
+  // Kiểm tra sản phẩm đã có trong giỏ hàng chưa
+  const productInCart = isProductInCart(productDetail._id);
+
+  // Hàm xử lý thêm vào giỏ
+  const handleAddToCart = async () => {
+    setIsAdding(true);
+    setAddError(null);
+    setAddSuccess(false);
+
+    try {
+      const success = await addToCart(productDetail._id, quantity);
+      if (success) {
+        setAddSuccess(true);
+        // Tự động ẩn thông báo thành công sau 3 giây
+        setTimeout(() => setAddSuccess(false), 3000);
+      } else {
+        setAddError("Không thể thêm vào giỏ hàng");
+      }
+    } catch (err) {
+      setAddError("Lỗi khi thêm vào giỏ hàng");
+      console.error(err);
+    } finally {
+      setIsAdding(false);
+    }
+  };
+
+  // Xử lý mua ngay
+  const handleBuyNow = async () => {
+    if (productInCart) {
+      // Nếu sản phẩm đã có trong giỏ hàng, chuyển đến trang giỏ hàng
+      router.push("/gio-hang");
+      return;
+    }
+
+    setIsAdding(true);
+    setAddError(null);
+
+    try {
+      const success = await addToCart(productDetail._id, quantity);
+      if (success) {
+        // Chuyển hướng đến trang thanh toán sau khi thêm vào giỏ hàng
+        router.push("/thanh-toan");
+      } else {
+        setAddError("Không thể thêm vào giỏ hàng");
+        showToast("error", "Không thể thêm sản phẩm vào giỏ hàng");
+      }
+    } catch (err) {
+      setAddError("Lỗi khi thêm vào giỏ hàng");
+      showToast("error", "Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng");
+      console.error(err);
+    } finally {
+      setIsAdding(false);
+    }
+  };
+
   return (
     <>
       <div className="container mx-auto px-4">
@@ -359,20 +423,87 @@ export default function ProductDetailClient() {
                     </p>
                   </div>
 
-                  <div className="flex flex-col space-y-3">
-                    <button
-                      disabled={pd_stock <= 0}
-                      className={`w-full py-3 px-4 rounded-md font-medium text-white ${
-                        pd_stock > 0
-                          ? "bg-rose-500 hover:bg-rose-600"
-                          : "bg-gray-400 cursor-not-allowed"
-                      }`}
+                  <div className="mb-4 flex items-center gap-6">
+                    <label
+                      htmlFor="quantity"
+                      className="block text-sm font-medium text-gray-700"
                     >
-                      {pd_stock > 0 ? "Thêm vào giỏ hàng" : "Hết hàng"}
-                    </button>
-                    <button className="w-full py-3 px-4 rounded-md font-medium border border-yellow-500 text-yellow-600 hover:bg-yellow-50">
-                      Mua ngay
-                    </button>
+                      Số lượng:
+                    </label>
+                    <div className="flex items-center">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setQuantity((prev) => Math.max(prev - 1, 1))
+                        }
+                        disabled={quantity <= 1}
+                        className="px-3 py-2 border border-gray-300 rounded-l-md bg-gray-50 text-gray-700 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <Minus size={16} />
+                      </button>
+                      <input
+                        type="number"
+                        id="quantity"
+                        name="quantity"
+                        min="1"
+                        value={quantity}
+                        onChange={(e) =>
+                          setQuantity(
+                            Math.max(1, parseInt(e.target.value) || 1)
+                          )
+                        }
+                        className="w-16 py-1 border-y border-gray-300 text-center focus:ring-primary-500 focus:border-primary-500"
+                      />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setQuantity((prev) =>
+                            Math.min(prev + 1, pd_stock || 99)
+                          )
+                        }
+                        disabled={pd_stock ? quantity >= pd_stock : false}
+                        className="px-3 py-2 border border-gray-300 rounded-r-md bg-gray-50 text-gray-700 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <Plus size={16} />
+                      </button>
+                      {pd_stock > 0 && (
+                        <span className="ml-3 text-sm text-gray-500">
+                          Còn {pd_stock} sản phẩm
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col space-y-3">
+                    <div className="flex space-x-3 mt-6">
+                      <button
+                        onClick={handleAddToCart}
+                        disabled={isAdding || productInCart}
+                        className={`py-3 px-8 rounded-md text-base font-medium transition-colors flex items-center justify-center ${
+                          productInCart
+                            ? "bg-emerald-50 text-emerald-600 border border-emerald-600"
+                            : "bg-white hover:bg-amber-50 text-amber-600 border border-amber-600"
+                        }`}
+                      >
+                        {isAdding ? (
+                          <>
+                            <Loader2 className="w-5 h-5 mr-2 animate-spin" />{" "}
+                            Đang thêm...
+                          </>
+                        ) : productInCart ? (
+                          <>Đã có trong giỏ</>
+                        ) : (
+                          "Thêm vào giỏ"
+                        )}
+                      </button>
+                      <button
+                        onClick={handleBuyNow}
+                        disabled={isAdding}
+                        className="py-3 px-8 bg-amber-600 hover:bg-amber-700 text-white rounded-md text-base font-medium transition-colors text-center"
+                      >
+                        {productInCart ? "Xem giỏ hàng" : "Mua ngay"}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -656,6 +787,19 @@ export default function ProductDetailClient() {
         success={success}
         reviewToEdit={reviewToEdit}
       />
+
+      {/* Thông báo lỗi/thành công */}
+      {addError && (
+        <div className="mt-2 text-red-500 text-sm flex items-center">
+          <AlertCircle className="w-4 h-4 mr-1" /> {addError}
+        </div>
+      )}
+      {addSuccess && (
+        <div className="mt-2 text-green-500 text-sm flex items-center">
+          <CheckCircle className="w-4 h-4 mr-1" /> Sản phẩm đã được thêm vào giỏ
+          hàng!
+        </div>
+      )}
     </>
   );
 }

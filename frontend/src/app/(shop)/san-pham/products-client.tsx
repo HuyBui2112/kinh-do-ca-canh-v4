@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
-import { ChevronLeft, ChevronRight, Trash2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Trash2 } from "lucide-react";
 import ProductCard from "@/components/ui/ProductCard";
 import ProductFilters from "@/components/ui/ProductFilters";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
@@ -109,7 +109,7 @@ export default function ProductsClient() {
     <div className="container mx-auto px-4">
       <div className="flex flex-col">
         <Breadcrumbs items={[{ slug: "/san-pham", label: "Sản phẩm" }]} />
-        <h1 className="text-3xl font-bold text-gray-900 mt-4 mb-2 lg:mb-4">
+        <h1 className="text-2xl md:text-3xl font-bold text-sky-600 mt-4 mb-2 lg:mb-4">
           Sản phẩm
         </h1>
       </div>

@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
 });
 
 // API Routes
-app.use('/api', apiRoutes);
+app.use(apiRoutes);
 
 // Handle 404 errors
 app.use(notFoundHandler);

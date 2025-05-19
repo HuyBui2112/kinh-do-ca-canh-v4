@@ -19,6 +19,7 @@ export interface AuthInfo {
 
 // Response cho "Đăng ký" và "Đăng nhập"
 export interface AuthResponse {
+    _id: string;
     email: string;
     info_user: UserInfo;
     token: string;
@@ -26,6 +27,7 @@ export interface AuthResponse {
 
 // Response cho "Sửa thông tin người dùng"
 export interface UpdateInfoUserResponse {
+    _id: string;
     email: string;
     info_user: UserInfo;
 }

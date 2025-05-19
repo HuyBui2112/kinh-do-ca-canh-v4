@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useState, Fragment } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog } from "@headlessui/react";
 import { X } from "lucide-react";
 import ReviewForm from "./ReviewForm";
 import {
@@ -9,6 +9,7 @@ import {
   CreateReviewRequest,
   UpdateReviewRequest,
 } from "@/utils/types/review";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface ReviewDialogProps {
   isOpen: boolean;
@@ -86,63 +87,68 @@ const ReviewDialog: FC<ReviewDialogProps> = ({
   };
 
   return (
-    <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={handleClose}>
-        <Transition
-          as={Fragment}
-          show={isOpen}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
+    <AnimatePresence>
+      {isOpen && (
+        <Dialog 
+          as="div" 
+          className="relative z-50" 
+          onClose={handleClose} 
+          open={isOpen}
         >
-          <div className="fixed inset-0 bg-black bg-opacity-50" />
-        </Transition>
+          <motion.div 
+            className="fixed inset-0 bg-black bg-opacity-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          />
 
-        <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4">
-            <Transition
-              as={Fragment}
-              show={isOpen}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <div className="w-full max-w-md transform overflow-hidden rounded-lg bg-white p-6 shadow-xl transition-all">
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4">
+              <motion.div
+                className="w-full max-w-md transform overflow-hidden rounded-lg bg-white p-6 shadow-xl"
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                transition={{ type: "spring", damping: 25 }}
+              >
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-lg font-semibold text-gray-900">
                     {reviewToEdit ? "Chỉnh sửa đánh giá" : "Đánh giá sản phẩm"}
                   </h2>
-                  <button
+                  <motion.button
                     type="button"
                     onClick={handleClose}
                     className="text-gray-400 hover:text-gray-500"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                   >
                     <X size={20} />
-                  </button>
+                  </motion.button>
                 </div>
 
-                <ReviewForm
-                  productId={productId}
-                  onSubmit={handleSubmit}
-                  isSubmitting={isSubmitting}
-                  error={error}
-                  success={success}
-                  onClose={handleClose}
-                  initialComment={comment}
-                  initialRating={rating}
-                />
-              </div>
-            </Transition>
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  <ReviewForm
+                    productId={productId}
+                    onSubmit={handleSubmit}
+                    isSubmitting={isSubmitting}
+                    error={error}
+                    success={success}
+                    onClose={handleClose}
+                    initialComment={comment}
+                    initialRating={rating}
+                  />
+                </motion.div>
+              </motion.div>
+            </div>
           </div>
-        </div>
-      </Dialog>
-    </Transition>
+        </Dialog>
+      )}
+    </AnimatePresence>
   );
 };
 
