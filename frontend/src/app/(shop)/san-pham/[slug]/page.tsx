@@ -15,8 +15,8 @@ export async function generateMetadata({
   params,
 }: Props): // parent: ResolvingMetadata
 Promise<Metadata> {
-  // Lấy slug từ params
-  const { slug } = params;
+  // Lấy slug từ params, cần await params theo khuyến cáo của Next.js
+  const { slug } = await params;
 
   try {
     // Lấy danh sách sản phẩm với slug tương ứng

@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { CreateReviewRequest } from '@/utils/types/review';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -11,6 +11,8 @@ interface ReviewFormProps {
   error: string | null;
   success: string | null;
   onClose?: () => void;
+  initialComment?: string;
+  initialRating?: number;
 }
 
 /**
@@ -22,12 +24,22 @@ const ReviewForm: FC<ReviewFormProps> = ({
   isSubmitting,
   error,
   success,
-  onClose
+  onClose,
+  initialComment = "",
+  initialRating = 5
 }) => {
   const { isAuthenticated } = useAuth();
-  const [rating, setRating] = useState<number>(5);
-  const [comment, setComment] = useState<string>('');
+  const [rating, setRating] = useState<number>(initialRating);
+  const [comment, setComment] = useState<string>(initialComment);
   const [hoverRating, setHoverRating] = useState<number>(0);
+
+  useEffect(() => {
+    setRating(initialRating);
+  }, [initialRating]);
+
+  useEffect(() => {
+    setComment(initialComment);
+  }, [initialComment]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
