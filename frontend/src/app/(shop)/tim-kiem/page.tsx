@@ -36,18 +36,18 @@ export default function SearchPage() {
       transition: {
         delay: i * 0.1,
         duration: 0.5,
-        ease: "easeOut"
-      }
-    })
+        ease: "easeOut",
+      },
+    }),
   };
 
   if (emptySearch) {
     return (
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 pb-8">
         <Breadcrumbs items={[{ slug: "/tim-kiem", label: "Tìm kiếm" }]} />
-        
+
         <div className="text-center py-16">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
@@ -55,8 +55,8 @@ export default function SearchPage() {
           >
             <Search size={32} />
           </motion.div>
-          
-          <motion.h1 
+
+          <motion.h1
             className="text-2xl md:text-3xl font-bold text-gray-800 mb-4"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -64,16 +64,17 @@ export default function SearchPage() {
           >
             Tìm kiếm sản phẩm
           </motion.h1>
-          
-          <motion.p 
+
+          <motion.p
             className="text-gray-600 max-w-lg mx-auto mb-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
           >
-            Vui lòng nhập từ khóa tìm kiếm trong thanh tìm kiếm ở trên để tìm sản phẩm bạn cần.
+            Vui lòng nhập từ khóa tìm kiếm trong thanh tìm kiếm ở trên để tìm
+            sản phẩm bạn cần.
           </motion.p>
-          
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -92,16 +93,19 @@ export default function SearchPage() {
 
   if (loading) {
     return (
-      <div className="container mx-auto py-8 px-4">
+      <div className="container mx-auto pb-8 px-4">
         <Breadcrumbs
           items={[
             { slug: "/tim-kiem", label: "Tìm kiếm" },
-            { slug: `/tim-kiem?q=${encodeURIComponent(keyword)}`, label: keyword }
+            {
+              slug: `/tim-kiem?q=${encodeURIComponent(keyword)}`,
+              label: keyword,
+            },
           ]}
         />
-        
+
         <div className="text-center py-16">
-          <motion.div 
+          <motion.div
             initial={{ scale: 0.5, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             className="flex flex-col items-center"
@@ -116,16 +120,19 @@ export default function SearchPage() {
 
   if (error) {
     return (
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 pb-8">
         <Breadcrumbs
           items={[
             { slug: "/tim-kiem", label: "Tìm kiếm" },
-            { slug: `/tim-kiem?q=${encodeURIComponent(keyword)}`, label: keyword }
+            {
+              slug: `/tim-kiem?q=${encodeURIComponent(keyword)}`,
+              label: keyword,
+            },
           ]}
         />
-        
+
         <div className="text-center py-16">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="max-w-md mx-auto"
@@ -147,23 +154,26 @@ export default function SearchPage() {
   }
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto px-4 pb-8">
       <Breadcrumbs
         items={[
           { slug: "/tim-kiem", label: "Tìm kiếm" },
-          { slug: `/tim-kiem?q=${encodeURIComponent(keyword)}`, label: keyword }
+          {
+            slug: `/tim-kiem?q=${encodeURIComponent(keyword)}`,
+            label: keyword,
+          },
         ]}
       />
-      
+
       <div className="mb-8 mt-4">
-        <motion.h1 
+        <motion.h1
           className="text-2xl md:text-3xl font-bold text-sky-600 mb-2"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          Kết quả tìm kiếm cho "{keyword}"
+          Kết quả tìm kiếm cho &quot;{keyword}&quot;
         </motion.h1>
-        <motion.p 
+        <motion.p
           className="text-gray-600"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -172,7 +182,7 @@ export default function SearchPage() {
           Tìm thấy {searchResults.length} sản phẩm
         </motion.p>
       </div>
-      
+
       {searchResults.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {searchResults.map((product, index) => (
@@ -191,12 +201,14 @@ export default function SearchPage() {
                       src={product.imageFirst}
                       alt={product.name}
                       fill
+                      sizes="(max-width: 356px) 100vw"
+                      priority
                       className="object-cover"
                     />
                   )}
                   {product.price?.discount > 0 && (
                     <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
-                      -{product.price.discount}% 
+                      -{product.price.discount}%
                     </div>
                   )}
                 </div>
@@ -237,7 +249,9 @@ export default function SearchPage() {
                       </div>
                     ) : (
                       <span className="text-lg font-bold text-sky-600">
-                        {product.price ? formatCurrency(product.price.sell_price) : "Liên hệ"}
+                        {product.price
+                          ? formatCurrency(product.price.sell_price)
+                          : "Liên hệ"}
                       </span>
                     )}
                   </div>
@@ -247,7 +261,7 @@ export default function SearchPage() {
           ))}
         </div>
       ) : (
-        <motion.div 
+        <motion.div
           className="text-center py-16 bg-gray-50 rounded-lg"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -259,7 +273,8 @@ export default function SearchPage() {
             Không tìm thấy sản phẩm nào
           </h2>
           <p className="text-gray-600 max-w-md mx-auto mb-6">
-            Không tìm thấy sản phẩm nào phù hợp với từ khóa "{keyword}". Vui lòng thử lại với từ khóa khác.
+            Không tìm thấy sản phẩm nào phù hợp với từ khóa &quot;{keyword}
+            &quot;. Vui lòng thử lại với từ khóa khác.
           </p>
           <Link href="/san-pham">
             <Button className="bg-sky-600 hover:bg-sky-700">

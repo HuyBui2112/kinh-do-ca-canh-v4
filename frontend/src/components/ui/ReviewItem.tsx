@@ -77,7 +77,7 @@ const ReviewItem: FC<ReviewItemProps> = ({
               <motion.button
                 onClick={() => onEdit(review)}
                 className="flex items-center text-yellow-600 hover:text-yellow-800 text-sm bg-yellow-50 px-3 py-1 rounded-md"
-                whileHover={{ scale: 1.05, backgroundColor: "rgb(254, 249, 195)" }}
+                whileHover={{ scale: 1.05, backgroundColor: "rgba(254, 249, 195, 1)" }}
                 whileTap={{ scale: 0.95 }}
               >
                 <svg
@@ -95,7 +95,7 @@ const ReviewItem: FC<ReviewItemProps> = ({
               <motion.button
                 onClick={handleDelete}
                 className="flex items-center text-red-600 hover:text-red-800 text-sm bg-red-50 px-3 py-1 rounded-md"
-                whileHover={{ scale: 1.05, backgroundColor: "rgb(254, 226, 226)" }}
+                whileHover={{ scale: 1.05, backgroundColor: "rgba(254, 226, 226, 1)" }}
                 whileTap={{ scale: 0.95 }}
               >
                 <svg

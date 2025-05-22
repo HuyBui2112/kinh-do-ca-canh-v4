@@ -147,28 +147,19 @@ export default function CheckoutPage() {
           "/dang-nhap?redirect=/thanh-toan" +
             (isBuyNow && productId ? `?buyNow=true&productId=${productId}` : "")
         );
-      } else if (
-        !loading &&
-        !isBuyNow &&
-        (!cart || !cart.items || cart.items.length === 0) &&
-        !orderPlaced
-      ) {
-        // Chỉ chuyển hướng nếu không phải trạng thái đã đặt hàng thành công
-        // Nếu không phải mua ngay và giỏ hàng trống
-        showToast("warning", "Giỏ hàng của bạn đang trống");
-        router.push("/gio-hang");
       }
+      // Không chuyển hướng giỏ hàng trống ở đây nữa, sẽ xử lý ở phần render
     }
   }, [
     userLoading,
     isAuthenticated,
     router,
-    cart,
-    loading,
     isBuyNow,
     productId,
-    showToast,
-    orderPlaced,
+    // cart, // Loại bỏ cart khỏi dependency để tránh vòng lặp không cần thiết
+    // loading, // Loại bỏ loading
+    // showToast, // Loại bỏ showToast
+    // orderPlaced, // Loại bỏ orderPlaced
   ]);
 
   // Handle input change
@@ -288,6 +279,56 @@ export default function CheckoutPage() {
     ? buyNowProduct.price * buyNowProduct.quantity
     : 0;
 
+  // Kiểm tra nếu không có sản phẩm để thanh toán
+  if (!loading && !orderPlaced) {
+    // Chỉ kiểm tra khi không loading và chưa đặt hàng
+    if (!isBuyNow && (!cart || cart.items.length === 0)) {
+      return (
+        <div className="container mx-auto px-4">
+          {/* Breadcrumb */}
+          <Breadcrumbs items={[{ slug: "/thanh-toan", label: "Thanh toán" }]} />
+          <div className="p-4 min-h-[calc(100vh-200px)] flex flex-col items-center justify-center text-center">
+            <ShoppingBag className="h-16 w-16 text-gray-400 mb-4" />
+            <h1 className="text-2xl font-semibold text-gray-700 mb-2">
+              Không có sản phẩm để thanh toán
+            </h1>
+            <p className="text-gray-600 mb-6">
+              Giỏ hàng của bạn hiện đang trống. Hãy thêm sản phẩm vào giỏ trước
+              khi tiến hành thanh toán.
+            </p>
+            <Link href="/">
+              <Button className="bg-sky-600 hover:bg-sky-700">
+                Quay về trang chủ
+              </Button>
+            </Link>
+          </div>
+        </div>
+      );
+    }
+    if (isBuyNow && !buyNowProduct) {
+      return (
+        <div className="container mx-auto px-4">
+          {/* Breadcrumb */}
+          <Breadcrumbs items={[{ slug: "/thanh-toan", label: "Thanh toán" }]} />
+          <div className="container mx-auto p-4 min-h-[calc(100vh-200px)] flex flex-col items-center justify-center text-center">
+            <ShoppingBag className="h-16 w-16 text-gray-400 mb-4" />
+            <h1 className="text-2xl font-semibold text-gray-700 mb-2">
+              Không tìm thấy sản phẩm để mua ngay
+            </h1>
+            <p className="text-gray-600 mb-6">
+              Sản phẩm bạn chọn để mua ngay không tồn tại hoặc đã có lỗi xảy ra.
+            </p>
+            <Link href="/">
+              <Button className="bg-sky-600 hover:bg-sky-700">
+                Quay về trang chủ
+              </Button>
+            </Link>
+          </div>
+        </div>
+      );
+    }
+  }
+
   // Hiển thị màn hình loading
   if (userLoading || loading) {
     return (
@@ -301,7 +342,9 @@ export default function CheckoutPage() {
   // Hiển thị màn hình xác nhận đơn hàng thành công
   if (orderPlaced && orderId) {
     return (
-      <div className="container mx-auto p-4 min-h-[calc(100vh-200px)]">
+      <div className="container mx-auto px-4 pb-4 min-h-[calc(100vh-200px)]">
+        {/* Breadcrumb */}
+        <Breadcrumbs items={[{ slug: "/thanh-toan", label: "Thanh toán" }]} />
         <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-8 text-center">
           <div className="flex justify-center mb-6">
             <CheckCircle className="h-16 w-16 text-green-500" />
@@ -339,7 +382,7 @@ export default function CheckoutPage() {
     <div className="bg-gray-50">
       <div className="container mx-auto px-4">
         {/* Breadcrumb */}
-        <Breadcrumbs items={[{ slug: "/thanh-toan", label: "Cá nhân" }]} />
+        <Breadcrumbs items={[{ slug: "/thanh-toan", label: "Thanh toán" }]} />
         <h1 className="text-2xl md:text-3xl font-bold text-sky-600 mt-4 mb-2 lg:mb-4">
           Thanh toán
         </h1>

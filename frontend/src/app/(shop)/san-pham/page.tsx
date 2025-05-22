@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     title: "Sản phẩm",
     description:
       "Mua sắm các loại cá cảnh, thức ăn, phụ kiện, thuốc và bể cá chất lượng cao tại Kinh Đô Cá Cảnh.",
-    url: "https://kinhdocacanh.com/san-pham",
+    url: "san-pham",
     siteName: "Kinh Đô Cá Cảnh",
     locale: "vi_VN",
     type: "website",

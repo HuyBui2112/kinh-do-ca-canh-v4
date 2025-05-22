@@ -11,7 +11,7 @@ export default function LoginPage() {
       <div className="mb-6">
         <Breadcrumbs items={[{ slug: "/dang-nhap", label: "Đăng nhập" }]} />
       </div>
-      <div className="max-w-md mx-auto">
+      <div className="mx-auto pb-8">
         <LoginForm />
       </div>
     </div>

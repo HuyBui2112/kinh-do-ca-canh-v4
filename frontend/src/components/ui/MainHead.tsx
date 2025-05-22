@@ -22,25 +22,23 @@ export default function MainHead(prop: NavigationProp) {
     return (
       <form
         onSubmit={prop.handleSearch}
-        className="flex items-center w-full md:w-70 lg:w-64 xl:w-96 text-sm rounded-md overflow-hidden"
+        className="flex items-center w-full md:w-70 lg:w-64 xl:w-96 text-sm rounded-md overflow-hidden shadow-sm"
       >
         <motion.input
           type="text"
           placeholder="Bạn muốn tìm gì..."
           value={prop.searchKeyword}
           onChange={(e) => prop.setSearchKeyword(e.target.value)}
-          className="w-full px-4 py-2 text-md text-sky-950 border border-r-0 border-sky-600/15 rounded-l-md hover:border-sky-600 focus:border-sky-600 focus:outline-none"
-          whileFocus={{ borderColor: 'rgb(2, 132, 199)' }}
+          className="w-full px-4 py-2.5 text-md text-sky-950 border border-r-0 border-sky-600/20 rounded-l-md focus:border-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500/20 transition-all duration-300"
+          whileFocus={{ scale: 1.01 }}
         />
-        <motion.button
+        <button
           type="submit"
-          className="flex items-center justify-center min-w-[50px] h-[38px] border border-sky-600 rounded-r-md bg-sky-600 text-white hover:bg-white hover:text-sky-600 hover:border-sky-600 transition-colors"
+          className="flex items-center justify-center min-w-[50px] h-[42px] border border-sky-600 rounded-r-md bg-gradient-to-r from-sky-500 to-sky-600 text-white hover:from-white hover:to-white hover:text-sky-600 hover:border-sky-600 transition-colors duration-300"
           aria-label="Tìm kiếm"
-          whileHover={{ backgroundColor: 'white', color: 'rgb(2, 132, 199)' }}
-          whileTap={{ scale: 0.95 }}
         >
           <Search size={18} />
-        </motion.button>
+        </button>
       </form>
     );
   };
@@ -51,17 +49,18 @@ export default function MainHead(prop: NavigationProp) {
       <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
         <Link
           href="/gio-hang"
-          className="relative w-[40px] h-[38px] mr-4 flex items-center justify-center text-sky-950 hover:text-sky-500"
+          className="relative w-[45px] h-[42px] mr-4 flex items-center justify-center text-sky-700 hover:text-sky-600 transition-colors duration-200"
         >
+          <span className="absolute inset-0 bg-sky-50/80 rounded-full -z-10 shadow-sm"></span>
           <ShoppingCart size={22} />
           {prop.itemCount > 0 && (
-            <motion.div 
-              className="absolute -top-1 left-6"
+            <motion.div
+              className="absolute -top-1 -right-1"
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              <span className="bg-red-500 border border-white text-white text-xs font-medium rounded-full h-5 flex items-center justify-center px-1.5">
+              <span className="bg-red-500 border-2 border-white shadow-md text-white text-xs font-medium rounded-full h-5 min-w-[20px] flex items-center justify-center px-1.5">
                 {prop.itemCount}
               </span>
             </motion.div>
@@ -75,14 +74,14 @@ export default function MainHead(prop: NavigationProp) {
   const _renderNavigationDesktop = () => (
     <>
       {/* Screen >= 1280px */}
-      <div className="flex items-center justify-between text-sky-950 text-sm font-medium gap-6 xl:gap-10">
+      <div className="flex items-center justify-between text-sky-800 text-sm font-medium gap-6 xl:gap-10">
         {prop.navigation.map((item) => {
           const isItemActive = prop.isNavActive(item.href);
           return (
             <motion.div
               key={item.id}
-              className={`relative hover:text-sky-500 ${
-                isItemActive ? "text-sky-500" : ""
+              className={`relative hover:text-sky-600 ${
+                isItemActive ? "text-sky-600" : ""
               }`}
               whileHover={{ scale: 1.05 }}
             >
@@ -90,18 +89,18 @@ export default function MainHead(prop: NavigationProp) {
                 href={item.href}
                 className={`h-[52px] flex items-center ${
                   isItemActive
-                    ? "text-sky-500 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-sky-500"
+                    ? "text-sky-600 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-sky-600 after:shadow-sm"
                     : ""
                 }`}
               >
-                <p>{item.title}</p>
+                <p className="font-medium">{item.title}</p>
               </Link>
               {!isItemActive && (
-                <motion.div 
-                  className="absolute bottom-0 left-0 h-0.5 bg-sky-500"
+                <motion.div
+                  className="absolute bottom-0 left-0 h-0.5 bg-sky-600 shadow-sm"
                   initial={{ width: 0 }}
-                  whileHover={{ width: '100%' }}
-                  transition={{ duration: 0.2 }}
+                  whileHover={{ width: "100%" }}
+                  transition={{ duration: 0.3 }}
                 />
               )}
             </motion.div>
@@ -116,10 +115,10 @@ export default function MainHead(prop: NavigationProp) {
     return (
       <motion.button
         onClick={prop.toggleMobileMenu}
-        className="ml-4 text-sky-950 hover:text-sky-500 focus:outline-none"
+        className="ml-4 flex items-center justify-center w-[40px] h-[40px] rounded-full bg-sky-50/80 text-sky-700 hover:bg-sky-100 hover:text-sky-800 transition-colors duration-200"
         aria-expanded={prop.mobileMenuOpen}
         aria-label="Menu chính"
-        whileHover={{ scale: 1.1 }}
+        whileHover={{ scale: 1.1, boxShadow: "0 1px 2px rgba(0,0,0,0.1)" }}
         whileTap={{ scale: 0.9, rotate: 90 }}
       >
         <Menu size={24} />
@@ -128,13 +127,13 @@ export default function MainHead(prop: NavigationProp) {
   };
 
   return (
-    <div className="bg-white h-[52px] flex items-center">
+    <div className="bg-white h-[52px] flex items-center border-b border-sky-100 shadow-sm">
       {/* Screen >= 1024px */}
       <div className="hidden container h-[52px] lg:grid lg:grid-cols-5">
         <div className="col-span-3 flex items-center gap-10 xl:gap-25">
           {/* Logo */}
           <Link href="/">
-            <motion.div 
+            <motion.div
               className="hidden lg:block"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -166,12 +165,12 @@ export default function MainHead(prop: NavigationProp) {
       </div>
 
       {/* Screen < 1024px */}
-      <div className="container h-[52px] grid grid-cols-4 lg:hidden">
-        <div className="flex items-center col-span-3 justify-between">
+      <div className="container h-[52px] grid grid-cols-2 min-[500px]:grid-cols-4 lg:hidden">
+        <div className="flex items-center min-[500px]:col-span-3 justify-between">
           {/* Logo */}
           <Link href="/">
             {/* Screen >= 440px */}
-            <motion.div 
+            <motion.div
               className="hidden min-[440px]:block lg:hidden"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -183,14 +182,15 @@ export default function MainHead(prop: NavigationProp) {
                   fill
                   priority
                   sizes="196px"
+                  className="drop-shadow-sm"
                 />
               </div>
             </motion.div>
 
             {/* Screen < 440px */}
-            <motion.div 
+            <motion.div
               className="block min-[440px]:hidden"
-              whileHover={{ scale: 1.1 }}
+              whileHover={{ scale: 1.1, rotate: 5 }}
               whileTap={{ scale: 0.9, rotate: 10 }}
             >
               <div className="relative w-[44px] h-[44px]">
@@ -200,6 +200,7 @@ export default function MainHead(prop: NavigationProp) {
                   fill
                   priority
                   sizes="44px"
+                  className="drop-shadow-sm"
                 />
               </div>
             </motion.div>
@@ -212,7 +213,7 @@ export default function MainHead(prop: NavigationProp) {
         </div>
 
         {/* Cart and Hamburger Menu Button */}
-        <div className="flex items-center justify-end">
+        <div className="flex items-center justify-end min-w-[115px]">
           {_renderCartButton()}
           {_renderHamburgerButton()}
         </div>

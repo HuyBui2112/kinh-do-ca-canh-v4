@@ -1036,6 +1036,170 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 - Người dùng chỉ có thể cập nhật hoặc hủy đơn hàng của chính họ
 - API cập nhật trạng thái đơn hàng yêu cầu xác thực và người dùng phải là chủ đơn hàng
 
+### 10. Quản lý Blog
+
+#### 10.1. Lấy danh sách bài viết
+
+**Endpoint:** `GET /api/v1/blogs`
+
+**Query Parameters:**
+- `page` (optional): Số trang (mặc định: 1)
+- `limit` (optional): Số bài viết mỗi trang (mặc định: 10)
+- `tags` (optional): Lọc theo tags (có thể truyền nhiều tags cách nhau bởi dấu phẩy, vd: "ca-betta,thuy-sinh")
+- `sortBy` (optional): Sắp xếp theo (publishedAt/title)
+- `sortOrder` (optional): Thứ tự sắp xếp (asc/desc)
+
+**Response thành công (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "blogs": [
+      {
+        "_id": "blog_id",
+        "title": "Tiêu đề bài viết",
+        "slug": "tieu-de-bai-viet",
+        "tags": ["ca-canh", "huong-dan", "ca-betta"],
+        "summary": "Tóm tắt bài viết được tự động tạo từ nội dung...",
+        "author": "Tên tác giả",
+        "publishedAt": "2024-03-20T10:00:00.000Z",
+        "updatedAt": "2024-03-20T10:00:00.000Z",
+        "image": "url_anh_dai_dien"
+      }
+    ],
+    "pagination": {
+      "total": 100,
+      "page": 1,
+      "limit": 10,
+      "totalPages": 10
+    }
+  }
+}
+```
+
+#### 10.2. Lấy chi tiết bài viết
+
+**Endpoint:** `GET /api/v1/blogs/:slug`
+
+**Response thành công (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "_id": "blog_id",
+    "title": "Tiêu đề bài viết",
+    "slug": "tieu-de-bai-viet",
+    "tags": ["ca-canh", "huong-dan", "ca-betta"],
+    "content": [
+      {
+        "type": "heading",
+        "content": "Tiêu đề đoạn",
+        "level": 2
+      },
+      {
+        "type": "paragraph",
+        "content": "Nội dung đoạn văn..."
+      },
+      {
+        "type": "image",
+        "content": "Mô tả hình ảnh",
+        "url": "đường_dẫn_hình_ảnh",
+        "alt": "Mô tả hình ảnh"
+      },
+      {
+        "type": "video",
+        "content": "Mô tả video",
+        "url": "đường_dẫn_video"
+      }
+    ],
+    "author": "Tên tác giả",
+    "meta": {
+      "title": "Meta title",
+      "metaDescription": "Meta description",
+      "keywords": ["ca-canh", "huong-dan", "ca-betta"],
+      "canonical": "/blogs/tieu-de-bai-viet",
+      "image": "meta_image_url",
+      "ogTitle": "OG title",
+      "ogDescription": "OG description",
+      "ogImage": "og_image_url",
+      "ogType": "article",
+      "twitterTitle": "Twitter title",
+      "twitterDescription": "Twitter description",
+      "twitterImage": "twitter_image_url"
+    },
+    "publishedAt": "2024-03-20T10:00:00.000Z",
+    "updatedAt": "2024-03-20T10:00:00.000Z"
+  }
+}
+```
+
+#### 10.3. Tạo bài viết mới
+
+**Endpoint:** `POST /api/v1/blogs`
+
+**Headers:**
+```
+Authorization: Bearer <token>
+```
+
+**Request Body:**
+```json
+{
+  "title": "Tiêu đề bài viết mới",
+  "slug": "tieu-de-bai-viet-moi",
+  "tags": ["tag1", "tag2"],
+  "content": [
+    {
+      "type": "paragraph",
+      "content": "Nội dung đoạn đầu tiên..."
+    },
+    {
+      "type": "heading",
+      "content": "Tiêu đề phụ",
+      "level": 2
+    }
+    // Các block nội dung khác...
+  ],
+  "author": "Tên tác giả",
+  "blog_image": "url_anh_dai_dien_moi",
+  "meta": { 
+    "title": "Meta title (optional)",
+    "metaDescription": "Meta description (optional)",
+    "keywords": ["keyword1"], // optional
+    "canonical": "/blogs/tieu-de-bai-viet-moi", // optional
+    "image": "meta_image_url", // optional, nếu không có sẽ lấy blog_image
+    "ogTitle": "OG title (optional)",
+    "ogDescription": "OG description (optional)",
+    "ogImage": "og_image_url", // optional, nếu không có sẽ lấy blog_image
+    "ogType": "article", // optional
+    "twitterTitle": "Twitter title (optional)",
+    "twitterDescription": "Twitter description (optional)",
+    "twitterImage": "twitter_image_url" // optional, nếu không có sẽ lấy blog_image
+  }
+}
+```
+
+**Response thành công (201):**
+```json
+{
+  "success": true,
+  "message": "Tạo bài viết thành công",
+  "data": {
+    // Thông tin bài viết đã tạo
+    "_id": "new_blog_id",
+    "title": "Tiêu đề bài viết mới",
+    "slug": "tieu-de-bai-viet-moi",
+    "tags": ["tag1", "tag2"],
+    "content": [...], // Nội dung đầy đủ
+    "author": "Tên tác giả",
+    "meta": {...},
+    "publishedAt": "2024-03-20T11:00:00.000Z",
+    "updatedAt": "2024-03-20T11:00:00.000Z",
+    "blog_image": "url_anh_dai_dien_moi"
+  }
+}
+```
+
 ## Các mã lỗi
 
 | Mã lỗi | Mô tả |

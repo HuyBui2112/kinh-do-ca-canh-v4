@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { formatPrice } from "@/utils/formatters";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import { motion } from "framer-motion";
 
 export default function CartPage() {
   const {
@@ -65,15 +66,16 @@ export default function CartPage() {
 
   useEffect(() => {
     if (cart && cart.items) {
-      const initialQuantities: Record<string, string> = {};
-      cart.items.forEach((item) => {
-        initialQuantities[item.productId] = item.quantity.toString();
-      });
-      setUpdatingQuantities(initialQuantities);
-      // Reset danh sách thay đổi khi giỏ hàng được tải lại
-      setChangedItems(new Set());
+      // Chỉ cập nhật updatingQuantities nếu không có sản phẩm nào đang được thay đổi
+      if (changedItems.size === 0) {
+        const initialQuantities: Record<string, string> = {};
+        cart.items.forEach((item) => {
+          initialQuantities[item.productId] = item.quantity.toString();
+        });
+        setUpdatingQuantities(initialQuantities);
+      }
     }
-  }, [cart]);
+  }, [cart, changedItems]);
 
   // Đánh dấu sản phẩm đã thay đổi
   const markItemAsChanged = (productId: string) => {
@@ -122,21 +124,14 @@ export default function CartPage() {
 
   // Đánh dấu xóa sản phẩm (đặt số lượng = 0)
   const markItemForRemoval = (productId: string) => {
-    confirmAction(
-      "Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?",
-      () => {
-        setUpdatingQuantities((prev) => ({ ...prev, [productId]: "0" }));
-        markItemAsChanged(productId);
-        showToast(
-          "info",
-          "Đã đánh dấu sản phẩm để xóa. Nhấn 'Cập nhật giỏ hàng' để xác nhận."
-        );
-      },
-      {
-        type: "warning",
-        confirmLabel: "Xóa",
-        cancelLabel: "Hủy",
-      }
+    // Cập nhật số lượng sản phẩm thành 0
+    setUpdatingQuantities((prev) => ({ ...prev, [productId]: "0" }));
+    // Đánh dấu sản phẩm đã được thay đổi
+    markItemAsChanged(productId);
+    // Thông báo cho người dùng (không cần xác nhận)
+    showToast(
+      "info",
+      "Đã đánh dấu sản phẩm để xóa. Nhấn 'Cập nhật giỏ hàng' để xác nhận."
     );
   };
 
@@ -208,7 +203,7 @@ export default function CartPage() {
 
   if (userLoading) {
     return (
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
         <Breadcrumbs items={[{ slug: "/gio-hang", label: "Giỏ hàng" }]} />
         <div className="container mx-auto p-4 min-h-[calc(100vh-200px)] flex flex-col items-center justify-center">
           <Loader2 className="h-12 w-12 animate-spin text-sky-600" />
@@ -222,7 +217,7 @@ export default function CartPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
         <Breadcrumbs items={[{ slug: "/gio-hang", label: "Giỏ hàng" }]} />
         <div className="container mx-auto p-4 min-h-[calc(100vh-200px)] flex flex-col items-center justify-center text-center">
           <ShoppingBag className="h-16 w-16 text-sky-500 mb-6" />
@@ -247,7 +242,7 @@ export default function CartPage() {
 
   if (cartLoading && !cart) {
     return (
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
         <Breadcrumbs items={[{ slug: "/gio-hang", label: "Giỏ hàng" }]} />
         <div className="container mx-auto p-4 min-h-[calc(100vh-200px)] flex flex-col items-center justify-center">
           <Loader2 className="h-12 w-12 animate-spin text-sky-600" />
@@ -259,7 +254,7 @@ export default function CartPage() {
 
   if (cartError) {
     return (
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
         <Breadcrumbs items={[{ slug: "/gio-hang", label: "Giỏ hàng" }]} />
         <div className="container mx-auto p-4 min-h-[calc(100vh-200px)] flex flex-col items-center justify-center text-center">
           <AlertCircle className="h-16 w-16 text-rose-500 mb-6" />
@@ -287,7 +282,7 @@ export default function CartPage() {
 
   if (!cart || cart.items.length === 0) {
     return (
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
         <Breadcrumbs items={[{ slug: "/gio-hang", label: "Giỏ hàng" }]} />
         <div className="container mx-auto p-4 min-h-[calc(100vh-200px)] flex flex-col items-center justify-center text-center">
           <ShoppingBag className="h-16 w-16 text-sky-500 mb-6" />
@@ -316,9 +311,14 @@ export default function CartPage() {
       <div className="container mx-auto px-4">
         <Breadcrumbs items={[{ slug: "/gio-hang", label: "Giỏ hàng" }]} />
 
-        <h1 className="text-2xl md:text-3xl font-bold text-sky-600 mt-4 mb-2 lg:mb-4">
+        <motion.h1
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="text-2xl md:text-3xl font-bold text-sky-700 mt-4 mb-6 relative inline-block after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-2/3 after:h-1 after:bg-gradient-to-r after:from-sky-500 after:to-sky-300 after:rounded-full"
+        >
           Giỏ hàng của bạn
-        </h1>
+        </motion.h1>
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="lg:w-2/3">
             <div className="bg-white rounded-lg shadow-md p-6 mb-4">
@@ -401,7 +401,7 @@ export default function CartPage() {
                       </Button>
                       <Input
                         type="number"
-                        value={updatingQuantities[item.productId] || "1"}
+                        value={updatingQuantities[item.productId] ?? "1"}
                         onChange={(e) =>
                           handleQuantityChange(item.productId, e.target.value)
                         }
@@ -449,7 +449,7 @@ export default function CartPage() {
 
               {/* Hiển thị nút cập nhật phía dưới nếu có thay đổi */}
               {hasUnappliedChanges && (
-                <div className="mt-4 pt-4 border-t flex justify-end">
+                <div className="mt-4 pt-4 border-t border-sky-900/30 flex justify-end">
                   <Button
                     onClick={handleApplyChanges}
                     className="bg-sky-600 hover:bg-sky-700 text-white"
@@ -469,7 +469,7 @@ export default function CartPage() {
 
           <div className="lg:w-1/3">
             <div className="bg-white rounded-lg shadow-md p-6 sticky top-24">
-              <h2 className="text-xl font-semibold text-gray-800 border-b pb-4 mb-4">
+              <h2 className="text-xl font-semibold text-gray-800 border-b border-sky-900/30 pb-4 mb-4">
                 Tổng cộng
               </h2>
               <div className="flex justify-between mb-2">
@@ -482,7 +482,7 @@ export default function CartPage() {
                   {formatPrice(totalPrice)}
                 </p>
               </div>
-              <div className="border-t mt-4 pt-4">
+              <div className="border-t border-sky-900/30 mt-4 pt-4">
                 <div className="flex justify-between items-center mb-4">
                   <p className="text-xl font-semibold text-gray-900">
                     Thành tiền:

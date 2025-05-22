@@ -104,30 +104,25 @@ export const useProducts = () => {
     setLoading(true);
     setError(null);
     try {
-      console.log(`Đang tìm sản phẩm với slug: ${slug}`);
       // Tìm kiếm sản phẩm trực tiếp từ API bằng slug
       const response = await apis.getProducts({ slug });
-      console.log(`Kết quả tìm kiếm:`, response.data.products);
       
       if (response.success && response.data.products.length > 0) {
         // Tìm chính xác sản phẩm có slug khớp hoàn toàn
         const exactProduct = response.data.products.find(p => p.slug === slug);
         
         if (exactProduct) {
-          console.log(`Đã tìm thấy sản phẩm chính xác: ${exactProduct.name} (ID: ${exactProduct._id})`);
           const result = await getProductDetail(exactProduct._id);
           setProductDetail(result);
           return result;
         } else if (response.data.products.length > 0) {
           // Fallback: Lấy sản phẩm đầu tiên nếu không tìm thấy kết quả chính xác
-          console.log(`Không tìm thấy sản phẩm chính xác, sử dụng sản phẩm đầu tiên: ${response.data.products[0].name}`);
           const result = await getProductDetail(response.data.products[0]._id);
           setProductDetail(result);
           return result;
         }
       }
       
-      console.log(`Không tìm thấy sản phẩm với slug: ${slug}`);
       setError('Không tìm thấy thông tin sản phẩm');
       return null;
     } catch (err) {

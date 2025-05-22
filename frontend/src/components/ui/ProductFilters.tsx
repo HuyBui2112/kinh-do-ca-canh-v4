@@ -5,7 +5,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { ProductQueryParams } from "../../utils/types";
 import { motion, AnimatePresence } from "framer-motion";
 // Import các icon cần thiết từ lucide-react
-import { Filter, ListChecks, DollarSign, PackageCheck, ArrowUpDown, Trash2, XIcon } from "lucide-react";
+import {
+  Filter,
+  ListChecks,
+  DollarSign,
+  PackageCheck,
+  ArrowUpDown,
+  Trash2,
+  XIcon,
+} from "lucide-react";
 
 // Định nghĩa kiểu dữ liệu cho danh mục
 interface CategoryItem {
@@ -53,8 +61,10 @@ const ProductFilters: FC<ProductFiltersProps> = ({
     if (minPriceParam) newFiltersFromUrl.minPrice = parseInt(minPriceParam);
     if (maxPriceParam) newFiltersFromUrl.maxPrice = parseInt(maxPriceParam);
     if (inStockParam) newFiltersFromUrl.inStock = inStockParam === "true";
-    if (sortByParam) newFiltersFromUrl.sortBy = sortByParam as any;
-    if (sortOrderParam) newFiltersFromUrl.sortOrder = sortOrderParam as any;
+    if (sortByParam)
+      newFiltersFromUrl.sortBy = sortByParam as "name" | "price" | "rating";
+    if (sortOrderParam)
+      newFiltersFromUrl.sortOrder = sortOrderParam as "asc" | "desc";
     if (pageParam) newFiltersFromUrl.page = parseInt(pageParam);
     // Các trường không có trong URL sẽ không được thêm vào newFiltersFromUrl,
     // do đó khi setFilters(newFiltersFromUrl), các trường đó sẽ bị xóa khỏi state.
@@ -77,7 +87,11 @@ const ProductFilters: FC<ProductFiltersProps> = ({
     // Cập nhật URL
     const params = new URLSearchParams();
     Object.entries(newFilters).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && String(value).trim() !== "") {
+      if (
+        value !== undefined &&
+        value !== null &&
+        String(value).trim() !== ""
+      ) {
         params.set(key, String(value));
       }
     });
@@ -92,7 +106,7 @@ const ProductFilters: FC<ProductFiltersProps> = ({
     applyFilters({
       ...filters,
       category: filters.category === categorySlug ? undefined : categorySlug,
-      page: 1 // Reset về trang 1 khi thay đổi category
+      page: 1, // Reset về trang 1 khi thay đổi category
     });
   };
 
@@ -101,7 +115,7 @@ const ProductFilters: FC<ProductFiltersProps> = ({
     applyFilters({
       ...filters,
       category: undefined,
-      page: 1 // Reset về trang 1
+      page: 1, // Reset về trang 1
     });
   };
 
@@ -111,7 +125,7 @@ const ProductFilters: FC<ProductFiltersProps> = ({
       ...filters,
       minPrice: min,
       maxPrice: max,
-      page: 1 // Reset về trang 1
+      page: 1, // Reset về trang 1
     });
   };
 
@@ -120,7 +134,7 @@ const ProductFilters: FC<ProductFiltersProps> = ({
     applyFilters({
       ...filters,
       inStock: checked ? true : undefined, // Gửi undefined nếu không check để loại bỏ khỏi query
-      page: 1 // Reset về trang 1
+      page: 1, // Reset về trang 1
     });
   };
 
@@ -129,9 +143,9 @@ const ProductFilters: FC<ProductFiltersProps> = ({
     const [sortBy, sortOrder] = value.split("-");
     applyFilters({
       ...filters,
-      sortBy: sortBy as any, // Nên dùng kiểu cụ thể
-      sortOrder: sortOrder as any, // Nên dùng kiểu cụ thể
-      page: 1 // Reset về trang 1
+      sortBy: sortBy as "name" | "price" | "rating", // Nên dùng kiểu cụ thể
+      sortOrder: sortOrder as "asc" | "desc", // Nên dùng kiểu cụ thể
+      page: 1, // Reset về trang 1
     });
   };
 
@@ -148,14 +162,14 @@ const ProductFilters: FC<ProductFiltersProps> = ({
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="bg-white rounded-lg shadow-md p-5 sticky top-4"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", damping: 25 }}
     >
       <div className="flex justify-between items-center mb-5 pb-3 border-b border-gray-200">
-        <motion.h2 
+        <motion.h2
           className="text-xl font-semibold text-gray-900 flex items-center"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -164,91 +178,66 @@ const ProductFilters: FC<ProductFiltersProps> = ({
           <Filter size={20} className="mr-2 text-sky-600" />
           Bộ lọc
         </motion.h2>
-        <motion.button
+        <button
           onClick={clearAllFilters}
           className="text-xs font-medium text-rose-600 hover:text-rose-800 transition-colors flex items-center"
           aria-label="Xóa tất cả bộ lọc"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
         >
           <Trash2 size={14} className="mr-1" />
           Xóa tất cả
-        </motion.button>
+        </button>
       </div>
 
       {/* Loại sản phẩm */}
-      <motion.div 
-        className="mb-5"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-      >
+      <div className="mb-5">
         <h3 className="text-base font-semibold text-gray-800 mb-3 flex items-center">
           <ListChecks size={18} className="mr-2 text-sky-500" />
           Loại sản phẩm
         </h3>
         <div className="space-y-2">
-          {categories.map((category, index) => (
-            <motion.div 
-              key={category.slug} 
+          {categories.map((category) => (
+            <div
+              key={category.slug}
               className="flex items-center justify-between group"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3 + index * 0.05 }}
-              whileHover={{ x: 5 }}
             >
               <label
                 htmlFor={`category-${category.slug}`}
                 className="flex items-center cursor-pointer text-sm text-gray-700 hover:text-sky-700 transition-colors w-full"
               >
-                <motion.input
+                <input
                   type="checkbox"
                   id={`category-${category.slug}`}
                   checked={filters.category === category.slug}
                   onChange={() => handleCategoryChange(category.slug)}
                   className="w-4 h-4 text-sky-600 border-gray-300 rounded focus:ring-2 focus:ring-sky-500 focus:ring-offset-1 mr-2.5"
-                  whileTap={{ scale: 0.9 }}
                 />
                 {category.title}
               </label>
               <AnimatePresence>
                 {filters.category === category.slug && (
-                  <motion.button 
-                    onClick={clearCategoryFilter} 
-                    className="text-gray-400 hover:text-rose-600 transition-colors" 
+                  <button
+                    onClick={clearCategoryFilter}
+                    className="text-gray-400 hover:text-rose-600 transition-colors"
                     aria-label={`Xóa bộ lọc ${category.title}`}
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0 }}
-                    whileHover={{ scale: 1.2, rotate: 90 }}
-                    whileTap={{ scale: 0.9 }}
                   >
                     <XIcon size={16} />
-                  </motion.button>
+                  </button>
                 )}
               </AnimatePresence>
-            </motion.div>
+            </div>
           ))}
         </div>
-      </motion.div>
+      </div>
 
       {/* Khoảng giá */}
-      <motion.div 
-        className="mb-5"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-      >
+      <div className="mb-5">
         <h3 className="text-base font-semibold text-gray-800 mb-3 flex items-center">
           <DollarSign size={18} className="mr-2 text-sky-500" />
           Khoảng giá
         </h3>
         <div className="flex space-x-2 items-center">
           <div className="flex-1">
-            <motion.input
+            <input
               type="number"
               id="min-price"
               min="0"
@@ -262,15 +251,11 @@ const ProductFilters: FC<ProductFiltersProps> = ({
               }
               className="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-colors"
               placeholder="Từ 0đ"
-              whileFocus={{ borderColor: "rgb(14, 165, 233)", boxShadow: "0 0 0 2px rgba(14, 165, 233, 0.2)" }}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.6 }}
             />
           </div>
           <span className="text-gray-400">–</span>
           <div className="flex-1">
-            <motion.input
+            <input
               type="number"
               id="max-price"
               min={filters.minPrice ? filters.minPrice + 10000 : 0}
@@ -284,56 +269,43 @@ const ProductFilters: FC<ProductFiltersProps> = ({
               }
               className="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-colors"
               placeholder="Đến..."
-              whileFocus={{ borderColor: "rgb(14, 165, 233)", boxShadow: "0 0 0 2px rgba(14, 165, 233, 0.2)" }}
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.7 }}
             />
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* Tình trạng */}
-      <motion.div 
-        className="mb-5"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8 }}
-      >
-         <h3 className="text-base font-semibold text-gray-800 mb-3 flex items-center">
+      <div className="mb-5">
+        <h3 className="text-base font-semibold text-gray-800 mb-3 flex items-center">
           <PackageCheck size={18} className="mr-2 text-sky-500" />
           Tình trạng
         </h3>
-        <label htmlFor="in-stock" className="flex items-center cursor-pointer text-sm text-gray-700 hover:text-sky-700 transition-colors group w-fit">
-          <motion.input
+        <label
+          htmlFor="in-stock"
+          className="flex items-center cursor-pointer text-sm text-gray-700 hover:text-sky-700 transition-colors group w-fit"
+        >
+          <input
             type="checkbox"
             id="in-stock"
             checked={!!filters.inStock} // Đảm bảo checked là boolean
             onChange={(e) => handleInStockChange(e.target.checked)}
             className="w-4 h-4 text-sky-600 border-gray-300 rounded focus:ring-2 focus:ring-sky-500 focus:ring-offset-1 mr-2.5"
-            whileTap={{ scale: 0.9 }}
           />
           Chỉ hiển thị sản phẩm còn hàng
         </label>
-      </motion.div>
+      </div>
 
       {/* Sắp xếp */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.9 }}
-      >
+      <div>
         <h3 className="text-base font-semibold text-gray-800 mb-3 flex items-center">
           <ArrowUpDown size={18} className="mr-2 text-sky-500" />
           Sắp xếp theo
         </h3>
         <div className="relative">
-          <motion.select
+          <select
             value={getSortValue()}
             onChange={(e) => handleSortChange(e.target.value)}
             className="w-full p-2.5 pr-10 border border-gray-300 rounded-md text-sm appearance-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white transition-colors"
-            whileHover={{ borderColor: "rgb(14, 165, 233)" }}
-            whileFocus={{ borderColor: "rgb(14, 165, 233)", boxShadow: "0 0 0 2px rgba(14, 165, 233, 0.2)" }}
           >
             <option value="">Mặc định</option>
             <option value="name-asc">Tên A-Z</option>
@@ -342,12 +314,18 @@ const ProductFilters: FC<ProductFiltersProps> = ({
             <option value="price-desc">Giá cao đến thấp</option>
             <option value="rating-desc">Đánh giá cao nhất</option>
             {/* Thêm các tùy chọn sắp xếp khác nếu cần */}
-          </motion.select>
+          </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
-            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+            <svg
+              className="fill-current h-4 w-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+            >
+              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+            </svg>
           </div>
         </div>
-      </motion.div>
+      </div>
     </motion.div>
   );
 };

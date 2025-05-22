@@ -11,7 +11,7 @@ export default function RegisterPage() {
       <div className="mb-6">
         <Breadcrumbs items={[{ slug: "/dang-ky", label: "Đăng ký" }]} />
       </div>
-      <div className="max-w-md mx-auto">
+      <div className="mx-auto pb-8">
         <RegisterForm />
       </div>
     </div>
