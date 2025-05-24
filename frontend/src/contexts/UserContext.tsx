@@ -14,7 +14,7 @@ import {
   RegisterRequest,
   UpdateProfileRequest,
   ChangePasswordRequest,
-} from "../utils/types";
+} from "../utils/types/auth";
 
 // Định nghĩa cấu trúc dữ liệu của người dùng
 export interface IUser {
@@ -256,7 +256,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     try {
       const response = await apis.changePassword(data);
 
-      if (response.status === "success") {
+      if (response.message === "Đổi mật khẩu thành công") {
         setAuthState((prev) => ({
           ...prev,
           isLoading: false,

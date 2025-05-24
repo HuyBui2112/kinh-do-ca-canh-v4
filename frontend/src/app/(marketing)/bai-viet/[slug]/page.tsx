@@ -1,17 +1,16 @@
-import { Metadata } from 'next';
-import BlogDetailClient from './blog-detail-client';
-import { apis } from '@/services/apis';
+import { Metadata } from "next";
+import BlogDetailClient from "./blog-detail-client";
+import { apis } from "@/services/apis";
 
-interface BlogDetailPageProps {
-  params: {
-    slug: string;
-  };
-}
+// Định nghĩa type đúng chuẩn cho props
+type PageProps = {
+  params: Promise<{ slug: string }>;
+};
 
-export async function generateMetadata(
-  { params }: BlogDetailPageProps
-): Promise<Metadata> {
-  const { slug } =await params;
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { slug } = await params;
 
   try {
     const response = await apis.getBlogBySlug(slug);
@@ -31,17 +30,17 @@ export async function generateMetadata(
           title: meta.ogTitle || meta.title,
           description: meta.ogDescription || meta.metaDescription,
           url: meta.canonical,
-          siteName: 'Kinh Đô Cá Cảnh',
+          siteName: "Kinh Đô Cá Cảnh",
           images: [
             {
               url: meta.ogImage || meta.image || blog.blog_image,
             },
           ],
-          locale: 'vi_VN',
-          type: meta.ogType === 'article' ? 'article' : 'website',
+          locale: "vi_VN",
+          type: meta.ogType === "article" ? "article" : "website",
         },
         twitter: {
-          card: 'summary_large_image',
+          card: "summary_large_image",
           title: meta.twitterTitle || meta.title,
           description: meta.twitterDescription || meta.metaDescription,
           images: [meta.twitterImage || meta.image || blog.blog_image],
@@ -56,7 +55,7 @@ export async function generateMetadata(
   return {};
 }
 
-export default async function BlogDetail({ params }: BlogDetailPageProps) {
+export default async function BlogDetail({ params }: PageProps) {
   const { slug } = await params;
   return <BlogDetailClient slug={slug} />;
 }

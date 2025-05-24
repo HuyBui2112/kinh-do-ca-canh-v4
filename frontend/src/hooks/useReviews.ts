@@ -41,9 +41,17 @@ export const useReviews = () => {
         setReviews(response.data.reviews);
         setPagination(response.data.pagination);
       }
-    } catch (err) {
-      setError('Có lỗi xảy ra khi tải đánh giá sản phẩm');
-      console.error(err);
+    } catch (err: unknown) {
+      let message = 'Có lỗi xảy ra khi tải đánh giá sản phẩm';
+      if (typeof err === 'object' && err !== null) {
+        if ('response' in err && typeof (err as { response?: { data?: { message?: string } } }).response?.data?.message === 'string') {
+          message = (err as { response?: { data?: { message?: string } } }).response!.data!.message!;
+        } else if ('message' in err && typeof (err as { message?: string }).message === 'string') {
+          message = (err as { message?: string }).message!;
+        }
+      }
+      setError(message);
+      console.error('Lỗi khi tải đánh giá sản phẩm:', err);
     } finally {
       setLoading(false);
     }
@@ -71,29 +79,22 @@ export const useReviews = () => {
         return true;
       }
       return false;
-    } catch (err: any) {
-      // Xử lý lỗi từ API
-      if (err.response && err.response.data) {
-        // Nếu server trả về lỗi đã đánh giá
-        if (err.response.data.message && err.response.data.message.includes("đã đánh giá")) {
-          setError('Bạn đã đánh giá sản phẩm này rồi');
-          
-          // Tải lại danh sách đánh giá để cập nhật giao diện
-          if (data.productId) {
-            getProductReviews(data.productId);
-          }
-        } else {
-          setError(err.response.data.message || 'Có lỗi xảy ra khi gửi đánh giá');
+    } catch (err: unknown) {
+      let message = 'Có lỗi xảy ra khi gửi đánh giá';
+      if (typeof err === 'object' && err !== null) {
+        if ('response' in err && typeof (err as { response?: { data?: { message?: string } } }).response?.data?.message === 'string') {
+          message = (err as { response?: { data?: { message?: string } } }).response!.data!.message!;
+        } else if ('message' in err && typeof (err as { message?: string }).message === 'string') {
+          message = (err as { message?: string }).message!;
         }
-      } else {
-        setError(err?.message || 'Có lỗi xảy ra khi gửi đánh giá');
       }
+      setError(message);
       console.error('Lỗi khi tạo đánh giá:', err);
       return false;
     } finally {
       setLoading(false);
     }
-  }, [isAuthenticated, getProductReviews]);
+  }, [isAuthenticated]);
 
   /**
    * Cập nhật đánh giá
@@ -122,13 +123,16 @@ export const useReviews = () => {
         return true;
       }
       return false;
-    } catch (err: any) {
-      // Xử lý lỗi từ API
-      if (err.response && err.response.data) {
-        setError(err.response.data.message || 'Có lỗi xảy ra khi cập nhật đánh giá');
-      } else {
-        setError(err?.message || 'Có lỗi xảy ra khi cập nhật đánh giá');
+    } catch (err: unknown) {
+      let message = 'Có lỗi xảy ra khi cập nhật đánh giá';
+      if (typeof err === 'object' && err !== null) {
+        if ('response' in err && typeof (err as { response?: { data?: { message?: string } } }).response?.data?.message === 'string') {
+          message = (err as { response?: { data?: { message?: string } } }).response!.data!.message!;
+        } else if ('message' in err && typeof (err as { message?: string }).message === 'string') {
+          message = (err as { message?: string }).message!;
+        }
       }
+      setError(message);
       console.error('Lỗi khi cập nhật đánh giá:', err);
       return false;
     } finally {
@@ -158,13 +162,16 @@ export const useReviews = () => {
         return true;
       }
       return false;
-    } catch (err: any) {
-      // Xử lý lỗi từ API
-      if (err.response && err.response.data) {
-        setError(err.response.data.message || 'Có lỗi xảy ra khi xóa đánh giá');
-      } else {
-        setError(err?.message || 'Có lỗi xảy ra khi xóa đánh giá');
+    } catch (err: unknown) {
+      let message = 'Có lỗi xảy ra khi xóa đánh giá';
+      if (typeof err === 'object' && err !== null) {
+        if ('response' in err && typeof (err as { response?: { data?: { message?: string } } }).response?.data?.message === 'string') {
+          message = (err as { response?: { data?: { message?: string } } }).response!.data!.message!;
+        } else if ('message' in err && typeof (err as { message?: string }).message === 'string') {
+          message = (err as { message?: string }).message!;
+        }
       }
+      setError(message);
       console.error('Lỗi khi xóa đánh giá:', err);
       return false;
     } finally {

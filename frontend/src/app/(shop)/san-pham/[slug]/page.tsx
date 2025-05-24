@@ -3,18 +3,15 @@ import { Metadata } from "next";
 import { apis } from "@/services/apis";
 import { ProductDetail } from "@/utils/types/product";
 
-// Định nghĩa kiểu dữ liệu cho params
-type Props = {
-  params: {
-    slug: string;
-  };
+// Định nghĩa type đúng chuẩn cho props
+type PageProps = {
+  params: Promise<{ slug: string }>;
 };
 
 // Tạo metadata động dựa trên thông tin sản phẩm
 export async function generateMetadata({
   params,
-}: Props): // parent: ResolvingMetadata
-Promise<Metadata> {
+}: PageProps): Promise<Metadata> {
   // Lấy slug từ params, cần await params theo khuyến cáo của Next.js
   const { slug } = await params;
 
@@ -105,6 +102,6 @@ Promise<Metadata> {
   }
 }
 
-export default function ProductDetailPage() {
+export default async function ProductDetailPage() {
   return <ProductDetailClient />;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState, Fragment } from "react";
+import { FC, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { X } from "lucide-react";
 import ReviewForm from "./ReviewForm";
@@ -89,13 +89,13 @@ const ReviewDialog: FC<ReviewDialogProps> = ({
   return (
     <AnimatePresence>
       {isOpen && (
-        <Dialog 
-          as="div" 
-          className="relative z-50" 
-          onClose={handleClose} 
+        <Dialog
+          as="div"
+          className="relative z-50"
+          onClose={handleClose}
           open={isOpen}
         >
-          <motion.div 
+          <motion.div
             className="fixed inset-0 bg-black bg-opacity-50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

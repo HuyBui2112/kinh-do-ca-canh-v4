@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/contexts/ToastContext";
-import { UpdateProfileRequest } from "@/utils/types";
+import { UpdateProfileRequest } from "@/utils/types/auth";
 import {
   UserCircle,
   Mail,
@@ -123,7 +123,8 @@ const UserProfile = () => {
         showToast("error", "Cập nhật thông tin thất bại. Vui lòng thử lại.");
       }
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : "Đã xảy ra lỗi";
+      const errorMessage =
+        error instanceof Error ? error.message : "Đã xảy ra lỗi";
       setUpdateStatus({ loading: false, success: false, error: errorMessage });
       showToast("error", errorMessage);
     }

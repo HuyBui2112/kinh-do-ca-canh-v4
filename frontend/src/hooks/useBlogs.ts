@@ -34,18 +34,7 @@ export const useBlogs = () => {
         totalPages: Math.ceil(total / (queryParams.limit || 10))
     };
     
-    // Thêm các phương thức mới
-    const goToPage = useCallback((page: number) => {
-        fetchBlogs({ ...queryParams, page });
-    }, [queryParams]);
-    
-    const changeLimit = useCallback((limit: number) => {
-        fetchBlogs({ ...queryParams, limit, page: 1 });
-    }, [queryParams]);
-    
-    /**
-     * Lấy danh sách bài viết với phân trang và bộ lọc
-     */
+    // 1. Khai báo fetchBlogs trước
     const fetchBlogs = useCallback(async (params?: BlogQueryParams) => {
         try {
             setLoading(true);
@@ -61,12 +50,25 @@ export const useBlogs = () => {
             } else {
                 setError(response.message || 'Có lỗi xảy ra khi lấy danh sách bài viết');
             }
-        } catch (err: any) {
-            setError(err.message || 'Có lỗi xảy ra khi lấy danh sách bài viết');
+        } catch (err: unknown) {
+            let message = 'Có lỗi xảy ra khi lấy danh sách bài viết';
+            if (typeof err === 'object' && err && 'message' in err && typeof (err as { message?: string }).message === 'string') {
+                message = (err as { message?: string }).message!;
+            }
+            setError(message);
         } finally {
             setLoading(false);
         }
     }, [queryParams]);
+
+    // 2. Sau đó mới khai báo goToPage và changeLimit
+    const goToPage = useCallback((page: number) => {
+        fetchBlogs({ ...queryParams, page });
+    }, [queryParams, fetchBlogs]);
+    
+    const changeLimit = useCallback((limit: number) => {
+        fetchBlogs({ ...queryParams, limit, page: 1 });
+    }, [queryParams, fetchBlogs]);
 
     /**
      * Lấy chi tiết bài viết theo slug
@@ -83,8 +85,12 @@ export const useBlogs = () => {
             } else {
                 setDetailError(response.message || 'Có lỗi xảy ra khi lấy chi tiết bài viết');
             }
-        } catch (err: any) {
-            setDetailError(err.message || 'Có lỗi xảy ra khi lấy chi tiết bài viết');
+        } catch (err: unknown) {
+            let message = 'Có lỗi xảy ra khi lấy chi tiết bài viết';
+            if (typeof err === 'object' && err && 'message' in err && typeof (err as { message?: string }).message === 'string') {
+                message = (err as { message?: string }).message!;
+            }
+            setDetailError(message);
         } finally {
             setDetailLoading(false);
         }

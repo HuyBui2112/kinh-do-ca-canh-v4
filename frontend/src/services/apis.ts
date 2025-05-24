@@ -1,11 +1,13 @@
 import axios, { AxiosResponse } from "axios";
 import {
-    RegisterRequest,
-    AuthInfo,
-    UpdateProfileRequest,
-    ChangePasswordRequest,
-    UserResponse,
-    AuthResponse,
+  AuthInfo,
+  UserResponse,
+  AuthResponse,
+  RegisterRequest,
+  UpdateProfileRequest,
+  ChangePasswordRequest,
+} from "@/utils/types/auth";
+import {
     ApiResponse,
     ProductQueryParams,
     ProductListResponse,
@@ -33,7 +35,8 @@ import {
 } from "@/utils/types";
 
 // BASE URL cho API
-const BASE_URL = `https://kinhdocacanh-backend.onrender.com/api/v1/`;
+// const BASE_URL = `https://kinhdocacanh-backend.onrender.com/api/v1/`;
+const BASE_URL = `http://localhost:5000/api/v1/`;
 
 // Tạo instance cho các API không yêu cầu xác thực
 export const publicAxios = axios.create({

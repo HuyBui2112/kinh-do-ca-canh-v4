@@ -3,8 +3,6 @@
  * @description Định nghĩa các kiểu dữ liệu liên quan đến Đơn hàng (Order).
  */
 
-import { CartItem } from "./cart"; // Sử dụng lại CartItem cho các sản phẩm trong đơn hàng
-
 // Interface cho địa chỉ giao hàng (tương ứng IShippingAddress ở backend)
 export interface ShippingAddress {
   fullname: string; // Họ và tên người nhận
@@ -25,8 +23,12 @@ export enum OrderStatus {
 
 // Interface cho một sản phẩm trong đơn hàng
 // Có thể giống hệt CartItem, hoặc có thêm/bớt trường tùy theo dữ liệu trả về từ API Order
-export interface OrderItem extends CartItem {
-  // Không cần thêm gì nếu giống hệt CartItem
+export interface OrderItem {
+  productId: string; // ID của sản phẩm
+  name: string; // Tên sản phẩm
+  image: string; // URL hình ảnh sản phẩm
+  price: number; // Giá sản phẩm tại thời điểm thêm vào giỏ
+  quantity: number; // Số lượng sản phẩm
 }
 
 // Interface cho đối tượng đơn hàng (tương ứng IOrder ở backend)
@@ -71,7 +73,11 @@ export interface OrderListApiResponse {
 }
 
 // Kiểu dữ liệu cho phản hồi khi hủy đơn hàng
-export interface CancelOrderApiResponse extends OrderApiResponse {}
+export interface CancelOrderApiResponse {
+  success: boolean;
+  message: string;
+  data: Order | null;
+}
 
 // Các params có thể có khi query danh sách đơn hàng (nếu có filter, sort ở frontend)
 // export interface OrderListQueryParams {

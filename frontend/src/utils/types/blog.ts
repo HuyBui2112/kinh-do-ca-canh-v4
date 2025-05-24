@@ -70,7 +70,15 @@ export interface BlogDetail {
     blog_image: string;
 }
 
-// Interface cho Response của danh sách blog
+// Interface cho Query parameters khi lấy danh sách blog
+export interface BlogQueryParams {
+    page?: number;
+    limit?: number;
+    tags?: string | string[];
+    sortBy?: 'publishedAt' | 'title';
+    sortOrder?: 'asc' | 'desc';
+}
+
 export interface BlogListResponse extends ApiResponse<{
     blogs: BlogSummary[];
     pagination: {
@@ -79,16 +87,11 @@ export interface BlogListResponse extends ApiResponse<{
         limit: number;
         totalPages: number;
     }
-}> {}
+}> {
+  // Để tránh lỗi empty-object-type, thêm một thuộc tính mô tả
+  _type?: 'BlogListResponse';
+}
 
-// Interface cho Response của chi tiết blog
-export interface BlogDetailResponse extends ApiResponse<BlogDetail> {}
-
-// Interface cho Query parameters khi lấy danh sách blog
-export interface BlogQueryParams {
-    page?: number;
-    limit?: number;
-    tags?: string | string[];
-    sortBy?: 'publishedAt' | 'title';
-    sortOrder?: 'asc' | 'desc';
+export interface BlogDetailResponse extends ApiResponse<BlogDetail> {
+  _type?: 'BlogDetailResponse';
 } 

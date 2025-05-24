@@ -1,8 +1,8 @@
 // api-response types
 export * from './api-response';
 
-// auth types
-export * from './auth';
+// // auth types
+// export * from './auth';
 
 // blog types
 export * from './blog';
