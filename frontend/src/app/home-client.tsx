@@ -56,11 +56,15 @@ export default function HomeClient() {
         <div className="relative lg:w-full lg:h-[189px] xl:h-[238px] 2xl:h-[288px]">
           <Image
             src="/images/banners/banner-main.png"
-            alt="Banner Kinh Đô Cá Cảnh"
+            alt="Kinh Đô Cá Cảnh - Thế giới thủy sinh trong tầm tay"
             fill
-            sizes="(max-width: 1504px) 100vw"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 1024px, 1504px"
+            quality={85}
             className="object-cover w-full h-full"
+            title="Khám Phá Kinh Đô Cá Cảnh - Nơi Đam Mê Bất Tận"
             priority
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkLzYvLy02LjY2OjY2Njo2NjY2NjY2NjY2NjY2NjY2NjY2NjY2Njb/2wBDARUXFyAeIB4gHh4gIB4lICAgICUmJSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICD/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
           />
           <div className="absolute inset-0 bg-gradient-to-r from-sky-900/40 to-transparent"></div>
           <div className="absolute right-16 top-1/2 -translate-y-1/2 max-w-lg text-right">
@@ -69,21 +73,25 @@ export default function HomeClient() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <h2 className="text-white lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold mb-4 drop-shadow-md">
-                Uy tín tạo nên thương hiệu
-              </h2>
-              <p className="text-white/90 text-sm xl:text-lg mb-6 drop-shadow">
-                Kinh Đô Cá Cảnh - Chuyên cung cấp các loại cá cảnh đẹp và đa
-                dạng
+              <p className="text-white lg:text-xl xl:text-2xl 2xl:text-3xl font-bold mb-4 drop-shadow-md">
+                Kinh Đô Cá Cảnh - Uy Tín Tạo Nên Thương Hiệu
               </p>
+              <h1 className="text-white/90 text-sm xl:text-lg mb-6 drop-shadow">
+                Khám phá thế giới thủy sinh rực rỡ, nơi cung cấp hàng ngàn loại
+                cá cảnh độc đáo, phụ kiện chất lượng và giải pháp toàn diện cho
+                bể cá của bạn.
+              </h1>
               <div className="flex justify-end">
-                <Link href="/san-pham">
+                <Link
+                  href="/san-pham"
+                  title="Khám phá ngay các sản phẩm tại Kinh Đô Cá Cảnh"
+                >
                   <motion.button
                     className="bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white text-sm xl:text-base font-medium py-2.5 px-6 rounded-full shadow-lg transition-all flex items-center gap-2 group"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <span>Khám phá ngay</span>
+                    <span>Khám Phá Ngay</span>
                     <ArrowRight
                       size={16}
                       className="group-hover:translate-x-1 transition-transform"
@@ -109,19 +117,19 @@ export default function HomeClient() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ type: "spring", stiffness: 100 }}
           >
-            <h1 className="text-2xl md:text-4xl font-bold text-sky-800 mb-2 relative inline-block">
-              KINH ĐÔ CÁ CẢNH
+            <h2 className="text-2xl md:text-4xl font-bold text-sky-800 mb-2 relative inline-block">
+              Chào Mừng Đến Với Kinh Đô Cá Cảnh
               <span className="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full"></span>
-            </h1>
+            </h2>
           </motion.div>
-          <motion.p
-            className="text-lg md:text-2xl text-gray-600 max-w-3xl mx-auto mt-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            Cửa hàng cá cảnh uy tín hàng đầu Việt Nam, chuyên cung cấp các loại
-            cá cảnh, thủy sinh, phụ kiện và thức ăn chất lượng cao
+          <motion.p className="text-base md:text-lg text-gray-600 max-w-4xl mx-auto mt-6 text-justify">
+            Tọa lạc tại Thành phố Hồ Chí Minh,{" "}
+            <strong className="text-sky-600">Kinh Đô Cá Cảnh</strong> tự hào là
+            điểm đến tin cậy cho cộng đồng yêu thủy sinh. Chúng tôi chuyên cung
+            cấp cá cảnh đa dạng chủng loại từ phổ thông đến độc lạ, bể cá thiết
+            kế tinh xảo, phụ kiện cao cấp, cùng thức ăn và chế phẩm sinh học
+            chuyên dụng, đảm bảo chất lượng vượt trội với mức giá cạnh tranh
+            nhất.
           </motion.p>
         </div>
 
@@ -140,10 +148,12 @@ export default function HomeClient() {
               <Fish className="text-sky-600" size={30} />
             </div>
             <h3 className="text-xl font-semibold text-sky-800 mb-2">
-              Đa dạng cá cảnh
+              Cá Cảnh Đa Dạng Chủng Loại
             </h3>
-            <p className="text-gray-600">
-              Với hàng trăm loại cá cảnh độc đáo từ khắp nơi trên thế giới
+            <p className="text-gray-600 text-sm">
+              Khám phá bộ sưu tập cá cảnh phong phú: từ Betta, Neon, Guppy,
+              Vàng, Rồng, Chuột quen thuộc đến những dòng cá độc đáo, hiếm có,
+              đáp ứng mọi đam mê.
             </p>
           </motion.div>
 
@@ -155,10 +165,12 @@ export default function HomeClient() {
               <Award className="text-sky-600" size={30} />
             </div>
             <h3 className="text-xl font-semibold text-sky-800 mb-2">
-              Đảm bảo chất lượng
+              Chất Lượng Vượt Trội - Giá Tốt
             </h3>
-            <p className="text-gray-600">
-              Cam kết cung cấp các sản phẩm đạt tiêu chuẩn chất lượng cao nhất
+            <p className="text-gray-600 text-sm">
+              Cam kết 100% sản phẩm cá cảnh khỏe mạnh, phụ kiện chính hãng. Chất
+              lượng đi đôi với giá cả hợp lý, mang đến sự hài lòng tuyệt đối cho
+              bạn.
             </p>
           </motion.div>
 
@@ -170,10 +182,12 @@ export default function HomeClient() {
               <Droplets className="text-sky-600" size={30} />
             </div>
             <h3 className="text-xl font-semibold text-sky-800 mb-2">
-              Tư vấn thủy sinh
+              Tư Vấn Chuyên Nghiệp Từ Tâm
             </h3>
-            <p className="text-gray-600">
-              Đội ngũ tư vấn chuyên nghiệp, giàu kinh nghiệm về thủy sinh
+            <p className="text-gray-600 text-sm">
+              Đội ngũ chuyên gia giàu kinh nghiệm sẵn sàng tư vấn mọi thắc mắc
+              về kỹ thuật nuôi, chăm sóc cá và thiết kế hồ thủy sinh. Kho tàng
+              kiến thức luôn được cập nhật.
             </p>
           </motion.div>
 
@@ -185,10 +199,12 @@ export default function HomeClient() {
               <ShoppingBag className="text-sky-600" size={30} />
             </div>
             <h3 className="text-xl font-semibold text-sky-800 mb-2">
-              Phụ kiện đa dạng
+              Trọn Bộ Phụ Kiện & Dịch Vụ
             </h3>
-            <p className="text-gray-600">
-              Đầy đủ các loại phụ kiện, thức ăn và dụng cụ chăm sóc cá cảnh
+            <p className="text-gray-600 text-sm">
+              Cung cấp đầy đủ từ A-Z: bể cá, máy lọc, đèn, thức ăn, thuốc, cây
+              thủy sinh và dụng cụ chăm sóc, cùng dịch vụ setup bể cá tại nhà
+              chuyên nghiệp.
             </p>
           </motion.div>
         </motion.div>
@@ -203,14 +219,15 @@ export default function HomeClient() {
       >
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-2xl font-bold text-sky-800 relative inline-block">
-            Sản phẩm nổi bật
+            Sản Phẩm Bán Chạy Nhất
             <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-sky-500 to-sky-400 rounded-full w-3/4"></span>
           </h2>
           <Link
-            href="/san-pham"
+            href="/san-pham?sortBy=rating&sortOrder=desc"
+            title="Xem tất cả sản phẩm bán chạy nhất tại Kinh Đô Cá Cảnh"
             className="text-sky-600 hover:text-sky-700 flex items-center gap-1 font-medium"
           >
-            <span>Xem tất cả</span>
+            <span>Xem Thêm</span>
             <ArrowRight size={16} />
           </Link>
         </div>
@@ -237,14 +254,15 @@ export default function HomeClient() {
       >
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-2xl font-bold text-sky-800 relative inline-block">
-            Bài viết mới
+            Góc Chia Sẻ Kiến Thức
             <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-sky-500 to-sky-400 rounded-full w-3/4"></span>
           </h2>
           <Link
             href="/bai-viet"
+            title="Xem tất cả bài viết kiến thức tại Kinh Đô Cá Cảnh"
             className="text-sky-600 hover:text-sky-700 flex items-center gap-1 font-medium"
           >
-            <span>Xem tất cả</span>
+            <span>Đọc Thêm</span>
             <ArrowRight size={16} />
           </Link>
         </div>
@@ -260,6 +278,7 @@ export default function HomeClient() {
               <Link
                 href={`/bai-viet/${blogs[0].slug}`}
                 key={blogs[0]._id}
+                title={`Đọc bài viết: ${blogs[0].title} - Kinh Đô Cá Cảnh`}
                 className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full"
               >
                 <div className="relative h-60 w-full overflow-hidden">
@@ -267,15 +286,20 @@ export default function HomeClient() {
                     src={blogs[0].image}
                     alt={blogs[0].title}
                     fill
+                    title={blogs[0].title}
                     sizes="(max-width: 768px) 100vw, 40vw"
+                    quality={80}
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                    placeholder="blur"
+                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkLzYvLy02LjY2OjY2Njo2NjY2NjY2NjY2NjY2NjY2NjY2NjY2Njb/2wBDARUXFyAeIB4gHh4gIB4lICAgICUmJSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICD/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
                 </div>
                 <div className="p-5 flex-grow flex flex-col">
-                  <h2 className="text-xl font-semibold text-sky-800 mb-3 line-clamp-2 group-hover:text-sky-600 transition-colors">
+                  <h3 className="text-xl font-semibold text-sky-800 mb-3 line-clamp-2 group-hover:text-sky-600 transition-colors">
                     {blogs[0].title}
-                  </h2>
+                  </h3>
                   <div className="flex flex-wrap gap-2 mb-4">
                     {blogs[0].tags.map((tag) => (
                       <span
@@ -286,11 +310,6 @@ export default function HomeClient() {
                       </span>
                     ))}
                   </div>
-                  <p className="text-gray-600 line-clamp-2 mb-4 text-sm">
-                    {
-                      "Khám phá những kiến thức thú vị về thế giới cá cảnh cùng Kinh Đô Cá Cảnh."
-                    }
-                  </p>
                   <div className="flex justify-between items-center text-sm text-gray-500 mt-auto">
                     <span className="flex items-center gap-1">
                       <svg
@@ -351,6 +370,7 @@ export default function HomeClient() {
               >
                 <Link
                   href={`/bai-viet/${blog.slug}`}
+                  title={`Đọc bài viết: ${blog.title} - Kinh Đô Cá Cảnh`}
                   className="flex bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden group"
                 >
                   <div className="relative w-36 h-28 flex-shrink-0 overflow-hidden">
@@ -358,8 +378,13 @@ export default function HomeClient() {
                       src={blog.image}
                       alt={blog.title}
                       fill
+                      title={blog.title}
                       sizes="(max-width: 768px) 100px, 144px"
+                      quality={75}
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                      placeholder="blur"
+                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkLzYvLy02LjY2OjY2Njo2NjY2NjY2NjY2NjY2NjY2NjY2NjY2Njb/2wBDARUXFyAeIB4gHh4gIB4lICAgICUmJSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICD/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                     />
                   </div>
                   <div className="p-4 flex flex-col justify-between flex-1">

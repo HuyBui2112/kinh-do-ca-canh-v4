@@ -105,6 +105,7 @@ const Breadcrumbs: FC<BreadcrumbsProps> = ({
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link
                 href="/"
+                title="Trang chủ"
                 className="text-gray-500 hover:text-sky-600 flex items-center"
               >
                 {showHomeIcon && (
@@ -146,6 +147,7 @@ const Breadcrumbs: FC<BreadcrumbsProps> = ({
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                   <Link
                     href={breadcrumbItem.slug}
+                    title={breadcrumbItem.label}
                     className="text-gray-500 hover:text-sky-600"
                   >
                     {breadcrumbItem.label}

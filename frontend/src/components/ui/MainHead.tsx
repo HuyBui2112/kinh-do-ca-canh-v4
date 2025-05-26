@@ -49,6 +49,7 @@ export default function MainHead(prop: NavigationProp) {
       <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
         <Link
           href="/gio-hang"
+          title="Xem giỏ hàng tại: Giỏ hàng - Kinh Đô Cá Cảnh"
           className="relative w-[45px] h-[42px] mr-4 flex items-center justify-center text-sky-700 hover:text-sky-600 transition-colors duration-200"
         >
           <span className="absolute inset-0 bg-sky-50/80 rounded-full -z-10 shadow-sm"></span>
@@ -87,6 +88,7 @@ export default function MainHead(prop: NavigationProp) {
             >
               <Link
                 href={item.href}
+                title={`Xem chi tiết tại: ${item.title} - Kinh Đô Cá Cảnh`}
                 className={`h-[52px] flex items-center ${
                   isItemActive
                     ? "text-sky-600 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-sky-600 after:shadow-sm"
@@ -132,7 +134,7 @@ export default function MainHead(prop: NavigationProp) {
       <div className="hidden container h-[52px] lg:grid lg:grid-cols-5">
         <div className="col-span-3 flex items-center gap-10 xl:gap-25">
           {/* Logo */}
-          <Link href="/">
+          <Link href="/" title="Trang chủ - Kinh Đô Cá Cảnh">
             <motion.div
               className="hidden lg:block"
               whileHover={{ scale: 1.05 }}
@@ -145,6 +147,7 @@ export default function MainHead(prop: NavigationProp) {
                   fill
                   priority
                   sizes="215px"
+                  title="Logo Kinh Đô Cá Cảnh"
                 />
               </div>
             </motion.div>
@@ -168,7 +171,7 @@ export default function MainHead(prop: NavigationProp) {
       <div className="container h-[52px] grid grid-cols-2 min-[500px]:grid-cols-4 lg:hidden">
         <div className="flex items-center min-[500px]:col-span-3 justify-between">
           {/* Logo */}
-          <Link href="/">
+          <Link href="/" title="Trang chủ - Kinh Đô Cá Cảnh">
             {/* Screen >= 440px */}
             <motion.div
               className="hidden min-[440px]:block lg:hidden"
@@ -183,6 +186,7 @@ export default function MainHead(prop: NavigationProp) {
                   priority
                   sizes="196px"
                   className="drop-shadow-sm"
+                  title="Logo Kinh Đô Cá Cảnh"
                 />
               </div>
             </motion.div>
@@ -199,6 +203,7 @@ export default function MainHead(prop: NavigationProp) {
                   alt="Logo Kinh Đô Cá Cảnh"
                   fill
                   priority
+                  title="Logo Kinh Đô Cá Cảnh"
                   sizes="44px"
                   className="drop-shadow-sm"
                 />

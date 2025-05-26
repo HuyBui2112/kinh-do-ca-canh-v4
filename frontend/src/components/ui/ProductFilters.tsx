@@ -276,10 +276,10 @@ const ProductFilters: FC<ProductFiltersProps> = ({
 
       {/* Tình trạng */}
       <div className="mb-5">
-        <h3 className="text-base font-semibold text-gray-800 mb-3 flex items-center">
+        <p className="text-base font-semibold text-gray-800 mb-3 flex items-center">
           <PackageCheck size={18} className="mr-2 text-sky-500" />
           Tình trạng
-        </h3>
+        </p>
         <label
           htmlFor="in-stock"
           className="flex items-center cursor-pointer text-sm text-gray-700 hover:text-sky-700 transition-colors group w-fit"

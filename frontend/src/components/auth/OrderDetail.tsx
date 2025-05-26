@@ -358,6 +358,7 @@ const OrderDetail: React.FC<OrderDetailProps> = ({ orderId, onClose }) => {
                                   src={item.image}
                                   alt={item.name}
                                   fill
+                                  title={item.name}
                                   sizes="100%"
                                   className="object-cover"
                                 />
@@ -391,6 +392,7 @@ const OrderDetail: React.FC<OrderDetailProps> = ({ orderId, onClose }) => {
                             <div>
                               <Link
                                 href={`/san-pham/${item.productId}`}
+                                title={item.name}
                                 className="text-sky-700 hover:text-sky-600 transition-colors font-medium"
                               >
                                 {item.name}

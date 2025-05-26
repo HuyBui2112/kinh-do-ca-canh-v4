@@ -26,18 +26,13 @@ export default function Header() {
     },
     {
       id: 2,
-      title: "Bài viết",
+      title: "Kiến thức cá cảnh",
       href: "/bai-viet",
     },
     {
       id: 3,
       title: "Về chúng tôi",
       href: "/ve-chung-toi",
-    },
-    {
-      id: 4,
-      title: "Liên hệ",
-      href: "/lien-he",
     },
   ];
 

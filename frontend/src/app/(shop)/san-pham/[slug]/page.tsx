@@ -48,6 +48,18 @@ export async function generateMetadata({
         title: pd_meta.title || productDetail.pd_name,
         description: pd_meta.metaDescription || "",
         keywords: pd_meta.keywords || [],
+        publisher: "Kinh Đô Cá Cảnh",
+        robots: {
+          index: true,
+          follow: true,
+          googleBot: {
+            index: true,
+            follow: true,
+            'max-video-preview': -1,
+            'max-image-preview': 'large',
+            'max-snippet': -1,
+          },
+        },
         openGraph: {
           title: pd_meta.ogTitle || pd_meta.title || productDetail.pd_name,
           description: pd_meta.ogDescription || pd_meta.metaDescription || "",
@@ -60,10 +72,17 @@ export async function generateMetadata({
           description:
             pd_meta.twitterDescription || pd_meta.metaDescription || "",
           images: pd_meta.twitterImage ? [pd_meta.twitterImage] : undefined,
+          creator: "@kinhdocacanh",
         },
         alternates: {
           canonical: pd_meta.canonical || `/san-pham/${slug}`,
         },
+        authors: [
+          {
+            name: "Kinh Đô Cá Cảnh",
+            url: "https://kinhdocacanh.shop",
+          },
+        ],
       };
     }
 
@@ -80,6 +99,18 @@ export async function generateMetadata({
       } tại Kinh Đô Cá Cảnh. Giá: ${productDetail.pd_price.sell_price.toLocaleString(
         "vi-VN"
       )}đ.`,
+      publisher: "Kinh Đô Cá Cảnh",
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-video-preview': -1,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+        },
+      },
       openGraph: {
         title: productDetail.pd_name,
         description: `${productDetail.pd_name} - ${productDetail.pd_category} tại Kinh Đô Cá Cảnh.`,
@@ -90,6 +121,12 @@ export async function generateMetadata({
       alternates: {
         canonical: `/san-pham/${slug}`,
       },
+      authors: [
+        {
+          name: "Kinh Đô Cá Cảnh",
+          url: "https://kinhdocacanh.shop",
+        },
+      ],
     };
   } catch (error) {
     console.error("Lỗi khi lấy metadata sản phẩm:", error);

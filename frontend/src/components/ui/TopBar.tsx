@@ -80,6 +80,7 @@ export default function TopBar(prop: PropType) {
               <div>
                 <Link
                   href="/ca-nhan"
+                  title="Xem thông tin cá nhân tại: Thông tin cá nhân - Kinh Đô Cá Cảnh"
                   className="flex items-center gap-3 px-4 py-2.5 text-sm text-sky-700 hover:bg-sky-50 transition-colors duration-150"
                   onClick={() => prop.setUserMenuOpen(false)}
                 >
@@ -161,6 +162,7 @@ export default function TopBar(prop: PropType) {
               <div>
                 <Link
                   href="/dang-nhap"
+                  title="Đăng nhập tại: Đăng nhập - Kinh Đô Cá Cảnh"
                   className="px-3 py-1 rounded-md hover:bg-sky-500/40 transition-colors duration-200 flex items-center gap-1.5"
                 >
                   <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center">
@@ -176,6 +178,7 @@ export default function TopBar(prop: PropType) {
               <div>
                 <Link
                   href="/dang-ky"
+                  title="Đăng ký tại: Đăng ký - Kinh Đô Cá Cảnh"
                   className="px-3 py-1 rounded-md hover:bg-sky-500/40 transition-colors duration-200 flex items-center gap-1.5"
                 >
                   <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center">

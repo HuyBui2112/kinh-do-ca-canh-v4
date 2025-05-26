@@ -397,6 +397,7 @@ const UserOrders: React.FC = () => {
                                 src={item.image}
                                 alt={item.name}
                                 fill
+                                title={item.name}
                                 sizes="100%"
                                 className="object-cover"
                               />
@@ -422,6 +423,7 @@ const UserOrders: React.FC = () => {
                           <div className="flex-1 min-w-0">
                             <Link
                               href={`/san-pham/${item.productId}`}
+                              title={item.name}
                               className="text-sm font-medium hover:text-sky-600 transition-colors text-gray-800"
                             >
                               {item.name}

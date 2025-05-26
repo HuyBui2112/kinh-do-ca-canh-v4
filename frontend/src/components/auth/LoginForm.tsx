@@ -61,6 +61,7 @@ const LoginForm = () => {
           fill
           sizes="(max-width: 512px) 100vw"
           priority
+          title="Kinh Đô Cá Cảnh"
           className="object-cover object-center"
         />
         <div className="absolute inset-0 flex flex-col items-center justify-center z-20 p-8">

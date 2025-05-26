@@ -290,7 +290,7 @@ export default function ProductDetailClient() {
 
   return (
     <>
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 pb-8">
         {/* Breadcrumb */}
         <div className="mb-6">
           <Breadcrumbs
@@ -302,9 +302,9 @@ export default function ProductDetailClient() {
         </div>
 
         {/* Layout chính - chia thành 2 cột */}
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col xl:flex-row gap-8">
           {/* Cột trái - Nội dung chính */}
-          <div className="lg:w-3/4">
+          <div className="xl:w-3/4">
             {/* Chi tiết sản phẩm */}
             <motion.div
               className="bg-white rounded-xl shadow-md p-6 mb-8 border border-sky-100/50"
@@ -319,19 +319,20 @@ export default function ProductDetailClient() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 }}
                 >
-                  <div className="mb-4 rounded-xl overflow-hidden bg-gray-50 h-80 relative shadow-sm border border-sky-100/50">
+                  <div className="mb-4 rounded-xl overflow-hidden bg-gray-50 h-80 md:w-60 md:h-60 lg:w-90 lg:h-90 xl:w-85 xl:h-85 2xl:w-110 2xl:h-110 mx-auto relative shadow-sm border border-sky-100/50">
                     {activeImage && (
                       <Image
                         src={activeImage}
                         alt={pd_name}
                         fill
-                        sizes="(max-width: 500px) 100vw"
+                        sizes="(max-width: 440px) 100vw"
                         className="object-contain"
                         priority
+                        title={`Ảnh sản phẩm - ${pd_name}`}
                       />
                     )}
                   </div>
-                  <div className="grid grid-cols-5 gap-2">
+                  <div className="grid grid-cols-3 gap-10 md:gap-4 xl:gap-10 md:mx-10">
                     {pd_image &&
                       pd_image.map((image, idx) => (
                         <motion.div
@@ -347,11 +348,12 @@ export default function ProductDetailClient() {
                         >
                           <Image
                             src={image.url}
-                            alt={pd_name}
+                            alt={image.alt}
                             fill
                             sizes="(max-width: 500px) 100vw"
                             priority
                             className="object-cover"
+                            title={`Ảnh sản phẩm - ${image.alt}`}
                           />
                         </motion.div>
                       ))}
@@ -416,6 +418,7 @@ export default function ProductDetailClient() {
                     <span className="font-medium text-sky-700">Danh mục:</span>
                     <Link
                       href={`/san-pham?${pd_category}&page=1`}
+                      title={`Xem tất cả sản phẩm trong danh mục: ${pd_category} - Kinh Đô Cá Cảnh`}
                       className="px-3 py-1 bg-sky-100 text-sky-600 hover:bg-sky-600 hover:text-sky-100 rounded-md text-sm"
                     >
                       {PRODUCT_CATEGORIES.find(
@@ -533,7 +536,7 @@ export default function ProductDetailClient() {
                         <Plus size={16} />
                       </motion.button>
                       {pd_stock > 0 && (
-                        <span className="ml-4 text-sm text-gray-500">
+                        <span className="block md:hidden xl:block ml-4 text-sm text-gray-500">
                           Còn {pd_stock} sản phẩm
                         </span>
                       )}
@@ -633,10 +636,8 @@ export default function ProductDetailClient() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.3 }}
+                    className="lg:px-2 xl:px-10 2xl:px-20"
                   >
-                    <h2 className="text-xl md:text-2xl font-bold text-sky-700 mb-4">
-                      {pd_name}
-                    </h2>
                     <div className="prose prose-lg max-w-none">
                       <ReactMarkdown
                         rehypePlugins={[rehypeRaw]}
@@ -653,11 +654,12 @@ export default function ProductDetailClient() {
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
                                   src={src}
-                                  alt={props.alt || "Ảnh sản phẩm"}
-                                  width="800"
-                                  height="450"
+                                  alt={props.alt || "Ảnh mô tả"}
+                                  width="512"
+                                  height="320"
                                   loading="lazy"
-                                  className="rounded-xl shadow-md w-full max-w-3xl mx-auto h-auto object-contain hover:shadow-lg transition-shadow"
+                                  title={props.alt || "Ảnh mô tả"}
+                                  className="rounded-xl shadow-md w-full max-w-lg mx-auto h-auto md:h-80 object-contain hover:shadow-lg transition-shadow"
                                 />
                                 {props.alt && (
                                   <span className="block text-sm text-gray-500 mt-3 text-center italic">
@@ -698,6 +700,7 @@ export default function ProductDetailClient() {
                               <a
                                 className="text-sky-600 hover:text-sky-700 font-medium underline decoration-sky-200 hover:decoration-sky-500 underline-offset-2 transition-all"
                                 target="_blank"
+                                title={props.title || "Xem chi tiết"}
                                 rel="noopener noreferrer"
                                 {...props}
                               />
@@ -902,7 +905,7 @@ export default function ProductDetailClient() {
           {/* Cột phải - Sản phẩm liên quan */}
           {relatedProducts && relatedProducts.length > 0 && (
             <motion.div
-              className="lg:w-1/4"
+              className="xl:w-1/4"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
@@ -944,6 +947,7 @@ export default function ProductDetailClient() {
                     >
                       <Link
                         href={`/san-pham/${product.slug}`}
+                        title={`Xem chi tiết tại: ${product.name} - Kinh Đô Cá Cảnh`}
                         className="block hover:opacity-90"
                       >
                         <div className="relative h-40 overflow-hidden">
@@ -954,6 +958,7 @@ export default function ProductDetailClient() {
                             sizes="(max-width: 500px) 100vw"
                             priority
                             className="object-cover transition-transform duration-500 hover:scale-110"
+                            title={product.name}
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 hover:opacity-100 transition-opacity"></div>
                           {product.price.discount > 0 && (

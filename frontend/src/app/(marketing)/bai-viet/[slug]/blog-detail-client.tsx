@@ -79,6 +79,7 @@ export default function BlogDetailClient({ slug }: BlogDetailClientProps) {
               src={blogDetail.blog_image}
               alt={blogDetail.title}
               fill
+              title={blogDetail.title}
               sizes="(max-width: 200px) 100vw"
               className="object-cover"
             />
@@ -175,6 +176,7 @@ export default function BlogDetailClient({ slug }: BlogDetailClientProps) {
                         width="600"
                         height="300"
                         loading="lazy"
+                        title={props.alt || "Ảnh bài viết"}
                         className="rounded-xl shadow-md w-[600px] max-w-3xl mx-auto h-auto object-contain hover:shadow-lg transition-shadow"
                       />
                       {props.alt && (
@@ -295,6 +297,7 @@ export default function BlogDetailClient({ slug }: BlogDetailClientProps) {
                       src={blog.image}
                       alt={blog.title}
                       fill
+                      title={blog.title}
                       className="object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>

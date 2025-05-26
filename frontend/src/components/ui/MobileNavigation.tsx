@@ -155,6 +155,7 @@ export default function MobileNavigation(props: MobileNavigationProps) {
                   <motion.div whileTap={{ scale: 0.98 }}>
                     <Link
                       href="/ca-nhan"
+                      title="Xem thông tin cá nhân tại: Thông tin cá nhân - Kinh Đô Cá Cảnh"
                       onClick={props.toggleMobileMenu}
                       className="flex items-center gap-2 px-5 py-3 text-sm font-medium hover:bg-sky-50 text-sky-800 transition-colors duration-150"
                     >
@@ -165,6 +166,7 @@ export default function MobileNavigation(props: MobileNavigationProps) {
                   <motion.div whileTap={{ scale: 0.98 }}>
                     <Link
                       href="/gio-hang"
+                      title="Xem giỏ hàng tại: Giỏ hàng - Kinh Đô Cá Cảnh"
                       onClick={props.toggleMobileMenu}
                       className="flex items-center gap-2 px-5 py-3 text-sm font-medium hover:bg-sky-50 text-sky-800 transition-colors duration-150 rounded-b-lg"
                     >
@@ -229,6 +231,7 @@ export default function MobileNavigation(props: MobileNavigationProps) {
                     >
                       <Link
                         href="/dang-nhap"
+                        title="Đăng nhập tại: Đăng nhập - Kinh Đô Cá Cảnh"
                         onClick={props.toggleMobileMenu}
                         className="w-full block py-2.5 px-3 bg-gradient-to-r from-sky-500 to-sky-600 text-white text-center rounded-md shadow-md hover:shadow-lg transition-all duration-200"
                       >
@@ -241,6 +244,7 @@ export default function MobileNavigation(props: MobileNavigationProps) {
                     >
                       <Link
                         href="/dang-ky"
+                        title="Đăng ký tại: Đăng ký - Kinh Đô Cá Cảnh"
                         onClick={props.toggleMobileMenu}
                         className="w-full block py-2.5 px-3 border border-sky-600 text-sky-600 text-center rounded-md hover:bg-sky-50 shadow-sm hover:shadow-md transition-all duration-200"
                       >

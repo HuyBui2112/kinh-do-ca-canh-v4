@@ -1,0 +1,60 @@
+# Cấu hình cho tất cả các bot
+User-agent: *
+
+# Các trang không cho phép crawl (ưu tiên Disallow)
+Disallow: /account/ # Chặn toàn bộ group (account) bao gồm /dang-nhap, /dang-ky, /ca-nhan
+Disallow: /gio-hang/
+Disallow: /thanh-toan/
+Disallow: /api/auth/
+Disallow: /api/admin/
+
+# Các trang lỗi và loading (có thể không cần thiết nếu Next.js xử lý tốt)
+# Disallow: /error
+# Disallow: /loading
+# Disallow: /not-found # Trang not-found nên trả về 404 và không cần disallow
+
+# Cho phép truy cập các trang quan trọng và các trang khác không được liệt kê ở trên
+Allow: /$
+Allow: /san-pham
+Allow: /san-pham/
+Allow: /bai-viet
+Allow: /bai-viet/
+Allow: /ve-chung-toi
+Allow: /tim-kiem
+
+# Các file cụ thể (nếu cần)
+# Allow: /some-specific-file.html
+
+# Sitemap - Đặt ở cuối cho User-agent: *
+Sitemap: https://kinhdocacanh.shop/sitemap.xml
+
+# Cấu hình riêng cho Googlebot (có thể kế thừa từ User-agent: * và thêm các rule cụ thể nếu cần)
+User-agent: Googlebot
+# Crawl-delay không còn được Googlebot hỗ trợ nhiều, nên dùng Search Console để cài đặt tốc độ crawl.
+# Crawl-delay: 5 
+Allow: /$
+Allow: /san-pham
+Allow: /san-pham/
+Allow: /bai-viet
+Allow: /bai-viet/
+Allow: /ve-chung-toi
+Allow: /tim-kiem
+
+# Cấu hình cho Googlebot-Image
+User-agent: Googlebot-Image
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.gif$
+Allow: /*.png$
+Allow: /*.webp$
+
+# Cấu hình cho Bingbot
+User-agent: Bingbot
+# Crawl-delay: 10
+Allow: /$
+Allow: /san-pham
+Allow: /san-pham/
+Allow: /bai-viet
+Allow: /bai-viet/
+Allow: /ve-chung-toi
+Allow: /tim-kiem 

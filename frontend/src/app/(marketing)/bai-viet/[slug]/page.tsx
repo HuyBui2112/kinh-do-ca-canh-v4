@@ -23,6 +23,18 @@ export async function generateMetadata({
         title: meta.title,
         description: meta.metaDescription,
         keywords: meta.keywords,
+        publisher: "Kinh Đô Cá Cảnh",
+        robots: {
+          index: true,
+          follow: true,
+          googleBot: {
+            index: true,
+            follow: true,
+            'max-video-preview': -1,
+            'max-image-preview': 'large',
+            'max-snippet': -1,
+          },
+        },
         alternates: {
           canonical: meta.canonical,
         },

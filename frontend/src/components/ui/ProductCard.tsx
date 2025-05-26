@@ -56,7 +56,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
           "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
       }}
     >
-      <Link href={`/san-pham/${slug}`}>
+      <Link href={`/san-pham/${slug}`} title={`Xem chi tiết tại: ${name} - Kinh Đô Cá Cảnh`}>
         <motion.div
           className="relative h-48 w-full"
           whileHover={{ scale: 1.05 }}
@@ -69,6 +69,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             priority
+            title={name}
           />
           {discountPercent > 0 && (
             <motion.div
@@ -84,8 +85,8 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
       </Link>
 
       <div className="p-4 flex flex-col flex-grow">
-        <Link href={`/san-pham/${slug}`} className="no-underline">
-          <h3 className="text-lg font-semibold text-gray-800 mb-2 hover:text-sky-600 transition-colors line-clamp-2">
+        <Link href={`/san-pham/${slug}`} title={`Xem chi tiết tại: ${name} - Kinh Đô Cá Cảnh`} className="no-underline">
+          <h3 className="text-lg font-semibold text-gray-800 mb-2 hover:text-sky-600 transition-colors line-clamp-2 h-[3rem] overflow-hidden">
             {name}
           </h3>
         </Link>
@@ -189,6 +190,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
             >
               <Link
                 href={productInCart ? "/gio-hang" : `/san-pham/${slug}`}
+                title={productInCart ? "Xem giỏ hàng tại: Giỏ hàng - Kinh Đô Cá Cảnh" : `Mua ngay tại: ${name} - Kinh Đô Cá Cảnh`}
                 className="flex-1 bg-amber-600 hover:bg-amber-700 text-white py-2 px-3 rounded-md text-sm font-medium transition-colors text-center block w-full"
               >
                 {productInCart ? "Xem giỏ hàng" : "Mua ngay"}
