@@ -354,7 +354,7 @@ export default function AboutClient() {
                         className="text-gray-700 hover:text-sky-600 font-medium"
                         title="Hotline Kinh Đô Cá Cảnh"
                       >
-                        0123 456 789
+                        0987 654 321  
                       </a>
                     </div>
                   </div>
@@ -385,11 +385,11 @@ export default function AboutClient() {
                       <p className="text-sm text-gray-500">
                         Địa chỉ của chúng tôi
                       </p>
-                      <address className="text-gray-700 not-italic font-medium leading-relaxed">
+                      <a href="https://maps.app.goo.gl/Ep9Sutyq3v5gyXus8" target="_blank" rel="noopener noreferrer" title="Địa chỉ của chúng tôi" className="text-gray-700 hover:text-sky-600 not-italic font-medium leading-relaxed">
                         Trường Đại học Công nghệ Thông tin – ĐHQG TP.HCM <br />
                         Khu phố 6, Phường Linh Trung, Thành phố Thủ Đức, TP. Hồ
                         Chí Minh
-                      </address>
+                      </a>
                     </div>
                   </div>
                 </div>
