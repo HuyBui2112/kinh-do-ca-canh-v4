@@ -6,7 +6,7 @@ import MainHead from "../ui/MainHead";
 import MobileNavigation from "../ui/MobileNavigation";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/contexts/CartContext";
-import Link from "next/link";
+// import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -26,18 +26,13 @@ export default function Header() {
     },
     {
       id: 2,
-      title: "Bài viết",
+      title: "Kiến thức cá cảnh",
       href: "/bai-viet",
     },
     {
       id: 3,
       title: "Về chúng tôi",
       href: "/ve-chung-toi",
-    },
-    {
-      id: 4,
-      title: "Liên hệ",
-      href: "/lien-he",
     },
   ];
 
@@ -88,15 +83,15 @@ export default function Header() {
   // Xử lý tìm kiếm sản phẩm
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Kiểm tra từ khóa tìm kiếm có hợp lệ không
     if (!searchKeyword || searchKeyword.trim() === "") {
       return;
     }
-    
+
     // Chuyển hướng đến trang tìm kiếm với từ khóa
     router.push(`/tim-kiem?q=${encodeURIComponent(searchKeyword.trim())}`);
-    
+
     // Đóng menu mobile nếu đang mở
     if (mobileMenuOpen) {
       setMobileMenuOpen(false);
@@ -139,7 +134,7 @@ export default function Header() {
       />
 
       {/* Main Head */}
-      <MainHead 
+      <MainHead
         navigation={navigation}
         searchKeyword={searchKeyword}
         setSearchKeyword={setSearchKeyword}
@@ -151,7 +146,7 @@ export default function Header() {
       />
 
       {/* Mobile Navigation Menu */}
-      <MobileNavigation 
+      <MobileNavigation
         mobileMenuOpen={mobileMenuOpen}
         toggleMobileMenu={toggleMobileMenu}
         handleLogout={handleLogout}

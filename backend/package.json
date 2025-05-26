@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "description": "Backend API for Kinh Do Ca Canh",
   "main": "dist/app.js",
+  "_moduleAliases": {
+    "@": "dist"
+  },
   "scripts": {
     "start": "node dist/app.js",
     "dev": "nodemon -r tsconfig-paths/register src/app.ts",
-    "build": "tsc",
+    "build": "rimraf dist && tsc",
+    "postbuild": "copyfiles -u 1 src/config/**/* dist",
     "lint": "eslint . --ext .ts",
     "test": "jest"
   },
@@ -19,6 +23,7 @@
     "express": "^4.18.3",
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
+    "module-alias": "^2.2.3",
     "mongoose": "^8.2.0",
     "morgan": "^1.10.0",
     "winston": "^3.12.0"
@@ -30,8 +35,10 @@
     "@types/node": "^20.17.46",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.1.0",
+    "copyfiles": "^2.4.1",
     "eslint": "^8.57.0",
     "nodemon": "^3.1.0",
+    "rimraf": "^5.0.5",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"

@@ -1,11 +1,13 @@
 import axios, { AxiosResponse } from "axios";
 import {
-    RegisterRequest,
-    AuthInfo,
-    UpdateProfileRequest,
-    ChangePasswordRequest,
-    UserResponse,
-    AuthResponse,
+  AuthInfo,
+  UserResponse,
+  AuthResponse,
+  RegisterRequest,
+  UpdateProfileRequest,
+  ChangePasswordRequest,
+} from "@/utils/types/auth";
+import {
     ApiResponse,
     ProductQueryParams,
     ProductListResponse,
@@ -26,10 +28,14 @@ import {
     OrderApiResponse,
     OrderListApiResponse,
     CancelOrderApiResponse,
-    BuyNowOrderRequest
+    BuyNowOrderRequest,
+    BlogQueryParams,
+    BlogListResponse,
+    BlogDetailResponse
 } from "@/utils/types";
 
 // BASE URL cho API
+// const BASE_URL = `https://kinhdocacanh-backend.onrender.com/api/v1/`;
 const BASE_URL = `http://localhost:5000/api/v1/`;
 
 // Tạo instance cho các API không yêu cầu xác thực
@@ -267,6 +273,36 @@ export const apis = {
      */
     cancelOrder: async (orderId: string): Promise<CancelOrderApiResponse> => {
         const response: AxiosResponse<CancelOrderApiResponse> = await privateAxios.put(`/orders/${orderId}/cancel`);
+        return response.data;
+    },
+
+    // ==========||   API Blog   ||========== //
+
+    /**
+     * Lấy danh sách bài viết blog với phân trang và bộ lọc
+     * @param {BlogQueryParams} params - Các tham số lọc và phân trang
+     * @returns {Promise<BlogListResponse>} Danh sách bài viết blog
+     */
+    getBlogs: async (params?: BlogQueryParams): Promise<BlogListResponse> => {
+        // Xử lý tags nếu là mảng, chuyển thành chuỗi phân cách bằng dấu phẩy
+        const queryParams = { ...params };
+        if (params?.tags && Array.isArray(params.tags)) {
+            queryParams.tags = params.tags.join(',');
+        }
+        
+        const response: AxiosResponse<BlogListResponse> = await publicAxios.get('/blogs', {
+            params: queryParams
+        });
+        return response.data;
+    },
+
+    /**
+     * Lấy chi tiết bài viết blog theo slug
+     * @param {string} slug - Slug của bài viết
+     * @returns {Promise<BlogDetailResponse>} Chi tiết bài viết
+     */
+    getBlogBySlug: async (slug: string): Promise<BlogDetailResponse> => {
+        const response: AxiosResponse<BlogDetailResponse> = await publicAxios.get(`/blogs/${slug}`);
         return response.data;
     },
 }

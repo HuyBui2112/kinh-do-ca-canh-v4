@@ -1,11 +1,13 @@
 import ProductController from './productController';
 import ReviewController from './reviewController';
 import UserController from './userController';
+import BlogController from './blogController';
 
 export {
     ProductController,
     ReviewController,
-    UserController
+    UserController,
+    BlogController
 };
 
 export * from './cartController';

@@ -45,18 +45,19 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
   const productInCart = isProductInCart(_id);
 
   return (
-    <motion.div 
-      className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300"
+    <motion.div
+      className="bg-white min-w-[230px] rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", damping: 25 }}
-      whileHover={{ 
-        y: -5, 
-        boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+      whileHover={{
+        y: -5,
+        boxShadow:
+          "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
       }}
     >
-      <Link href={`/san-pham/${slug}`}>
-        <motion.div 
+      <Link href={`/san-pham/${slug}`} title={`Xem chi tiết tại: ${name} - Kinh Đô Cá Cảnh`}>
+        <motion.div
           className="relative h-48 w-full"
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.3 }}
@@ -67,9 +68,11 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority
+            title={name}
           />
           {discountPercent > 0 && (
-            <motion.div 
+            <motion.div
               className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -82,8 +85,8 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
       </Link>
 
       <div className="p-4 flex flex-col flex-grow">
-        <Link href={`/san-pham/${slug}`} className="no-underline">
-          <h3 className="text-lg font-semibold text-gray-800 mb-2 hover:text-sky-600 transition-colors line-clamp-2">
+        <Link href={`/san-pham/${slug}`} title={`Xem chi tiết tại: ${name} - Kinh Đô Cá Cảnh`} className="no-underline">
+          <h3 className="text-lg font-semibold text-gray-800 mb-2 hover:text-sky-600 transition-colors line-clamp-2 h-[3rem] overflow-hidden">
             {name}
           </h3>
         </Link>
@@ -112,7 +115,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
         </div>
 
         <div className="mt-auto">
-          <motion.div 
+          <motion.div
             className="flex items-center justify-between mb-3"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -120,7 +123,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
           >
             <div className="flex flex-col">
               {price.discount > 0 ? (
-                <motion.span 
+                <motion.span
                   className="text-sm text-gray-500 line-through"
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -131,7 +134,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
               ) : (
                 <span className="text-sm text-transparent">.</span>
               )}
-              <motion.span 
+              <motion.span
                 className="text-lg font-bold text-sky-600"
                 initial={{ opacity: 0, y: 5 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -141,9 +144,9 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
               </motion.span>
             </div>
           </motion.div>
-          
+
           {error && (
-            <motion.div 
+            <motion.div
               className="text-red-500 text-sm mb-2 flex items-center"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
@@ -152,14 +155,14 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
               <AlertCircle className="w-4 h-4 mr-1" /> {error}
             </motion.div>
           )}
-          
-          <div className="flex space-x-2 mt-2">
+
+          <div className="hidden sm:flex space-x-2 mt-2">
             <motion.button
               onClick={handleAddToCart}
               disabled={isAdding || productInCart}
               className={`flex-1 py-2 px-3 rounded-md text-sm font-medium transition-colors flex items-center justify-center ${
-                productInCart 
-                  ? "bg-green-50 text-green-600 border border-green-600" 
+                productInCart
+                  ? "bg-green-50 text-green-600 border border-green-600"
                   : "bg-white hover:bg-amber-50 text-amber-600 border border-amber-600"
               }`}
               whileHover={{ scale: 1.03 }}
@@ -185,8 +188,9 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
             >
-              <Link 
+              <Link
                 href={productInCart ? "/gio-hang" : `/san-pham/${slug}`}
+                title={productInCart ? "Xem giỏ hàng tại: Giỏ hàng - Kinh Đô Cá Cảnh" : `Mua ngay tại: ${name} - Kinh Đô Cá Cảnh`}
                 className="flex-1 bg-amber-600 hover:bg-amber-700 text-white py-2 px-3 rounded-md text-sm font-medium transition-colors text-center block w-full"
               >
                 {productInCart ? "Xem giỏ hàng" : "Mua ngay"}

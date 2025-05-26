@@ -175,7 +175,7 @@ const ReviewForm: FC<ReviewFormProps> = ({
           initial={{ height: 100 }}
           animate={{ height: comment.length > 100 ? 150 : 100 }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          whileFocus={{ borderColor: "rgb(14, 165, 233)" }}
+          whileFocus={{ borderColor: "rgba(14, 165, 233, 1)" }}
         />
       </div>
 
@@ -186,7 +186,7 @@ const ReviewForm: FC<ReviewFormProps> = ({
             onClick={onClose}
             className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
             disabled={isSubmitting}
-            whileHover={{ scale: 1.05, backgroundColor: "rgb(249, 250, 251)" }}
+            whileHover={{ scale: 1.05, backgroundColor: "rgba(249, 250, 251, 1)" }}
             whileTap={{ scale: 0.95 }}
           >
             Hủy
@@ -196,7 +196,7 @@ const ReviewForm: FC<ReviewFormProps> = ({
           type="submit"
           className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 disabled:opacity-70"
           disabled={isSubmitting}
-          whileHover={{ scale: 1.05, backgroundColor: "rgb(234, 179, 8)" }}
+          whileHover={{ scale: 1.05, backgroundColor: "rgba(234, 179, 8, 1)" }}
           whileTap={{ scale: 0.95 }}
         >
           {isSubmitting ? 'Đang gửi...' : 'Gửi đánh giá'}

@@ -7,9 +7,9 @@ import {
   OrderStatus,
   CreateOrderRequest,
   BuyNowOrderRequest,
-  OrderApiResponse,
-  OrderListApiResponse,
-  CancelOrderApiResponse
+  // OrderApiResponse,
+  // OrderListApiResponse,
+  // CancelOrderApiResponse
 } from '@/utils/types';
 import { useToast } from '@/contexts/ToastContext';
 import { useUser } from '@/contexts/UserContext'; // Để kiểm tra user và lấy token ngầm
@@ -74,8 +74,15 @@ export const useOrders = (): UseOrdersReturn => {
         showToast('error', response.message || 'Không thể đặt hàng.');
         return null;
       }
-    } catch (err: any) {
-      const errorMessage = err.response?.data?.message || err.message || 'Lỗi khi đặt hàng.';
+    } catch (err: unknown) {
+      let errorMessage = 'Lỗi khi đặt hàng.';
+      if (typeof err === 'object' && err !== null) {
+        if ('response' in err && typeof (err as { response?: { data?: { message?: string } } }).response?.data?.message === 'string') {
+          errorMessage = (err as { response?: { data?: { message?: string } } }).response!.data!.message!;
+        } else if ('message' in err && typeof (err as { message?: string }).message === 'string') {
+          errorMessage = (err as { message?: string }).message!;
+        }
+      }
       setCreateOrderError(errorMessage);
       showToast('error', errorMessage);
       return null;
@@ -102,8 +109,15 @@ export const useOrders = (): UseOrdersReturn => {
         showToast('error', response.message || 'Không thể đặt hàng.');
         return null;
       }
-    } catch (err: any) {
-      const errorMessage = err.response?.data?.message || err.message || 'Lỗi khi đặt hàng.';
+    } catch (err: unknown) {
+      let errorMessage = 'Lỗi khi đặt hàng.';
+      if (typeof err === 'object' && err !== null) {
+        if ('response' in err && typeof (err as { response?: { data?: { message?: string } } }).response?.data?.message === 'string') {
+          errorMessage = (err as { response?: { data?: { message?: string } } }).response!.data!.message!;
+        } else if ('message' in err && typeof (err as { message?: string }).message === 'string') {
+          errorMessage = (err as { message?: string }).message!;
+        }
+      }
       setCreateOrderError(errorMessage);
       showToast('error', errorMessage);
       return null;
@@ -129,8 +143,15 @@ export const useOrders = (): UseOrdersReturn => {
         showToast('error', response.message || 'Không thể tải danh sách đơn hàng.');
         return null;
       }
-    } catch (err: any) {
-      const errorMessage = err.response?.data?.message || err.message || 'Lỗi khi tải danh sách đơn hàng.';
+    } catch (err: unknown) {
+      let errorMessage = 'Lỗi khi tải danh sách đơn hàng.';
+      if (typeof err === 'object' && err !== null) {
+        if ('response' in err && typeof (err as { response?: { data?: { message?: string } } }).response?.data?.message === 'string') {
+          errorMessage = (err as { response?: { data?: { message?: string } } }).response!.data!.message!;
+        } else if ('message' in err && typeof (err as { message?: string }).message === 'string') {
+          errorMessage = (err as { message?: string }).message!;
+        }
+      }
       setLoadOrdersError(errorMessage);
       showToast('error', errorMessage);
       return null;
@@ -155,8 +176,15 @@ export const useOrders = (): UseOrdersReturn => {
         showToast('error', response.message || 'Không thể tải chi tiết đơn hàng.');
         return null;
       }
-    } catch (err: any) {
-      const errorMessage = err.response?.data?.message || err.message || 'Lỗi khi tải chi tiết đơn hàng.';
+    } catch (err: unknown) {
+      let errorMessage = 'Lỗi khi tải chi tiết đơn hàng.';
+      if (typeof err === 'object' && err !== null) {
+        if ('response' in err && typeof (err as { response?: { data?: { message?: string } } }).response?.data?.message === 'string') {
+          errorMessage = (err as { response?: { data?: { message?: string } } }).response!.data!.message!;
+        } else if ('message' in err && typeof (err as { message?: string }).message === 'string') {
+          errorMessage = (err as { message?: string }).message!;
+        }
+      }
       setLoadOrderDetailError(errorMessage);
       showToast('error', errorMessage);
       return null;
@@ -196,8 +224,15 @@ export const useOrders = (): UseOrdersReturn => {
         showToast('error', response.message || 'Không thể hủy đơn hàng.');
         return null;
       }
-    } catch (err: any) {
-      const errorMessage = err.response?.data?.message || err.message || 'Lỗi khi hủy đơn hàng.';
+    } catch (err: unknown) {
+      let errorMessage = 'Lỗi khi hủy đơn hàng.';
+      if (typeof err === 'object' && err !== null) {
+        if ('response' in err && typeof (err as { response?: { data?: { message?: string } } }).response?.data?.message === 'string') {
+          errorMessage = (err as { response?: { data?: { message?: string } } }).response!.data!.message!;
+        } else if ('message' in err && typeof (err as { message?: string }).message === 'string') {
+          errorMessage = (err as { message?: string }).message!;
+        }
+      }
       setCancelOrderError(errorMessage);
       showToast('error', errorMessage);
       return null;
